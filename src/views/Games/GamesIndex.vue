@@ -39,7 +39,7 @@
             },
             DisplayServers(game_id){
                 this.$store.commit("change_game", game_id);
-                this.$router.push('/servers')
+                this.$router.push('/servers');
             }
         },
         created(){
@@ -47,6 +47,7 @@
         },
         computed:{
             filtredGames(){
+              if(this.games)
                 return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
                 
             }
