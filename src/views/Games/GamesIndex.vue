@@ -4,8 +4,8 @@
         <input type="text" name="" id="" v-model="looking_for">
         <button @click="Clear">X</button>
     </div>
-    <div class="Games">
-        <div class="Game" v-for="game in filtredGames" :key="game">
+    <div class="Games" v-if="games">
+        <div class="Game" v-for="game in filtredGames" :key="game" @click="DisplayServers(game.id)">
             <div class="Image">
                 <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
             </div>
@@ -36,6 +36,10 @@
             },
             Clear(){
                 this.looking_for = ''
+            },
+            DisplayServers(game_id){
+                this.$store.commit("change_game", game_id);
+                this.$router.push('/servers')
             }
         },
         created(){
@@ -43,8 +47,8 @@
         },
         computed:{
             filtredGames(){
-                return this.games.filter(game =>
-                game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+                return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+                
             }
         }
     }
