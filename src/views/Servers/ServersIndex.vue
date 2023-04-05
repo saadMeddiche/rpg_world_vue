@@ -1,5 +1,5 @@
 <template>
-    <h1>Servers</h1>
+    <h1>{{game.name}} Servers</h1>
     <div class="Sheach">
         <input type="text" name="" id="" v-model="looking_for">
         <button @click="Clear">X</button>
@@ -31,7 +31,7 @@
         data(){
             return {
                 servers:{},
-                game_id:null,
+                game:null,
                 looking_for:'',
             }
         },
@@ -46,12 +46,12 @@
             }
         },
         created(){
-            this.game_id = this.$store.state.clicked_game;
+            this.game = this.$store.state.clicked_game;
             this.fetch_servers()
         },
         computed:{
             filtredServers(){
-                return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()) && server.game_id == this.game_id)
+                return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()) && server.game_id == this.game.id)
             }
         }
     }

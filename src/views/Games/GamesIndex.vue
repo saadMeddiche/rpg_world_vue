@@ -1,58 +1,58 @@
 <template>
-    <h1>Games</h1>
-    <div class="Sheach">
-        <input type="text" name="" id="" v-model="looking_for">
-        <button @click="Clear">X</button>
+  <h1>Games</h1>
+  <div class="Sheach">
+      <input type="text" name="" id="" v-model="looking_for">
+      <button @click="Clear">X</button>
+  </div>
+  <div class="Games" v-if="games">
+    <div class="Game" v-for="game in filtredGames" :key="game" @click="DisplayServers(game)">
+      <div class="Image">
+          <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
+      </div>
+      <div class="Title">
+          <p>{{game.name}}</p>
+      </div>
+      <div class="Description">
+          <p>{{ game.description }}</p>
+      </div>
     </div>
-    <div class="Games" v-if="games">
-        <div class="Game" v-for="game in filtredGames" :key="game" @click="DisplayServers(game.id)">
-            <div class="Image">
-                <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
-            </div>
-            <div class="Title">
-                <p>{{game.name}}</p>
-            </div>
-            <div class="Description">
-                <p>{{ game.description }}</p>
-            </div>
-        </div>
-    </div>
+  </div>
 </template>
 
 <script>
-    import axios from 'axios';
+  import axios from 'axios';
 
-    export default{
-        data(){
-            return {
-                games:{},
-                looking_for:''
-            }
+  export default{
+    data(){
+        return {
+            games:{},
+            looking_for:''
+        }
+    },
+    methods:{
+        fetch_games(){
+            axios.get('http://127.0.0.1:8000/api/V1/games')
+                .then((responce) => this.games = responce.data.games)
         },
-        methods:{
-            fetch_games(){
-                axios.get('http://127.0.0.1:8000/api/V1/games')
-                    .then((responce) => this.games = responce.data.games)
-            },
-            Clear(){
-                this.looking_for = ''
-            },
-            DisplayServers(game_id){
-                this.$store.commit("change_game", game_id);
-                this.$router.push('/servers');
-            }
+        Clear(){
+            this.looking_for = ''
         },
-        created(){
-            this.fetch_games()
-        },
-        computed:{
-            filtredGames(){
-              if(this.games)
-                return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
-                
-            }
+        DisplayServers(game){
+          this.$store.commit("change_game", game);
+          this.$router.push('/servers')
+        }
+    },
+    created(){
+        this.fetch_games()
+    },
+    computed:{
+        filtredGames(){
+          if(this.games)
+            return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+            
         }
     }
+  }
 </script>
 
 <style lang="scss">
