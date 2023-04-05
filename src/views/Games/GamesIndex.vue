@@ -7,7 +7,7 @@
     <div class="Games">
         <div class="Game" v-for="game in filtredGames" :key="game">
             <div class="Image">
-                <img src="" alt="">
+                <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
             </div>
             <div class="Title">
                 <p>{{game.name}}</p>
