@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    clicked_game:null
+    clicked_game:null,
   },
   getters: {
   },
