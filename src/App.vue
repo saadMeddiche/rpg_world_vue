@@ -1,7 +1,6 @@
 <template>
   <navbar v-if="show_navbar" />
   <router-view/>
-  
 </template>
 <script>
   import navbar from '@/components/navebar.vue'
@@ -23,7 +22,6 @@
       }
     }
   }
-
 </script>
 <style lang="scss">
 
