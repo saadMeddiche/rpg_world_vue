@@ -1,7 +1,7 @@
 <template>
   <navbar v-if="show_navbar" />
-  <router-view>
-  </router-view>
+  <router-view/>
+  
 </template>
 <script>
   import navbar from '@/components/navebar.vue'
@@ -18,9 +18,9 @@
       }
     },
     watch:{
-        $route(){
-          this.show_navbar = (this.$route.name == 'Dashboard') ? false : true
-        }
+      $route(){
+        this.show_navbar = (this.$route.name == 'Dashboard') ? false : true
+      }
     }
   }
 
