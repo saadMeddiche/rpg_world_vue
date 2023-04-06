@@ -1,13 +1,31 @@
 <template>
-  <navbar/>
-  <router-view/>
+  <navbar v-if="show_navbar" />
+  <router-view>
+  </router-view>
 </template>
 <script>
   import navbar from '@/components/navebar.vue'
+  import Dashboard from '@/views/Admin/Dashboard.vue'
 
   export default{
     components:{
-      navbar
+      navbar,
+      Dashboard
+    },
+    data(){
+      return{
+        show_navbar:true
+      }
+    },
+    watch:{
+        $route(){
+          // console.log(this.$route)
+          if(this.$route.name == 'Dashboard'){
+            this.show_navbar = false
+          }else{
+            this.show_navbar = true
+          }
+        }
     }
   }
 

@@ -8,6 +8,7 @@
         <div class="Authentication">
             <router-link :to="{name : 'Login'}" v-if="!Logged_In">Login</router-link>
             <router-link :to="{name : 'Register'}" v-if="!Logged_In">Register</router-link>
+            <router-link :to="{name : 'Dashboard'}" v-if="Logged_In">Dashboard</router-link>
             <a @click="Logout" v-if="Logged_In">Logout</a>
         </div>
     </div>

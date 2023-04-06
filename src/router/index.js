@@ -4,6 +4,9 @@ import GamesIndex from '../views/Games/GamesIndex.vue'
 import ServersIndex from '../views/Servers/ServersIndex.vue'
 import Login from '../views/Authentications/Login.vue'
 import Register from '../views/Authentications/Register.vue'
+import Dashboard from '../views/Admin/Dashboard.vue'
+
+
 
 
 const routes = [
@@ -45,6 +48,14 @@ const routes = [
     component: Register,
     meta:{
       requiresAuth:false
+    }
+  }
+  ,{
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta:{
+      requiresAuth:true
     }
   }
 

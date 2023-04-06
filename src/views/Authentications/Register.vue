@@ -28,6 +28,7 @@ export default{
     },
     methods:{
         Register(){
+          
             axios.post('http://127.0.0.1:8000/api/V1/register',this.form)
                 .then(() => 
                     this.display_success_message()
@@ -40,11 +41,13 @@ export default{
             this.errors = errors
         },
         display_success_message(){
-            this.errors = []
-            this.message = 'Account Has Been Created Successfuly'
-            setTimeout(() => {
-                this.$router.push('/login')
+            const test = this;
+            this.errors = [];
+            this.message = 'Account Has Been Created Successfuly';
+            setTimeout(function () {
+              test.$router.push({ path: '/login' })
             }, 2000);
+
         }
     }
 }
