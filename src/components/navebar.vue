@@ -30,7 +30,6 @@
                 localStorage.removeItem('token')
                 this.$router.push('/')
             }, 
-            //source : https://www.designcise.com/web/tutorial/how-to-check-if-a-key-exists-in-localstorage-using-javascript#:~:text=How%20to%20Check%20if%20a%20Key%20Exists%20in%20localStorage%20Using%20JavaScript%3F&text=Since%20the%20Storage%20object%20(which,the%20key%20does%20not%20exist).
             Loggin_status(){
                 return (localStorage.getItem('token') !== null) ? true : false
             }
