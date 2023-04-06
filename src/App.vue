@@ -19,12 +19,7 @@
     },
     watch:{
         $route(){
-          // console.log(this.$route)
-          if(this.$route.name == 'Dashboard'){
-            this.show_navbar = false
-          }else{
-            this.show_navbar = true
-          }
+          this.show_navbar = (this.$route.name == 'Dashboard') ? false : true
         }
     }
   }
