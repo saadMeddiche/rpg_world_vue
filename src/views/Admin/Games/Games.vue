@@ -8,7 +8,7 @@
   <div class="Games" v-if="games.length">
     <div class="Game" v-for="(game, key) in filtredGames" :key="key">
         <div class="Buttons">
-            <button class="Delete">Delete</button>
+            <button class="Delete" @click="delete_game(game.id)">Delete</button>
             <button class="Update">Update</button>
         </div>
         <div class="Image">
@@ -39,6 +39,14 @@ import axios from 'axios';
             axios.get('http://127.0.0.1:8000/api/V1/games')
               .then((responce) => this.games = responce.data.games)
           },
+          delete_game(game_id){
+            confirm('Are You Sure')
+            axios.delete('http://127.0.0.1:8000/api/V1/games/' + game_id)
+              .then(() => {
+                this.fetch_games();
+              })
+            
+          },
           Clear(){
             this.looking_for = ''
           }
@@ -51,7 +59,7 @@ import axios from 'axios';
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .Add-Button{
   color: orange;
