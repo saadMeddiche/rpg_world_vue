@@ -54,8 +54,8 @@
   }
 </script>
 
-<style lang="scss">
-    /* Style for the Games section */
+<style lang="scss" scoped>
+/* Style for the Games section */
 .Games {
   display: flex;
   flex-wrap: wrap;

@@ -5,9 +5,9 @@
         <button @click="Clear">X</button>
     </div>
     <div v-if="servers.length">
-        <div class="Games" v-if="filtredServers.length">
+        <div class="Servers" v-if="filtredServers.length">
 
-            <div class="Game" v-for="server in filtredServers" :key="server">
+            <div class="Server" v-for="server in filtredServers" :key="server">
                 <div class="Image">
                     <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
                 </div>
@@ -62,6 +62,82 @@
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+/* Style for the Games section */
+.Servers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
 
+/* Style for each Game card */
+.Server {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  width: 300px;
+}
+
+/* Style for the Game image */
+.Image {
+  height: 200px;
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  img {
+    display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Style for the Game title */
+.Title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Style for the Game description */
+.Description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Style for the search bar */
+.Sheach {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+
+  button {
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ccc;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+/* Style for the Games title */
+h1 {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
 </style>

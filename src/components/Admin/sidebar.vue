@@ -33,19 +33,18 @@
  
   .admin-layout {
   display: grid;
-  grid-template-columns: 250px 1fr; /* Set the width of the sidebar and the remaining space for the content area */
+  grid-template-columns: 160px;
   grid-template-rows: auto;
-  grid-template-areas: "sidebar content"; /* Set the grid areas for the sidebar and content area */
+  grid-template-areas: "sidebar content";
 
   .admin-sidebar {
-    grid-area: sidebar; /* Place the sidebar in the 'sidebar' grid area */
+    grid-area: sidebar; 
     background-color: #292929;
     color: #fff;
     padding: 20px;
-    height: 100vh; /* Set the height to 100vh for a full-height sidebar */
-    position: fixed; /* Fix the position of the sidebar */
-    top: 0; /* Position the sidebar at the top of the viewport */
-
+    height: 100vh; 
+    position: fixed; 
+    top: 0;
     ul {
       list-style-type: none;
       margin: 0;
@@ -73,12 +72,11 @@
   }
 
   .admin-content {
-    grid-area: content; /* Place the content area in the 'content' grid area */
+    grid-area: content; 
     padding: 20px;
   }
 
   @media screen and (max-width: 768px) {
-    /* Adjust the layout for screens smaller than 768px */
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-template-areas: "sidebar" "content";
