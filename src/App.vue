@@ -1,15 +1,27 @@
 <template>
-  <navbar v-if="show_navbar" />
-  <router-view/>
+  
+  <navbar v-show="show_navbar"/>
+  <router-view v-if="show_navbar"/>
+  
+  
+  <div v-if="!show_navbar" class="admin-layout">
+    <sidebar />
+    <div class="admin-content">
+      <router-view />
+    </div>
+  </div>
+  
 </template>
 <script>
   import navbar from '@/components/navebar.vue'
+  import sidebar from '@/components/Admin/sidebar.vue'
   import Dashboard from '@/views/Admin/Dashboard.vue'
 
   export default{
     components:{
       navbar,
-      Dashboard
+      Dashboard,
+      sidebar
     },
     data(){
       return{
@@ -18,14 +30,16 @@
     },
     watch:{
       $route(){
-        this.show_navbar = (this.$route.name == 'Dashboard') ? false : true
+        this.show_navbar = (this.$route.meta.status != 'admin') ? true : false;
+        
+        (this.show_navbar == true) ? document.body.style.margin = '8px': document.body.style.margin = '0px';
       }
     }
   }
 </script>
-<style lang="scss">
+<style lang="scss" >
 
-  @use "@/assets/scss/inc/_navebar.scss";
+
 
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -34,19 +48,6 @@
     text-align: center;
     color: #2c3e50;
   }
-
-  nav {
-    padding: 30px;
-  }
-
-  nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
-  nav a.router-link-exact-active {
-    color: #42b983;
-  }
-
+  
 
 </style>
