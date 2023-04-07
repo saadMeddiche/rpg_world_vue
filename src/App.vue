@@ -1,8 +1,8 @@
 <template>
   
+  
   <navbar v-show="show_navbar"/>
   <router-view v-if="show_navbar"/>
-  
   
   <div v-if="!show_navbar" class="admin-layout">
     <sidebar />
@@ -11,16 +11,15 @@
     </div>
   </div>
   
+  
 </template>
 <script>
   import navbar from '@/components/navebar.vue'
   import sidebar from '@/components/Admin/sidebar.vue'
-  import Dashboard from '@/views/Admin/Dashboard.vue'
 
   export default{
     components:{
       navbar,
-      Dashboard,
       sidebar
     },
     data(){

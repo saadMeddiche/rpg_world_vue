@@ -4,24 +4,28 @@
         <input type="text" name="" id="" v-model="looking_for">
         <button @click="Clear">X</button>
     </div>
-    <div class="Games" v-if="filtredServers.length">
+    <div v-if="servers.length">
+        <div class="Games" v-if="filtredServers.length">
 
-        <div class="Game" v-for="server in filtredServers" :key="server">
-            <div class="Image">
-                <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
+            <div class="Game" v-for="server in filtredServers" :key="server">
+                <div class="Image">
+                    <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
+                </div>
+                <div class="Title">
+                    <p>{{server.name}}</p>
+                </div>
+                <div class="Description">
+                    <p>{{ server.description }}</p>
+                </div>
             </div>
-            <div class="Title">
-                <p>{{server.name}}</p>
-            </div>
-            <div class="Description">
-                <p>{{ server.description }}</p>
-            </div>
+            
+        </div>
+        <div v-else>
+            <h2>There is No Servers For This Game Yet</h2>
+            <h4>Be The First Who add its Own Server</h4> 
         </div>
     </div>
-    <div v-else>
-        <h2>There is No Servers For This Game Yet</h2>
-        <h4>Be The First Who add its Own Server</h4> 
-    </div>
+    
 </template>
 
 <script>
