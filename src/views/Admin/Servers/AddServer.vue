@@ -9,6 +9,12 @@
         <p>Server Created Successfuly</p>
     </div>
     <div class="Server">
+        
+        <div class="Game">
+            <select type="text" class="SelectGame" v-model="server.game_id">
+                <option v-for="(game,key) in games" :key="key" :value="game.id">{{ game.name }}</option>
+            </select>
+        </div>
         <div class="Name">
             <input type="text" name="" id="" v-model="server.name" placeholder="Name ...">
         </div>
@@ -29,14 +35,19 @@
     import axios from 'axios';
 
     export default{
+        created(){
+            this.fetch_games()
+        },
         data(){
             return {
                 server:{
                     name:'',
                     description:'',
                     image:'',
+                    game_id:'',
                     method:'post'
                 },
+                games:{},
                 errors:null,
                 show_success_message:false
             }
@@ -48,12 +59,12 @@
                     headers: { 'content-type': 'multipart/form-data' }
                 }
 
-                axios.post('http://127.0.0.1:8000/api/V1/servers', this.servers, config)
-                    .then( (responce) => this.success_message(responce))
+                axios.post('http://127.0.0.1:8000/api/V1/servers', this.server, config)
+                    .then( (responce) => this.success_message())
                     .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
             },
             onFileSelected(){
-                this.servers.image = this.$refs.fileInput.files[0]
+                this.server.image = this.$refs.fileInput.files[0]
             },
             display_errors(errors){
 
@@ -63,12 +74,16 @@
                     this.errors = ''
                 }, 5000)
             },
-            success_message(responce){
+            success_message(){
                 this.show_success_message = true
 
                 setTimeout(() => {
                    this.$router.push({name : 'Servers'})
                 }, 2000)
+            },
+            fetch_games(){
+                axios.get('http://127.0.0.1:8000/api/V1/games')
+                .then((responce) => this.games = responce.data.games)
             }
         }
     }
@@ -84,6 +99,15 @@
   border-radius: 5px;
   margin-bottom: 10px;
 
+}
+
+.SelectGame {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .Errors {
@@ -110,6 +134,7 @@
   margin: 0 auto;
   max-width: 600px; // adjust as needed
 
+  .Game,
   .Name,
   .Description,
   .Image,
