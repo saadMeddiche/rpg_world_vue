@@ -35,6 +35,7 @@
                     name:'',
                     description:'',
                     image:'',
+                    method:'post'
                 },
                 errors:null,
                 show_success_message:false
@@ -48,7 +49,7 @@
                 }
 
                 axios.post('http://127.0.0.1:8000/api/V1/games', this.game, config)
-                    .then( (responce) => this.success_message())
+                    .then( (responce) => this.success_message(responce))
                     .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
             },
             onFileSelected(){
@@ -62,7 +63,8 @@
                     this.errors = ''
                 }, 5000)
             },
-            success_message(){
+            success_message(responce){
+                console.log('test' ,responce);
                 this.show_success_message = true
 
                 setTimeout(() => {

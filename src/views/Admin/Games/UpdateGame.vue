@@ -16,7 +16,7 @@
             <textarea name="" id="" cols="30" rows="10" v-model="game.description" placeholder="Description ..."></textarea>
         </div>
         <div class="Image">
-            <input type="file" name="" id="" @change="onFileSelected" ref="fileInput">
+            <input type="file" name="" id="" @change="onFileSelected" ref="fileInput1">
         </div>
         <div class="Update">
             <button @click="Update()">Update</button>
@@ -34,6 +34,7 @@ import axios from 'axios'
                     name:'',
                     description:'',
                     image:'',
+                    method:'put'
                 },
                 errors:null,
                 show_success_message:false
@@ -44,12 +45,17 @@ import axios from 'axios'
         },
         methods:{
             Update(){
-                axios.put('http://127.0.0.1:8000/api/V1/games/' + this.game.id , this.game)
-                    .then( (responce) => this.success_message())
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' },
+                }
+                axios.post('http://127.0.0.1:8000/api/V1/games/' + this.game.id , this.game, config )
+                    .then( (responce) => this.success_message(responce))
                     .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
+            
             },
             get_game(){
                 this.game = this.$store.state.clicked_game
+                this.game.image = ''
             },
             display_errors(errors){
 
@@ -59,7 +65,8 @@ import axios from 'axios'
                     this.errors = ''
                 }, 5000)
             },
-            success_message(){
+            success_message(responce){
+                console.log(responce);
                 this.show_success_message = true
 
                 setTimeout(() => {
@@ -67,7 +74,7 @@ import axios from 'axios'
                 }, 2000)
             },
             onFileSelected(){
-                this.game.image = this.$refs.fileInput.files[0]
+                this.game.image = this.$refs.fileInput1.files[0]
             }
         }
     }
