@@ -1,5 +1,5 @@
 //https://www.youtube.com/watch?v=72Fk9i9HcZM
-
+//https://console.firebase.google.com/u/0/project/rpg-world-9c5dc/database/rpg-world-9c5dc-default-rtdb/data
 import test from 'firebase/compat/app' ;
 import 'firebase/compat/database';
 
