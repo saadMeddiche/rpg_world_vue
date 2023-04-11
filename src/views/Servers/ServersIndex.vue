@@ -18,8 +18,12 @@
                     <p>{{ server.description }}</p>
                 </div>
                 <div class="Status" v-if="server.address">
-                    <p>Status :{{ server.online }}</p>
-                    <p>Players :{{ server.OnlinePlayers }} / {{ server.MaxPlayers}}</p>
+                  <p >Status : <span v-if="!server.online">Unknown</span>
+                               <span v-else>{{ server.online }} </span>
+                  </p>
+                  <p>Players : <span v-if="!server.OnlinePlayers && !server.MaxPlayers">Unknown</span>
+                               <span v-else> {{ server.OnlinePlayers }} / {{ server.MaxPlayers}}</span>
+                  </p>
                 </div>
             </div>
             
@@ -62,10 +66,10 @@
       //For...Of : https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
       async get_server_status(){
         for(let server of this.filtredServers){
-            let status = await this.get_server_status_minecraft(server.address);
-            server["online"]=status.online;
-            server["OnlinePlayers"]=status.players.online;
-            server["MaxPlayers"]=status.players.max;
+          let status = await this.get_server_status_minecraft(server.address);
+          server["online"]=status.online;
+          server["OnlinePlayers"]=status.players.online;
+          server["MaxPlayers"]=status.players.max;
         }
       },
       async get_server_status_minecraft(address){
