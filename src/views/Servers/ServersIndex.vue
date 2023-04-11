@@ -17,7 +17,7 @@
                 <div class="Description">
                     <p>{{ server.description }}</p>
                 </div>
-                <div class="Status">
+                <div class="Status" v-if="server.address">
                     <p>Status :{{ server.online }}</p>
                     <p>Players :{{ server.OnlinePlayers }} / {{ server.MaxPlayers}}</p>
                 </div>
@@ -69,7 +69,7 @@
         }
       },
       async get_server_status_minecraft(address){
-        return axios.get('https://api.mcstatus.io/v2/status/java/'+address)
+        return axios.get('https://api.mcstatus.io/v2/status/java/' + address)
           .then((responce) =>  responce.data)
       }
     },
