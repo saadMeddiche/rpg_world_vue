@@ -61,13 +61,11 @@
       //async /await : https://stackoverflow.com/questions/54955426/how-to-use-async-await-in-vue-js
       //For...Of : https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
       async get_server_status(){
-        for(let server of this.servers){
-          if(server.game_id == this.game.id){
+        for(let server of this.filtredServers){
             let status = await this.get_server_status_minecraft(server.address);
             server["online"]=status.online;
             server["OnlinePlayers"]=status.players.online;
             server["MaxPlayers"]=status.players.max;
-          }
         }
       },
       async get_server_status_minecraft(address){
@@ -79,7 +77,6 @@
       filtredServers(){
         return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()) && server.game_id == this.game.id)
       }
-
     }
   }
 
