@@ -9,13 +9,17 @@
 
             <div class="Server" v-for="server in filtredServers" :key="server">
                 <div class="Image">
-                    <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
+                  <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
                 </div>
                 <div class="Title">
                     <p>{{server.name}}</p>
                 </div>
                 <div class="Description">
                     <p>{{ server.description }}</p>
+                </div>
+                <div class="Status">
+                    <p>Status :{{ server.online }}</p>
+                    <p>Players :{{ server.OnlinePlayers }} / {{ server.MaxPlayers}}</p>
                 </div>
             </div>
             
@@ -29,36 +33,55 @@
 </template>
 
 <script>
-    import axios from 'axios';
+  import axios from 'axios';
 
-    export default{
-        data(){
-            return {
-                servers:{},
-                game:null,
-                looking_for:'',
-            }
-        },
-        methods:{
-            fetch_servers(){
-                axios.get('http://127.0.0.1:8000/api/V1/servers')
-                    .then((responce) => this.servers = responce.data.servers)
-            }
-            ,
-            Clear(){
-                this.looking_for = ''
-            }
-        },
-        created(){
-            this.game = this.$store.state.clicked_game;
-            this.fetch_servers()
-        },
-        computed:{
-            filtredServers(){
-                return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()) && server.game_id == this.game.id)
-            }
+  export default{
+    
+    created(){
+      this.game = this.$store.state.clicked_game;
+      this.fetch_servers()
+    },
+    data(){
+      return {
+        servers:{},
+        game:null,
+        looking_for:'',
+      }
+    },
+    methods:{
+      fetch_servers(){
+        axios.get('http://127.0.0.1:8000/api/V1/servers')
+          .then((responce) => this.servers = responce.data.servers)
+          .then((responce) => this.get_server_status())
+      }
+      ,
+      Clear(){
+        this.looking_for = ''
+      },
+      //async /await : https://stackoverflow.com/questions/54955426/how-to-use-async-await-in-vue-js
+      //For...Of : https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
+      async get_server_status(){
+        for(let server of this.servers){
+          if(server.game_id == this.game.id){
+            let status = await this.get_server_status_minecraft(server.address);
+            server["online"]=status.online;
+            server["OnlinePlayers"]=status.players.online;
+            server["MaxPlayers"]=status.players.max;
+          }
         }
+      },
+      async get_server_status_minecraft(address){
+        return axios.get('https://api.mcstatus.io/v2/status/java/'+address)
+          .then((responce) =>  responce.data)
+      }
+    },
+    computed:{
+      filtredServers(){
+        return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()) && server.game_id == this.game.id)
+      }
+
     }
+  }
 
 </script>
 

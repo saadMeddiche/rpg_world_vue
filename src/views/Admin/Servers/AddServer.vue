@@ -24,6 +24,9 @@
         <div class="Description">
             <textarea name="" id="" cols="30" rows="10" v-model="server.description" placeholder="Description ..."></textarea>
         </div>
+        <div class="Adress">
+            <input type="text" v-model="server.address" placeholder="Adress ... (optionel)">
+        </div>
         <div class="Image">
             <input type="file" name="" id="" @change="onFileSelected" ref="fileInput">
         </div>
@@ -51,6 +54,7 @@
                 server:{
                     name:'',
                     description:'',
+                    address:'',
                     image:'',
                     game_id:'',
                     method:'post'
@@ -68,7 +72,7 @@
                 }
 
                 axios.post('http://127.0.0.1:8000/api/V1/servers', this.server, config)
-                    .then( (responce) => this.success_message())
+                    .then( (responce) => this.success_message(responce))
                     .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
             },
             onFileSelected(){
@@ -82,7 +86,8 @@
                     this.errors = ''
                 }, 5000)
             },
-            success_message(){
+            success_message(responce){
+                console.log(responce)
                 this.show_success_message = true
 
                 setTimeout(() => {
@@ -152,6 +157,7 @@
   .Game,
   .Name,
   .Description,
+  .Adress,
   .Image,
   .Insert {
     width: 100%;

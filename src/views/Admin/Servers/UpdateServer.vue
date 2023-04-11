@@ -24,6 +24,9 @@
         <div class="Description">
             <textarea name="" id="" cols="30" rows="10" v-model="server.description" placeholder="Description ..."></textarea>
         </div>
+        <div class="Adress">
+            <input type="text" v-model="server.address" placeholder="Adress ... (optionel)">
+        </div>
         <div class="Image">
             <input type="file" name="" id="" @change="onFileSelected" ref="fileInput1">
         </div>
@@ -47,6 +50,7 @@ import backbutton from '@/components/backbutton.vue'
                 server:{
                     name:'',
                     description:'',
+                    address:'',
                     image:'',
                     game_id:'',
                     method:'put'
@@ -155,6 +159,7 @@ max-width: 600px; // adjust as needed
 .Game,
 .Name,
 .Description,
+.Adress,
 .Image,
 .Update {
   width: 100%;
