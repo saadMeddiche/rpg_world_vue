@@ -21,6 +21,7 @@ import UpdateGame from '../views/Admin/Games/UpdateGame.vue'
 import Servers from '../views/Admin/Servers/Servers.vue'
 import AddServer from '../views/Admin/Servers/AddServer.vue'
 import UpdateServer from '../views/Admin/Servers/UpdateServer.vue'
+import Server from '../views/Servers/Server.vue'
 //===========Roles
 import Roles from '../views/Admin/Roles/Roles.vue'
 //===========Users
@@ -49,6 +50,14 @@ const routes = [
     path: '/servers',
     name: 'ServersIndex',
     component: ServersIndex,
+    meta:{
+      requiresAuth:true
+    }
+  },
+  {
+    path: '/server',
+    name: 'Server',
+    component: Server,
     meta:{
       requiresAuth:true
     }
@@ -142,7 +151,7 @@ const routes = [
       status:'admin',
       requiresAuth:true
     }
-  }
+  },
   
 
 ]
