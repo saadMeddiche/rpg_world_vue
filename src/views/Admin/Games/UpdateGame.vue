@@ -1,5 +1,8 @@
 <template>
-    <h1>Update Game</h1>
+    <div class="Title">
+        <h1>Update Game</h1>
+        <backbutton></backbutton>
+    </div>
     <div class="Errors">
         <div class="Error" v-for="(error , key) in errors" :key="key">
             <p> {{ error[0] }}</p>
@@ -26,8 +29,13 @@
 
 <script>
 import axios from 'axios'
+import backbutton from '@/components/backbutton.vue'
+
 
     export default{
+        components:{
+            backbutton,
+        },
         data(){
             return {
                 game:{
@@ -81,6 +89,13 @@ import axios from 'axios'
 </script>
 
 <style lang="scss" scoped>
+
+.Title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
 .Success_Message {
 
 background-color: rgba(0, 255, 0, 0.8);
