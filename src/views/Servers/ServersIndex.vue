@@ -1,46 +1,57 @@
 <template>
+  <div class="Title">
     <h1>{{game.name}} Servers</h1>
-    <div class="Sheach">
-        <input type="text" name="" id="" v-model="looking_for">
-        <button @click="Clear">X</button>
-    </div>
-    <div v-if="servers.length">
-        <div class="Servers" v-if="filtredServers.length">
+    <backbutton></backbutton>
+  </div>
+  
+  <div class="Sheach">
+    <input type="text" name="" id="" v-model="looking_for">
+    <button @click="Clear">X</button>
+  </div>
+  <div v-if="servers.length">
+    <div class="Servers" v-if="filtredServers.length">
 
-            <div class="Server" v-for="server in filtredServers" :key="server">
-                <div class="Image">
-                  <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
-                </div>
-                <div class="Title">
-                    <p>{{server.name}}</p>
-                </div>
-                <div class="Description">
-                    <p>{{ server.description }}</p>
-                </div>
-                <div class="Status" v-if="server.address">
-                  <p >Status : <span v-if="!server.online">Unknown</span>
-                               <span v-else>{{ server.online }} </span>
-                  </p>
-                  <p>Players : <span v-if="!server.OnlinePlayers && !server.MaxPlayers">Unknown</span>
-                               <span v-else> {{ server.OnlinePlayers }} / {{ server.MaxPlayers}}</span>
-                  </p>
-                </div>
-            </div>
-            
+      <div class="Server" v-for="server in filtredServers" :key="server">
+        <div class="Image">
+          <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
         </div>
-        <div v-else>
-            <h2>There is No Servers For This Game Yet</h2>
-            <h4>Be The First Who add its Own Server</h4> 
+        <div class="Title">
+          <p>{{server.name}}
+            <span :class="{'online' : server.online , 'offline': !server.online}">
+              {{ status(server.online) }}
+            </span>
+          </p>
         </div>
+        <div class="Description">
+          <p>{{ server.description }}</p>
+        </div>
+        <div class="Status" v-if="server.address">
+          <p>
+            Players : 
+            <span>
+              {{ players(server.OnlinePlayers,server.MaxPlayers) }}
+            </span>
+          </p>
+        </div>
+      </div>
+        
     </div>
+    <div v-else>
+      <h2>There is No Servers For This Game Yet</h2>
+      <h4>Be The First Who add its Own Server</h4> 
+    </div>
+  </div>
     
 </template>
 
 <script>
   import axios from 'axios';
+  import backbutton from '@/components/backbutton.vue'
 
   export default{
-    
+    components:{
+      backbutton,
+    },
     created(){
       this.game = this.$store.state.clicked_game;
       this.fetch_servers()
@@ -56,7 +67,7 @@
       fetch_servers(){
         axios.get('http://127.0.0.1:8000/api/V1/servers')
           .then((responce) => this.servers = responce.data.servers)
-          .then((responce) => this.get_server_status())
+          .then(() => this.get_server_status())
       }
       ,
       Clear(){
@@ -65,16 +76,28 @@
       //async /await : https://stackoverflow.com/questions/54955426/how-to-use-async-await-in-vue-js
       //For...Of : https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
       async get_server_status(){
-        for(let server of this.filtredServers){
-          let status = await this.get_server_status_minecraft(server.address);
-          server["online"]=status.online;
-          server["OnlinePlayers"]=status.players.online;
-          server["MaxPlayers"]=status.players.max;
+        if(this.game.name == 'MineCraft'){
+          for(let server of this.filtredServers){
+            let status = await this.get_server_status_minecraft(server.address);
+            server["online"]=status.online;
+            if(status.players){
+              server["OnlinePlayers"]=status.players.online;
+              server["MaxPlayers"]=status.players.max;
+            } 
+          }
         }
       },
       async get_server_status_minecraft(address){
         return axios.get('https://api.mcstatus.io/v2/status/java/' + address)
           .then((responce) =>  responce.data)
+      },
+      status(status){
+        
+        return status ? 'Online' : 'Offline';
+      },
+      players(OnlinePlayers,MaxPlayers){
+        // why ? != null , so when the online player are 0 , it do not display unkonwn
+        return OnlinePlayers != null  && MaxPlayers  ? OnlinePlayers+' / '+MaxPlayers : 'Unkown'
       }
     },
     computed:{
@@ -87,6 +110,31 @@
 </script>
 
 <style lang="scss" scoped>
+.Title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:10px;
+}
+p {
+  font-size: 16px;
+  margin: 0;
+  
+  span {
+    font-weight: bold;
+    
+    &.online {
+      color: green;
+    }
+    
+    &.offline {
+      color: red;
+    }
+  }
+  
+
+}
+
 /* Style for the Games section */
 .Servers {
   display: flex;
