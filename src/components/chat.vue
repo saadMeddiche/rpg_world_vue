@@ -1,61 +1,26 @@
 <template>
-    <div class="Title">
-        <h1>{{ server.name }}</h1>
-        <button class="switchPageButton" @click="switchPage($event)">News</button>
-        <backbutton></backbutton>
-    </div>
-    
-    <div v-if="chat_page">
-
-        <div class="BoxOfChat" ref="chatBox">
-            <p class="showmore" @click="showMore" v-if="messages.length != loaded_messages.length">show more</p>   
-            <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
-                <div class="Sender">
-                    <p>{{ message.username }}</p>
-                </div>
-                <div class="Content">
-                    <p>{{message.content}}</p>
-                </div>
+    <div class="BoxOfChat" ref="chatBox">
+        <p class="showmore" @click="showMore" v-if="messages.length != loaded_messages.length">show more</p>   
+        <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
+            <div class="Sender">
+                <p>{{ message.username }}</p>
+            </div>
+            <div class="Content">
+                <p>{{message.content}}</p>
             </div>
         </div>
-
-        <div class="FieldOfMessage">
-            <input type="text" v-model="message_in_field">
-            <button @click="send_message">send</button>
-        </div>
-        
     </div>
-    <div v-else>
-        <div class="BoxOfNews">
-            <p class="showmore">show more</p>   
-            <div class="Announce">
-                <div class="Sender">
-                    <p>Admin</p>
-                </div>
-                <div class="Content">
-                    <p>ToDay will be an event at 10:00</p>
-                </div>
-            </div>
-        </div>
-        <div class="FieldOfAnnounce">
-            <input type="text" v-model="message_in_field">
-            <button >send</button>
-        </div>
-    </div>
-    
 
+    <div class="FieldOfMessage">
+        <input type="text" v-model="message_in_field">
+        <button @click="send_message">send</button>
+    </div>
 </template>
-<script>
-    import axios from 'axios';
-    import firebase from '@/firebase.js';
-    import backbutton from '@/components/backbutton.vue'
 
-    export default{
+<script>
+   export default{
         created(){
             this.fetch_server()
-        },
-        components:{
-            backbutton,
         },
         data(){
             return{
@@ -142,26 +107,6 @@
 </script>
 
 <style lang="scss" scoped>
-
-$primary-color: #3f51b5;
-$secondary-color: #e0e0e0;
-
-.Title{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:10px;
-}
-.showmore{
-    cursor: pointer;
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.BoxOfNews,
 .BoxOfChat {
   border: 1px solid $secondary-color;
   border-radius: 4px;
@@ -170,7 +115,7 @@ h1 {
   overflow-y: scroll;
   margin-bottom: 1rem;
 }
-.Announce,
+
 .Message {
   display: flex;
   flex-direction: column;
@@ -190,7 +135,7 @@ h1 {
     margin-bottom: 0.5rem;
   }
 }
-.FieldOfAnnounce,
+
 .FieldOfMessage {
   display: flex;
   align-items: center;
@@ -217,11 +162,4 @@ h1 {
     }
   }
 }
-
-
-
-
-
-
-
 </style>
