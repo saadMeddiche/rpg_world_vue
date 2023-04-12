@@ -44,15 +44,13 @@
 
 </template>
 <script>
+    import axios from 'axios';
     import firebase from '@/firebase.js';
     import backbutton from '@/components/backbutton.vue'
 
     export default{
         created(){
-            this.get_server()
-        },
-        mounted(){
-            this.fetch_messages()
+            this.fetch_server()
         },
         components:{
             backbutton,
@@ -67,11 +65,13 @@
             }
         },
         methods:{
-            get_server(){
-                this.server = this.$store.state.clicked_server
+            fetch_server(){
+                let server_id = localStorage.getItem('server')
+                axios.get('http://127.0.0.1:8000/api/V1/servers/'+server_id)
+                    .then((request) => this.server = request.data.server)    
+                    .then((res) => this.fetch_messages())        
             },
             fetch_messages(){
-
                 let messageRef = firebase.database().ref("messages"+this.server.id)
 
                 messageRef.on('value',snapshot =>{

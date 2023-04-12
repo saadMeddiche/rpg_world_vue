@@ -11,7 +11,7 @@
   <div v-if="servers.length">
     <div class="Servers" v-if="filtredServers.length">
 
-      <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server)">
+      <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
         <div class="Image">
           <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
         </div>
@@ -104,9 +104,12 @@
         // why ? != null , so when the online player are 0 , it do not display unkonwn
         return OnlinePlayers != null  && MaxPlayers  ? OnlinePlayers+' / '+MaxPlayers : 'Unkown'
       },
-      display_server_content(server){
-        this.$store.commit("change_server", server) 
+      display_server_content(id){
+        this.stock_server_id(id)
         this.$router.push({name : 'Server'})
+      },
+      stock_server_id(id){
+        localStorage.setItem('server',id)
       }
     },
     computed:{
