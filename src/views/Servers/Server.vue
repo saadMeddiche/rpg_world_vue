@@ -1,25 +1,46 @@
 <template>
     <div class="Title">
         <h1>{{ server.name }}</h1>
+        <button class="switchPageButton" @click="switchPage($event)">News</button>
         <backbutton></backbutton>
     </div>
     
-    <div class="BoxOfChat" ref="chatBox">
-        <p class="showmore" @click="showMore">show more</p>   
-        <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
-            <div class="Sender">
-                <p>{{ message.username }}</p>
-            </div>
-            <div class="Content">
-                <p>{{message.content}}</p>
+    <div v-if="chat_page">
+        <div class="BoxOfChat" ref="chatBox">
+            <p class="showmore" @click="showMore" v-if="messages.length != loaded_messages.length">show more</p>   
+            <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
+                <div class="Sender">
+                    <p>{{ message.username }}</p>
+                </div>
+                <div class="Content">
+                    <p>{{message.content}}</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="FieldOfMessage">
-        <input type="text" v-model="message_in_field">
-        <button @click="send_message">send</button>
+        <div class="FieldOfMessage">
+            <input type="text" v-model="message_in_field">
+            <button @click="send_message">send</button>
+        </div>
     </div>
+    <div v-else>
+        <div class="BoxOfNews">
+            <p class="showmore">show more</p>   
+            <div class="Announce">
+                <div class="Sender">
+                    <p>Admin</p>
+                </div>
+                <div class="Content">
+                    <p>ToDay will be an event at 10:00</p>
+                </div>
+            </div>
+        </div>
+        <div class="FieldOfAnnounce">
+            <input type="text" v-model="message_in_field">
+            <button >send</button>
+        </div>
+    </div>
+    
 
 </template>
 <script>
@@ -31,39 +52,7 @@
             this.get_server()
         },
         mounted(){
-
-            let messageRef = firebase.database().ref("messages"+this.server.id)
-
-            messageRef.on('value',snapshot =>{
-
-                let data = snapshot.val();
-                let messages = [];
-
-                if(data){
-                    Object.keys(data).forEach(key =>{
-                        messages.push({
-                            id:key,
-                            username: data[key].username,
-                            content: data[key].content
-                        })
-                    })
-
-
-                    this.messages = messages
-                    this.loaded_messages = this.messages.slice(-5)
-
-                    //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
-                    this.$nextTick(() => {
-                        const chatBox = this.$refs.chatBox;
-                        if(chatBox)
-                            chatBox.scrollTop = chatBox.scrollHeight;
-                    });
-                }
-                
-            })
-            
-            
-
+            this.fetch_messages()
         },
         components:{
             backbutton,
@@ -73,12 +62,44 @@
                 server:'',
                 message_in_field:'',
                 messages:{},
-                loaded_messages:[]
+                loaded_messages:[],
+                chat_page:true
             }
         },
         methods:{
             get_server(){
                 this.server = this.$store.state.clicked_server
+            },
+            fetch_messages(){
+
+                let messageRef = firebase.database().ref("messages"+this.server.id)
+
+                messageRef.on('value',snapshot =>{
+
+                    let data = snapshot.val();
+                    let messages = [];
+
+                    if(data){
+                        Object.keys(data).forEach(key =>{
+                            messages.push({
+                                id:key,
+                                username: data[key].username,
+                                content: data[key].content
+                            })
+                        })
+
+                        //stock messages
+                        this.messages = messages
+
+                        //display only the last 5 messages
+                        this.loaded_messages = this.messages.slice(-5)
+
+                        //Update the scroll height of the chat box
+                        this.update_scroll_height(this.$refs.chatBox)
+                        
+                    }
+                
+                })
             },
             send_message(){
                 let messageRef = firebase.database().ref("messages"+this.server.id)
@@ -96,9 +117,20 @@
 
                 this.message_in_field=""
             },
+            update_scroll_height(element){
+                //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
+                this.$nextTick(() => {
+                    if(element != null && element)
+                        element.scrollTop = element.scrollHeight;
+                });
+            },
             showMore() {
                 const endIndex = this.loaded_messages.length + 5;
                 this.loaded_messages = this.messages.slice(-endIndex);
+            },
+            switchPage(e){
+                e.target.innerHTML = (e.target.innerHTML == 'News') ? 'Chat' : 'News'
+                this.chat_page = this.chat_page ? false : true
             }
 
         },
@@ -126,6 +158,7 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.BoxOfNews,
 .BoxOfChat {
   border: 1px solid $secondary-color;
   border-radius: 4px;
@@ -134,7 +167,7 @@ h1 {
   overflow-y: scroll;
   margin-bottom: 1rem;
 }
-
+.Announce,
 .Message {
   display: flex;
   flex-direction: column;
@@ -154,7 +187,7 @@ h1 {
     margin-bottom: 0.5rem;
   }
 }
-
+.FieldOfAnnounce,
 .FieldOfMessage {
   display: flex;
   align-items: center;
