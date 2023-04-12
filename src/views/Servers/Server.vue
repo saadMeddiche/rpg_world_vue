@@ -1,13 +1,12 @@
 <template>
     <h1>{{ server.name }}</h1>
-    <h4>{{ message_in_field }}</h4>
-    <div class="BoxOfChat">
-        <div class="Message">
+    <div class="BoxOfChat" ref="chatBox">
+        <div class="Message" v-for="(message,key) in messages" :key="key">
             <div class="Sender">
-                <p>Saad Meddiche</p>
+                <p>{{ message.username }}</p>
             </div>
             <div class="Content">
-                <p>Hiii,Lucas How are You my Friend</p>
+                <p>{{message.content}}</p>
             </div>
         </div>
     </div>
@@ -25,10 +24,39 @@
         created(){
             this.get_server()
         },
+        mounted(){
+            let messageRef = firebase.database().ref("messages")
+
+            messageRef.on('value',snapshot =>{
+
+                let data = snapshot.val();
+                let messages = [];
+
+                Object.keys(data).forEach(key =>{
+                    messages.push({
+                        id:key,
+                        username: data[key].username,
+                        content: data[key].content
+                    })
+                })
+                
+
+                this.messages = messages
+
+               //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
+                this.$nextTick(() => {
+                    const chatBox = this.$refs.chatBox;
+                    if(chatBox)
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                });
+            })
+
+        },
         data(){
             return{
                 server:'',
-                message_in_field:''
+                message_in_field:'',
+                messages:{}
             }
         },
         methods:{
@@ -51,55 +79,78 @@
 
                 this.message_in_field=""
             }
-        }
+        },
+
     }
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #0080ff;
-$secondary-color: #f2f2f2;
+
+$primary-color: #3f51b5;
+$secondary-color: #e0e0e0;
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
 
 .BoxOfChat {
-  border: 1px solid $primary-color;
-  padding: 10px;
-  background-color: $secondary-color;
+  border: 1px solid $secondary-color;
+  border-radius: 4px;
+  padding: 1rem;
+  height: 300px;
+  overflow-y: scroll;
+  margin-bottom: 1rem;
+}
 
-  .Message {
-    margin-bottom: 10px;
+.Message {
+  display: flex;
+  flex-direction: column; /* set direction to column */
 
-    .Sender {
-      font-weight: bold;
-    }
+  .Sender {
+    font-weight: bold;
+    margin-bottom: 0.5rem; /* move below content */
+  }
+
+  .Content {
+    background-color: $secondary-color;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem; /* move above sender */
   }
 }
 
 .FieldOfMessage {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
 
   input[type="text"] {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
     flex: 1;
-    margin-right: 10px;
+    border: 1px solid $secondary-color;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
   }
 
   button {
     background-color: $primary-color;
-    color: white;
+    color: #fff;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.3s ease;
 
     &:hover {
       background-color: darken($primary-color, 10%);
     }
   }
 }
+
+
+
+
+
+
 
 </style>
