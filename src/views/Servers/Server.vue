@@ -1,5 +1,9 @@
 <template>
-    <h1>{{ server.name }}</h1>
+    <div class="Title">
+        <h1>{{ server.name }}</h1>
+        <backbutton></backbutton>
+    </div>
+    
     <div class="BoxOfChat" ref="chatBox">
         <p class="showmore" @click="showMore">show more</p>   
         <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
@@ -20,6 +24,7 @@
 </template>
 <script>
     import firebase from '@/firebase.js';
+    import backbutton from '@/components/backbutton.vue'
 
     export default{
         created(){
@@ -27,33 +32,41 @@
         },
         mounted(){
 
-            let messageRef = firebase.database().ref("messages")
+            let messageRef = firebase.database().ref("messages"+this.server.id)
 
             messageRef.on('value',snapshot =>{
 
                 let data = snapshot.val();
                 let messages = [];
 
-                Object.keys(data).forEach(key =>{
-                    messages.push({
-                        id:key,
-                        username: data[key].username,
-                        content: data[key].content
+                if(data){
+                    Object.keys(data).forEach(key =>{
+                        messages.push({
+                            id:key,
+                            username: data[key].username,
+                            content: data[key].content
+                        })
                     })
-                })
+
+
+                    this.messages = messages
+                    this.loaded_messages = this.messages.slice(-5)
+
+                    //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
+                    this.$nextTick(() => {
+                        const chatBox = this.$refs.chatBox;
+                        if(chatBox)
+                            chatBox.scrollTop = chatBox.scrollHeight;
+                    });
+                }
                 
-
-                this.messages = messages
-                this.loaded_messages = this.messages.slice(-5)
-
-               //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
-                this.$nextTick(() => {
-                    const chatBox = this.$refs.chatBox;
-                    if(chatBox)
-                        chatBox.scrollTop = chatBox.scrollHeight;
-                });
             })
+            
+            
 
+        },
+        components:{
+            backbutton,
         },
         data(){
             return{
@@ -68,7 +81,7 @@
                 this.server = this.$store.state.clicked_server
             },
             send_message(){
-                let messageRef = firebase.database().ref("messages")
+                let messageRef = firebase.database().ref("messages"+this.server.id)
 
                 if(this.message_in_field == '' || this.message_in_field == null){
                     return;
@@ -97,6 +110,13 @@
 
 $primary-color: #3f51b5;
 $secondary-color: #e0e0e0;
+
+.Title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
 .showmore{
     cursor: pointer;
 }
