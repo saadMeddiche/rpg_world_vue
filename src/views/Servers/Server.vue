@@ -98,25 +98,28 @@ h1 {
   border: 1px solid $secondary-color;
   border-radius: 4px;
   padding: 1rem;
-  height: 300px;
+  height: 400px;
   overflow-y: scroll;
   margin-bottom: 1rem;
 }
 
 .Message {
   display: flex;
-  flex-direction: column; /* set direction to column */
+  flex-direction: column;
 
   .Sender {
+    align-self: flex-start;
     font-weight: bold;
-    margin-bottom: 0.5rem; /* move below content */
   }
 
   .Content {
+    text-align: start;
+    word-wrap: break-word;
+    width: 90%;
     background-color: $secondary-color;
     border-radius: 4px;
     padding: 0.5rem 1rem;
-    margin-top: 0.5rem; /* move above sender */
+    margin-bottom: 0.5rem;
   }
 }
 
