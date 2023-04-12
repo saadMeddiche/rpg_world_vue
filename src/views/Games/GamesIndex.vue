@@ -5,7 +5,7 @@
       <button @click="Clear">X</button>
   </div>
   <div class="Games" v-if="games.length">
-    <div class="Game" v-for="game in filtredGames" :key="game" @click="DisplayServers(game)">
+    <div class="Game" v-for="game in filtredGames" :key="game" @click="DisplayServers(game.id)">
       <div class="Image">
           <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
       </div>
@@ -37,13 +37,12 @@
         Clear(){
             this.looking_for = ''
         },
-        DisplayServers(game){
-          this.stock_game(game)
+        DisplayServers(id){
+          this.stock_game_id(id)
           this.$router.push('/servers')
         },
-        stock_game(game){
-          let data = JSON.stringify(game)
-          localStorage.setItem('game',data)
+        stock_game_id(id){
+          localStorage.setItem('game',id)
         }
     },
     created(){

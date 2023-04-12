@@ -1,6 +1,6 @@
 <template>
   <div class="Title">
-    <h1>{{game.name}} Servers</h1>
+    <h1 v-if="game">{{game.name}} Servers</h1>
     <backbutton></backbutton>
   </div>
   
@@ -53,7 +53,7 @@
       backbutton,
     },
     created(){
-      this.get_game()
+      this.fetch_game()
       this.fetch_servers()
     },
     data(){
@@ -64,9 +64,10 @@
       }
     },
     methods:{
-      get_game(){
-        let data = localStorage.getItem('game')
-        this.game = JSON.parse(data)
+      fetch_game(){
+        let game_id = localStorage.getItem('game')
+        axios.get('http://127.0.0.1:8000/api/V1/games/'+game_id)
+          .then((request) => this.game = request.data.game)
       },
       fetch_servers(){
         axios.get('http://127.0.0.1:8000/api/V1/servers')
