@@ -1,7 +1,8 @@
 <template>
     <h1>{{ server.name }}</h1>
     <div class="BoxOfChat" ref="chatBox">
-        <div class="Message" v-for="(message,key) in messages" :key="key">
+        <p class="showmore" @click="showMore">show more</p>   
+        <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
             <div class="Sender">
                 <p>{{ message.username }}</p>
             </div>
@@ -25,6 +26,7 @@
             this.get_server()
         },
         mounted(){
+
             let messageRef = firebase.database().ref("messages")
 
             messageRef.on('value',snapshot =>{
@@ -42,6 +44,7 @@
                 
 
                 this.messages = messages
+                this.loaded_messages = this.messages.slice(-5)
 
                //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
                 this.$nextTick(() => {
@@ -56,7 +59,8 @@
             return{
                 server:'',
                 message_in_field:'',
-                messages:{}
+                messages:{},
+                loaded_messages:[]
             }
         },
         methods:{
@@ -78,7 +82,12 @@
                 messageRef.push(message)
 
                 this.message_in_field=""
+            },
+            showMore() {
+                const endIndex = this.loaded_messages.length + 5;
+                this.loaded_messages = this.messages.slice(-endIndex);
             }
+
         },
 
     }
@@ -88,6 +97,9 @@
 
 $primary-color: #3f51b5;
 $secondary-color: #e0e0e0;
+.showmore{
+    cursor: pointer;
+}
 
 h1 {
   font-size: 2rem;
