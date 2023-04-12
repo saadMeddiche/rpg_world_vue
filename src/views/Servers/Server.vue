@@ -66,6 +66,7 @@
         },
         methods:{
             fetch_server(){
+                //get the server id from local storage
                 let server_id = localStorage.getItem('server')
                 axios.get('http://127.0.0.1:8000/api/V1/servers/'+server_id)
                     .then((request) => this.server = request.data.server)    

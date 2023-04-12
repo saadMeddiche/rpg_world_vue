@@ -72,11 +72,15 @@ import backbutton from '@/components/backbutton.vue'
                 axios.post('http://127.0.0.1:8000/api/V1/servers/' + this.server.id , this.server, config )
                     .then( (responce) => this.success_message(responce))
                     .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
-            
             },
             get_server(){
-                this.server = this.$store.state.clicked_server
-                this.server.image = ''
+                let server_id = this.get_server_id()
+                axios.get('http://127.0.0.1:8000/api/V1/servers/'+server_id)
+                    .then((request) => this.server = request.data.server)
+                    .then((res) => this.server.image = '' )
+            },
+            get_server_id(){
+                return localStorage.getItem('server')
             },
             display_errors(errors){
 
@@ -98,7 +102,7 @@ import backbutton from '@/components/backbutton.vue'
             },
             fetch_games(){
                 axios.get('http://127.0.0.1:8000/api/V1/games')
-                .then((responce) => this.games = responce.data.games)
+                    .then((responce) => this.games = responce.data.games)
             }
         }
     }

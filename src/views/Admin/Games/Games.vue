@@ -9,7 +9,7 @@
     <div class="Game" v-for="(game, key) in filtredGames" :key="key">
         <div class="Buttons">
             <button class="Delete" @click="delete_game(game.id)">Delete</button>
-            <button class="Update" @click="update_game(game)">Update</button>
+            <button class="Update" @click="update_game(game.id)">Update</button>
         </div>
         <div class="Image">
             <img :src="'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
@@ -47,9 +47,12 @@ import axios from 'axios';
               })
             
           },
-          update_game(game){
-            this.$store.commit('change_game', game)
+          update_game(id){
+            this.stock_game_id(id)
             this.$router.push({name : 'UpdateGame'})
+          },
+          stock_game_id(id){
+            localStorage.setItem('game',id)
           },
           Clear(){
             this.looking_for = ''

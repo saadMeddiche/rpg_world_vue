@@ -9,7 +9,7 @@
       <div class="Server" v-for="(server, key) in filtredServers" :key="key">
           <div class="Buttons">
               <button class="Delete" @click="delete_server(server.id)">Delete</button>
-              <button class="Update" @click="update_server(server)">Update</button>
+              <button class="Update" @click="update_server(server.id)">Update</button>
           </div>
           <div class="Image">
               <img :src="'http://localhost/RPG_World_Laravel/public/uploads/games/'+server.image" alt="">
@@ -47,9 +47,11 @@
                 })
               
             },
-            update_server(server){
-              this.$store.commit('change_server', server)
+            update_server(id){
+              this.stock_server_id(id)
               this.$router.push({name : 'UpdateServer'})
+            },stock_server_id(id){
+             localStorage.setItem('server',id)
             },
             Clear(){
               this.looking_for = ''

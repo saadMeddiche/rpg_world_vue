@@ -62,8 +62,13 @@ import backbutton from '@/components/backbutton.vue'
             
             },
             get_game(){
-                this.game = this.$store.state.clicked_game
-                this.game.image = ''
+                let game_id = this.get_game_id()
+                axios.get('http://127.0.0.1:8000/api/V1/games/'+game_id)
+                    .then((request) => this.game = request.data.game)
+                    .then((res) => this.game.image = '' )
+            },
+            get_game_id(){
+                return localStorage.getItem('game')
             },
             display_errors(errors){
 
@@ -74,7 +79,7 @@ import backbutton from '@/components/backbutton.vue'
                 }, 5000)
             },
             success_message(responce){
-                console.log(responce);
+                // console.log(responce);
                 this.show_success_message = true
 
                 setTimeout(() => {
