@@ -53,7 +53,7 @@
       backbutton,
     },
     created(){
-      this.game = this.$store.state.clicked_game;
+      this.get_game()
       this.fetch_servers()
     },
     data(){
@@ -64,6 +64,10 @@
       }
     },
     methods:{
+      get_game(){
+        let data = localStorage.getItem('game')
+        this.game = JSON.parse(data)
+      },
       fetch_servers(){
         axios.get('http://127.0.0.1:8000/api/V1/servers')
           .then((responce) => this.servers = responce.data.servers)

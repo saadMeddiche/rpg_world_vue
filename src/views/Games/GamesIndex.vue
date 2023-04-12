@@ -38,9 +38,12 @@
             this.looking_for = ''
         },
         DisplayServers(game){
-          this.$store.commit("change_game", game)
-          
+          this.stock_game(game)
           this.$router.push('/servers')
+        },
+        stock_game(game){
+          let data = JSON.stringify(game)
+          localStorage.setItem('game',data)
         }
     },
     created(){
