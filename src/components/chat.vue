@@ -18,8 +18,10 @@
 </template>
 
 <script>
+    import axios from 'axios';
+    import firebase from '@/firebase.js';
    export default{
-        created(){
+        mounted(){
             this.fetch_server()
         },
         data(){
@@ -28,7 +30,6 @@
                 message_in_field:'',
                 messages:{},
                 loaded_messages:[],
-                chat_page:true
             }
         },
         methods:{
@@ -95,10 +96,6 @@
             showMore() {
                 const endIndex = this.loaded_messages.length + 5;
                 this.loaded_messages = this.messages.slice(-endIndex);
-            },
-            switchPage(e){
-                e.target.innerHTML = (e.target.innerHTML == 'News') ? 'Chat' : 'News'
-                this.chat_page = this.chat_page ? false : true
             }
 
         },
@@ -107,6 +104,11 @@
 </script>
 
 <style lang="scss" scoped>
+$primary-color: #3f51b5;
+$secondary-color: #e0e0e0;
+.showmore{
+    cursor: pointer;
+}
 .BoxOfChat {
   border: 1px solid $secondary-color;
   border-radius: 4px;
