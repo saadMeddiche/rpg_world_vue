@@ -45,16 +45,19 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  import backbutton from '@/components/backbutton.vue'
+  import backbutton from '@/components/backbutton.vue';
+  import {fetch_game ,fetch_servers} from '@/utils/apiFunctions';
+  import {get_server_status} from '@/utils/statusFunctions';
+
 
   export default{
     components:{
       backbutton,
     },
-    created(){
-      this.fetch_game()
-      this.fetch_servers()
+    async created(){
+      fetch_game(this)  
+      await fetch_servers(this)
+      get_server_status(this)
     },
     data(){
       return {
@@ -64,44 +67,14 @@
       }
     },
     methods:{
-      fetch_game(){
-        let game_id = localStorage.getItem('game')
-        axios.get('http://127.0.0.1:8000/api/V1/games/'+game_id)
-          .then((request) => this.game = request.data.game)
-      },
-      fetch_servers(){
-        axios.get('http://127.0.0.1:8000/api/V1/servers')
-          .then((responce) => this.servers = responce.data.servers)
-          .then(() => this.get_server_status())
-      }
-      ,
       Clear(){
         this.looking_for = ''
-      },
-      //async /await : https://stackoverflow.com/questions/54955426/how-to-use-async-await-in-vue-js
-      //For...Of : https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
-      async get_server_status(){
-        if(this.game.name == 'MineCraft'){
-          for(let server of this.filtredServers){
-            let status = await this.get_server_status_minecraft(server.address);
-            server["online"]=status.online;
-            if(status.players){
-              server["OnlinePlayers"]=status.players.online;
-              server["MaxPlayers"]=status.players.max;
-            } 
-          }
-        }
-      },
-      async get_server_status_minecraft(address){
-        return axios.get('https://api.mcstatus.io/v2/status/java/' + address)
-          .then((responce) =>  responce.data)
-      },
+      }
+      ,
       status(status){
-        
         return status ? 'Online' : 'Offline';
       },
       players(OnlinePlayers,MaxPlayers){
-        // why ? != null , so when the online player are 0 , it do not display unkonwn
         return OnlinePlayers != null  && MaxPlayers  ? OnlinePlayers+' / '+MaxPlayers : 'Unkown'
       },
       display_server_content(id){

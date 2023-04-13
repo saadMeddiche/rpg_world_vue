@@ -5,7 +5,7 @@
       <button @click="Clear">X</button>
   </div>
   <div class="Games" v-if="games.length">
-    <div class="Game" v-for="game in filtredGames" :key="game" @click="DisplayServers(game.id)">
+    <div class="Game" v-for="game in filtredGames" :key="game" @click="display_servers(game.id)">
       <div class="Image">
           <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
       </div>
@@ -20,38 +20,33 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
+  import {fetch_games} from '@/utils/apiFunctions'
   export default{
     data(){
-        return {
-            games:{},
-            looking_for:''
-        }
+      return {
+        games:{},
+        looking_for:''
+      }
     },
     methods:{
-        fetch_games(){
-            axios.get('http://127.0.0.1:8000/api/V1/games')
-                .then((responce) => this.games = responce.data.games)
-        },
-        Clear(){
-            this.looking_for = ''
-        },
-        DisplayServers(id){
-          this.stock_game_id(id)
-          this.$router.push('/servers')
-        },
-        stock_game_id(id){
-          localStorage.setItem('game',id)
-        }
+      Clear(){
+        this.looking_for = ''
+      },
+      display_servers(id){
+        this.stock_game_id(id)
+        this.$router.push('/servers')
+      },
+      stock_game_id(id){
+        localStorage.setItem('game',id)
+      }
     },
     created(){
-        this.fetch_games()
+      fetch_games()
     },
     computed:{
-        filtredGames(){
-          if(this.games) return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
-        }
+      filtredGames(){
+        if(this.games) return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+      }
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="BoxOfChat" ref="chatBox">
-        <p class="showmore" @click="showMore" v-if="messages.length != loaded_messages.length">show more</p>   
+        <p class="showmore" @click="show_more" v-show="display_show_more_button">show more</p>   
         <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
             <div class="Sender">
                 <p>{{ message.username }}</p>
@@ -18,11 +18,14 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import firebase from '@/firebase.js';
+    import {chat_show_more , chat_send_message, chat_fetch_messages} from '@/utils/chatFunctions';
+    import {fetch_server} from '@/utils/apiFunctions';
+
+
    export default{
-        mounted(){
-            this.fetch_server()
+        async mounted(){
+            await fetch_server(this)
+            this.fetch_messages()
         },
         data(){
             return{
@@ -33,72 +36,22 @@
             }
         },
         methods:{
-            fetch_server(){
-                //get the server id from local storage
-                let server_id = localStorage.getItem('server')
-                axios.get('http://127.0.0.1:8000/api/V1/servers/'+server_id)
-                    .then((request) => this.server = request.data.server)    
-                    .then((res) => this.fetch_messages())        
-            },
             fetch_messages(){
-                let messageRef = firebase.database().ref("messages"+this.server.id)
-
-                messageRef.on('value',snapshot =>{
-
-                    let data = snapshot.val();
-                    let messages = [];
-
-                    if(data){
-                        Object.keys(data).forEach(key =>{
-                            messages.push({
-                                id:key,
-                                username: data[key].username,
-                                content: data[key].content
-                            })
-                        })
-
-                        //stock messages
-                        this.messages = messages
-
-                        //display only the last 5 messages
-                        this.loaded_messages = this.messages.slice(-5)
-
-                        //Update the scroll height of the chat box
-                        this.update_scroll_height(this.$refs.chatBox)
-                        
-                    }
-                
-                })
+                chat_fetch_messages(this , 'messages')
             },
             send_message(){
-                let messageRef = firebase.database().ref("messages"+this.server.id)
-
-                if(this.message_in_field == '' || this.message_in_field == null){
-                    return;
-                }
-
-                const message = {
-                    username:'Saad Meddiche',
-                    content:this.message_in_field
-                }
-
-                messageRef.push(message)
-
-                this.message_in_field=""
+                chat_send_message(this , 'messages')
             },
-            update_scroll_height(element){
-                //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
-                this.$nextTick(() => {
-                    if(element != null && element)
-                        element.scrollTop = element.scrollHeight;
-                });
-            },
-            showMore() {
-                const endIndex = this.loaded_messages.length + 5;
-                this.loaded_messages = this.messages.slice(-endIndex);
+            show_more(){
+                chat_show_more(this.loaded_messages , this.messages , this)
             }
 
         },
+        computed:{
+            display_show_more_button(){
+                return (this.messages.length != this.loaded_messages.length) ? true : false
+            }
+        }
 
     }
 </script>
