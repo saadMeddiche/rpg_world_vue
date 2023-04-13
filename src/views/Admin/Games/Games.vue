@@ -9,7 +9,7 @@
     <div class="Game" v-for="(game, key) in filtredGames" :key="key">
         <div class="Buttons">
             <button class="Delete" @click="delete_game(game.id)">Delete</button>
-            <button class="Update" @click="update_game(game.id)">Update</button>
+            <button class="Update" @click="edit_game(game.id)">Update</button>
         </div>
         <div class="Image">
             <img :src="'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
@@ -22,48 +22,40 @@
 </template>
 
 <script>
-import axios from 'axios';
+import {destory,fetch_games} from '@/utils/apiFunctions';
 
-    export default{
-        created(){
-          this.fetch_games()
-        },
-        data(){
-          return {
-            games:{},
-            looking_for:''
-          }
-        },
-        methods:{
-          fetch_games(){
-            axios.get('http://127.0.0.1:8000/api/V1/games')
-              .then((responce) => this.games = responce.data.games)
-          },
-          delete_game(game_id){
-            confirm('Are You Sure')
-            axios.delete('http://127.0.0.1:8000/api/V1/games/' + game_id)
-              .then(() => {
-                this.fetch_games();
-              })
-            
-          },
-          update_game(id){
-            this.stock_game_id(id)
-            this.$router.push({name : 'UpdateGame'})
-          },
-          stock_game_id(id){
-            localStorage.setItem('game',id)
-          },
-          Clear(){
-            this.looking_for = ''
-          }
-        },
-        computed:{
-          filtredGames(){
-            if(this.games) return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
-        }
+  export default{
+    created(){
+      fetch_games(this)
+    },
+    data(){
+      return {
+        games:{},
+        looking_for:''
+      }
+    },
+    methods:{
+      async delete_game(game_id){
+        await destory(game_id,'games')
+        fetch_games(this)
+      },
+      edit_game(id){
+        this.stock_game_id(id)
+        this.$router.push({name : 'UpdateGame'})
+      },
+      stock_game_id(id){
+        localStorage.setItem('game',id)
+      },
+      Clear(){
+        this.looking_for = ''
+      }
+    },
+    computed:{
+      filtredGames(){
+        if(this.games) return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+      }
     }
-    }
+  }
 </script>
 
 <style lang="scss" scoped>

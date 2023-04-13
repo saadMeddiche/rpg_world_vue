@@ -26,3 +26,13 @@ export async function fetch_games(that){
     return axios.get('http://127.0.0.1:8000/api/V1/games')
         .then((responce) => that.games = responce.data.games)
 }
+
+
+//===================Destroy==================
+export function destory(id , what){
+
+    confirm('Are You Sure')
+
+    return axios.delete('http://127.0.0.1:8000/api/V1/'+what+'/' + id)
+
+}

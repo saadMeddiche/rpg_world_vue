@@ -22,6 +22,9 @@
 <script>
   import {fetch_games} from '@/utils/apiFunctions'
   export default{
+    created(){
+      fetch_games(this)
+    },
     data(){
       return {
         games:{},
@@ -39,9 +42,6 @@
       stock_game_id(id){
         localStorage.setItem('game',id)
       }
-    },
-    created(){
-      fetch_games()
     },
     computed:{
       filtredGames(){

@@ -1,12 +1,11 @@
 <template>
     <div class="Title">
         <h1>{{ server.name }}</h1>
-        <button class="switchPageButton" @click="switchPage($event)">News</button>
+        <button class="switchPageButton" @click="switch_page($event)">News</button>
         <backbutton></backbutton>
     </div>
-    
     <div v-if="chat_page">
-        <chat></chat>
+        <room></room>
     </div>
     <div v-else>
         <div class="BoxOfNews">
@@ -26,43 +25,32 @@
         </div>
     </div>
     
-
 </template>
 <script>
-    import axios from 'axios';
-    import firebase from '@/firebase.js';
+
     import backbutton from '@/components/backbutton.vue';
-    import chat from '@/components/chat.vue';
+    import room from '@/components/chat.vue';
+    import {fetch_server} from '@/utils/apiFunctions';
+
     export default{
-        created(){
-            this.fetch_server()
-        },
         components:{
             backbutton,
-            chat
+            room
+        },
+        created(){
+            fetch_server(this)
         },
         data(){
             return{
                 server:'',
-                message_in_field:'',
-                messages:{},
-                loaded_messages:[],
                 chat_page:true
             }
         },
         methods:{
-            fetch_server(){
-                //get the server id from local storage
-                let server_id = localStorage.getItem('server')
-                axios.get('http://127.0.0.1:8000/api/V1/servers/'+server_id)
-                    .then((request) => this.server = request.data.server)    
-                    .then((res) => this.fetch_messages())        
-            },
-            switchPage(e){
+            switch_page(e){
                 e.target.innerHTML = (e.target.innerHTML == 'News') ? 'Chat' : 'News'
                 this.chat_page = this.chat_page ? false : true
             }
-
         },
 
     }
