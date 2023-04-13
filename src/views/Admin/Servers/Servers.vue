@@ -9,7 +9,7 @@
       <div class="Server" v-for="(server, key) in filtredServers" :key="key">
           <div class="Buttons">
               <button class="Delete" @click="delete_server(server.id)">Delete</button>
-              <button class="Update" @click="update_server(server.id)">Update</button>
+              <button class="Update" @click="edit_server(server.id)">Update</button>
           </div>
           <div class="Image">
               <img :src="'http://localhost/RPG_World_Laravel/public/uploads/games/'+server.image" alt="">
@@ -21,51 +21,45 @@
     </div>
   </template>
   
-  <script>
-  import axios from 'axios';
+<script>
+  import { fetch_servers,destory } from '@/utils/apiFunctions';
   
-      export default{
-          created(){
-            this.fetch_servers()
-          },
-          data(){
-            return {
-              servers:{},
-              looking_for:''
-            }
-          },
-          methods:{
-            fetch_servers(){
-              axios.get('http://127.0.0.1:8000/api/V1/servers')
-                .then((responce) => this.servers = responce.data.servers)
-            },
-            delete_server(server_id){
-              confirm('Are You Sure')
-              axios.delete('http://127.0.0.1:8000/api/V1/servers/' + server_id)
-                .then(() => {
-                  this.fetch_servers();
-                })
-              
-            },
-            update_server(id){
-              this.stock_server_id(id)
-              this.$router.push({name : 'UpdateServer'})
-            },stock_server_id(id){
-             localStorage.setItem('server',id)
-            },
-            Clear(){
-              this.looking_for = ''
-            }
-          },
-          computed:{
-            filtredServers(){
-              if(this.servers) return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()))
-          }
+  export default{
+    created(){
+      fetch_servers(this)
+    },
+    data(){
+      return {
+        servers:{},
+        looking_for:''
       }
+    },
+    methods:{
+      async delete_server(server_id){
+
+        await destory(server_id , 'servers')
+        fetch_servers(this)
+
+      },
+      edit_server(id){
+
+        this.stock_server_id(id)
+        this.$router.push({name : 'UpdateServer'})
+
+      },
+      Clear(){
+        this.looking_for = ''
       }
-  </script>
+    },
+    computed:{
+      filtredServers(){
+        if(this.servers) return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+      }
+    }
+  }
+</script>
   
-  <style lang="scss" scoped>
+<style lang="scss" scoped>
   
   .Add-Button{
     color: orange;
@@ -191,5 +185,4 @@
   
   
   
-    
-  </style>
+</style>
