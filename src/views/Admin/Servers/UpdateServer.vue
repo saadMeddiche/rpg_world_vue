@@ -31,19 +31,25 @@
             <input type="file" name="" id="" @change="onFileSelected" ref="fileInput1">
         </div>
         <div class="Update">
-            <button @click="Update()">Update</button>
+            <button @click="modify_server()">Update</button>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
-import backbutton from '@/components/backbutton.vue'
-
+import backbutton from '@/components/backbutton.vue';
+import {update_server,fetch_server,fetch_games} from '@/utils/apiFunctions';
 
     export default{
         components:{
             backbutton,
+        },
+        async created(){
+
+            await fetch_server(this)
+            this.server.image = ''
+            fetch_games(this)
+
         },
         data(){
             return {
@@ -60,27 +66,9 @@ import backbutton from '@/components/backbutton.vue'
                 show_success_message:false
             }
         },
-        created(){
-            this.get_server()
-            this.fetch_games()
-        },
         methods:{
-            Update(){
-                const config = {
-                    headers: { 'content-type': 'multipart/form-data' },
-                }
-                axios.post('http://127.0.0.1:8000/api/V1/servers/' + this.server.id , this.server, config )
-                    .then( (responce) => this.success_message(responce))
-                    .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
-            },
-            get_server(){
-                let server_id = this.get_server_id()
-                axios.get('http://127.0.0.1:8000/api/V1/servers/'+server_id)
-                    .then((request) => this.server = request.data.server)
-                    .then((res) => this.server.image = '' )
-            },
-            get_server_id(){
-                return localStorage.getItem('server')
+            modify_server(){
+                update_server(this)
             },
             display_errors(errors){
 
@@ -99,10 +87,6 @@ import backbutton from '@/components/backbutton.vue'
             },
             onFileSelected(){
                 this.server.image = this.$refs.fileInput1.files[0]
-            },
-            fetch_games(){
-                axios.get('http://127.0.0.1:8000/api/V1/games')
-                    .then((responce) => this.games = responce.data.games)
             }
         }
     }

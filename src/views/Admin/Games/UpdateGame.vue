@@ -22,19 +22,23 @@
             <input type="file" name="" id="" @change="onFileSelected" ref="fileInput1">
         </div>
         <div class="Update">
-            <button @click="Update()">Update</button>
+            <button @click="modify_game()">Update</button>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
-import backbutton from '@/components/backbutton.vue'
-
+    import axios from 'axios'
+    import backbutton from '@/components/backbutton.vue'
+    import { fetch_game,update_game } from '@/utils/apiFunctions'
 
     export default{
         components:{
             backbutton,
+        },
+        async created(){
+            await fetch_game(this)
+            this.game.image = ''
         },
         data(){
             return {
@@ -48,27 +52,9 @@ import backbutton from '@/components/backbutton.vue'
                 show_success_message:false
             }
         },
-        created(){
-            this.get_game()
-        },
         methods:{
-            Update(){
-                const config = {
-                    headers: { 'content-type': 'multipart/form-data' },
-                }
-                axios.post('http://127.0.0.1:8000/api/V1/games/' + this.game.id , this.game, config )
-                    .then( (responce) => this.success_message(responce))
-                    .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
-            
-            },
-            get_game(){
-                let game_id = this.get_game_id()
-                axios.get('http://127.0.0.1:8000/api/V1/games/'+game_id)
-                    .then((request) => this.game = request.data.game)
-                    .then((res) => this.game.image = '' )
-            },
-            get_game_id(){
-                return localStorage.getItem('game')
+            modify_game(){
+                update_game(this)
             },
             display_errors(errors){
 
