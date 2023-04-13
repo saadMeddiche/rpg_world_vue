@@ -27,6 +27,28 @@ export async function fetch_games(that){
         .then((responce) => that.games = responce.data.games)
 }
 
+//=====================Store=================
+export async function store_game(that){
+    //source :https://www.itsolutionstuff.com/post/laravel-vue-js-image-upload-example-with-demoexample.html
+    const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+    }
+
+    axios.post('http://127.0.0.1:8000/api/V1/games', that.game, config)
+        .then( (responce) => that.success_message(responce))
+        .catch( (AxiosError) => that.display_errors(AxiosError.response.data.errors))
+}
+
+export async function store_server(that){
+
+    const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+    }
+
+    axios.post('http://127.0.0.1:8000/api/V1/servers', that.server, config)
+        .then( (responce) => that.success_message(responce))
+        .catch( (AxiosError) => that.display_errors(AxiosError.response.data.errors))
+}
 
 //===================Destroy==================
 export function destory(id , what){

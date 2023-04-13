@@ -23,6 +23,7 @@
 
 <script>
 import {destory,fetch_games} from '@/utils/apiFunctions';
+import { stock }from '@/utils/storageFunctions';
 
   export default{
     created(){
@@ -36,18 +37,21 @@ import {destory,fetch_games} from '@/utils/apiFunctions';
     },
     methods:{
       async delete_game(game_id){
+
         await destory(game_id,'games')
         fetch_games(this)
+
       },
       edit_game(id){
-        this.stock_game_id(id)
+
+        stock('game' ,id)
         this.$router.push({name : 'UpdateGame'})
-      },
-      stock_game_id(id){
-        localStorage.setItem('game',id)
+
       },
       Clear(){
+
         this.looking_for = ''
+        
       }
     },
     computed:{

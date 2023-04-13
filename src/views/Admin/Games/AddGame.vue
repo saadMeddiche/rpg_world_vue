@@ -9,9 +9,11 @@
             <p> {{ error[0] }}</p>
         </div>
     </div>
+
     <div class="Success_Message" v-show="show_success_message">
         <p>Game Created Successfuly</p>
     </div>
+
     <div class="Game">
         <div class="Name">
             <input type="text" name="" id="" v-model="game.name" placeholder="Name ...">
@@ -23,15 +25,15 @@
             <input type="file" name="" id="" @change="onFileSelected" ref="fileInput">
         </div>
         <div class="Insert">
-            <button @click="Insert()">Add</button>
+            <button @click="add_game()">Add</button>
         </div>
     </div>
     
 </template>
 
 <script>
-    import axios from 'axios';
-    import backbutton from '@/components/backbutton.vue'
+    import backbutton from '@/components/backbutton.vue';
+    import {store_game} from '@/utils/apiFunctions';
 
     export default{
         components:{
@@ -50,15 +52,8 @@
             }
         },
         methods:{
-            Insert(){
-                //source :https://www.itsolutionstuff.com/post/laravel-vue-js-image-upload-example-with-demoexample.html
-                const config = {
-                    headers: { 'content-type': 'multipart/form-data' }
-                }
-
-                axios.post('http://127.0.0.1:8000/api/V1/games', this.game, config)
-                    .then( (responce) => this.success_message(responce))
-                    .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
+            add_game(){
+                store_game(this)
             },
             onFileSelected(){
                 this.game.image = this.$refs.fileInput.files[0]

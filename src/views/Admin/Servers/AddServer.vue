@@ -31,23 +31,22 @@
             <input type="file" name="" id="" @change="onFileSelected" ref="fileInput">
         </div>
         <div class="Insert">
-            <button @click="Insert()">Add</button>
+            <button @click="add_server()">Add</button>
         </div>
     </div>
     
 </template>
 
 <script>
-    import axios from 'axios';
     import backbutton from '@/components/backbutton.vue'
-
+    import {store_server,fetch_games} from '@/utils/apiFunctions'
 
     export default{
         components:{
             backbutton,
         },
         created(){
-            this.fetch_games()
+            fetch_games(this)
         },
         data(){
             return {
@@ -65,15 +64,8 @@
             }
         },
         methods:{
-            Insert(){
-                //source :https://www.itsolutionstuff.com/post/laravel-vue-js-image-upload-example-with-demoexample.html
-                const config = {
-                    headers: { 'content-type': 'multipart/form-data' }
-                }
-
-                axios.post('http://127.0.0.1:8000/api/V1/servers', this.server, config)
-                    .then( (responce) => this.success_message(responce))
-                    .catch( (AxiosError) => this.display_errors(AxiosError.response.data.errors))
+            add_server(){
+                store_server(this)
             },
             onFileSelected(){
                 this.server.image = this.$refs.fileInput.files[0]
@@ -93,10 +85,6 @@
                 setTimeout(() => {
                    this.$router.push({name : 'Servers'})
                 }, 2000)
-            },
-            fetch_games(){
-                axios.get('http://127.0.0.1:8000/api/V1/games')
-                .then((responce) => this.games = responce.data.games)
             }
         }
     }
