@@ -36,7 +36,7 @@ export async function store_game(that){
     }
 
     axios.post('http://127.0.0.1:8000/api/V1/games', that.game, config)
-        .then( (responce) => that.success_message(responce))
+        .then( (responce) => that.$store.commit('display_success_messag'))
         .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
@@ -47,7 +47,7 @@ export async function store_server(that){
     }
 
     axios.post('http://127.0.0.1:8000/api/V1/servers', that.server, config)
-        .then( (responce) => that.success_message(responce))
+        .then( (responce) => that.$store.commit('display_success_messag'))
         .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
@@ -58,7 +58,7 @@ export async function update_game(that){
         headers: { 'content-type': 'multipart/form-data' },
     }
     axios.post('http://127.0.0.1:8000/api/V1/games/' + that.game.id , that.game, config )
-        .then( (responce) => that.success_message(responce))
+        .then( (responce) => that.$store.commit('display_success_messag'))
         .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
@@ -68,7 +68,7 @@ export async function update_server(that){
         headers: { 'content-type': 'multipart/form-data' },
     }
     axios.post('http://127.0.0.1:8000/api/V1/servers/' + that.server.id , that.server, config )
-        .then( (responce) => that.success_message(responce))
+        .then( (responce) => that.$store.commit('display_success_messag'))
         .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 

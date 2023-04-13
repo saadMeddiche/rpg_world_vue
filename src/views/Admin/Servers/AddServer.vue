@@ -4,9 +4,7 @@
         <backbutton></backbutton>
     </div>
     <errors></errors>
-    <div class="Success_Message" v-show="show_success_message">
-        <p>Server Created Successfuly</p>
-    </div>
+    <successMessage :message="success_message"></successMessage>
     <div class="Server">
         
         <div class="Game">
@@ -37,12 +35,15 @@
     import backbutton from '@/components/backbutton.vue'
     import {store_server,fetch_games} from '@/utils/apiFunctions'
     import errors from '@/components/errors.vue';
+    import successMessage from '@/components/successMessage.vue';
 
 
     export default{
         components:{
             backbutton,
-            errors
+            errors,
+            successMessage
+
         },
         created(){
             fetch_games(this)
@@ -58,7 +59,8 @@
                     method:'post'
                 },
                 games:{},
-                show_success_message:false
+                success_message:'Server Created Successfuly'
+
             }
         },
         methods:{
@@ -67,14 +69,6 @@
             },
             onFileSelected(){
                 this.server.image = this.$refs.fileInput.files[0]
-            },
-            success_message(responce){
-                console.log(responce)
-                this.show_success_message = true
-
-                setTimeout(() => {
-                   this.$router.push({name : 'Servers'})
-                }, 2000)
             }
         }
     }

@@ -6,9 +6,7 @@
 
     <errors></errors>
 
-    <div class="Success_Message" v-show="show_success_message">
-        <p>Game Updated Successfuly</p>
-    </div>
+    <successMessage :message="success_message"></successMessage>
 
     <div class="Game">
         <div class="Name">
@@ -27,15 +25,17 @@
 </template>
 
 <script>
-    import backbutton from '@/components/backbutton.vue'
-    import { fetch_game,update_game } from '@/utils/apiFunctions'
+    import backbutton from '@/components/backbutton.vue';
+    import { fetch_game,update_game } from '@/utils/apiFunctions';
     import errors from '@/components/errors.vue';
+    import successMessage from '@/components/successMessage.vue';
 
 
     export default{
         components:{
             backbutton,
-            errors
+            errors,
+            successMessage
         },
         async created(){
             await fetch_game(this)
@@ -49,20 +49,12 @@
                     image:'',
                     method:'put'
                 },
-                show_success_message:false
+                success_message:'Game Updated Successfuly'
             }
         },
         methods:{
             modify_game(){
                 update_game(this)
-            },
-            success_message(responce){
-                // console.log(responce);
-                this.show_success_message = true
-
-                setTimeout(() => {
-                   this.$router.push({name : 'Games'})
-                }, 2000)
             },
             onFileSelected(){
                 this.game.image = this.$refs.fileInput1.files[0]

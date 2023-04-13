@@ -2,7 +2,7 @@
     <div class="Register">
 
       <errors></errors>
-      <div v-if="message" class="Success_Message">{{ message }}</div>
+      <successMessage :message="success_message" path="Login"></successMessage>
 
       <form @submit.prevent="Register" class="Register-Form" action="">
         <input class="Name" type="text" placeholder="Enter Your Name" v-model="form.name" >
@@ -16,10 +16,12 @@
 <script>
 import axios from 'axios';
 import errors from '@/components/errors.vue';
+import successMessage from '@/components/successMessage.vue';
 
 export default{
   components:{
-    errors
+    errors,
+    successMessage
   },
   data(){
     return {
@@ -28,7 +30,7 @@ export default{
         email:'',
         password:''
       },
-      message:null 
+      success_message:'Account Created Successfuly' 
     }
   },
   methods:{
@@ -36,22 +38,13 @@ export default{
       
       axios.post('http://127.0.0.1:8000/api/V1/register',this.form)
         .then(() => 
-          this.display_success_message()
+          this.$store.commit('display_success_messag')
         )
         .catch(AxiosError => {
           this.$store.commit('add_errors' , AxiosError.response.data.errors)
         })
-    },
-    display_success_message(){
-      const test = this;
-      this.errors = [];
-      this.message = 'Account Has Been Created Successfuly';
-
-      setTimeout(function () {
-        test.$router.push({ path: '/login' })
-      }, 2000);
-
     }
+   
   }
 }
 </script>

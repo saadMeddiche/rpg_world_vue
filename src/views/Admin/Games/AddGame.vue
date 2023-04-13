@@ -6,9 +6,7 @@
    
     <errors></errors>
 
-    <div class="Success_Message" v-show="show_success_message">
-        <p>Game Created Successfuly</p>
-    </div>
+    <successMessage :message="success_message"></successMessage>
 
     <div class="Game">
         <div class="Name">
@@ -32,11 +30,14 @@
     import backbutton from '@/components/backbutton.vue';
     import {store_game} from '@/utils/apiFunctions';
     import errors from '@/components/errors.vue';
+    import successMessage from '@/components/successMessage.vue';
+
 
     export default{
         components:{
             backbutton,
-            errors
+            errors,
+            successMessage
         },
         data(){
             return {
@@ -46,7 +47,8 @@
                     image:'',
                     method:'post'
                 },
-                show_success_message:false
+                success_message:'Game Created Successfuly'
+
             }
         },
         methods:{
@@ -55,15 +57,8 @@
             },
             onFileSelected(){
                 this.game.image = this.$refs.fileInput.files[0]
-            },
-            success_message(responce){
-                console.log('test' ,responce);
-                this.show_success_message = true
-
-                setTimeout(() => {
-                   this.$router.push({name : 'Games'})
-                }, 2000)
             }
+           
         }
     }
 </script>
@@ -74,16 +69,6 @@
     justify-content: center;
     align-items: center;
     gap:10px;
-}
-.Success_Message {
-
-  background-color: rgba(0, 255, 0, 0.8);
-  color: white;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-
 }
 
 .Game {
