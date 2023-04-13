@@ -20,7 +20,10 @@
 </template>
 
 <script>
+
   import {fetch_games} from '@/utils/apiFunctions'
+  import { stock } from '@/utils/storageFunctions'
+  
   export default{
     created(){
       fetch_games(this)
@@ -36,12 +39,10 @@
         this.looking_for = ''
       },
       display_servers(id){
-        this.stock_game_id(id)
+        stock('game',id)
         this.$router.push('/servers')
       },
-      stock_game_id(id){
-        localStorage.setItem('game',id)
-      }
+    
     },
     computed:{
       filtredGames(){
