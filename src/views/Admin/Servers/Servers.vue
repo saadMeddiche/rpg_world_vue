@@ -23,6 +23,7 @@
   
 <script>
   import { fetch_servers,destory } from '@/utils/apiFunctions';
+  import { stock } from '@/utils/storageFunctions';
   
   export default{
     created(){
@@ -43,7 +44,7 @@
       },
       edit_server(id){
 
-        this.stock_server_id(id)
+        stock('server',id)
         this.$router.push({name : 'UpdateServer'})
 
       },

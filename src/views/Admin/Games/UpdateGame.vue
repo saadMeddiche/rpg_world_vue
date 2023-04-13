@@ -3,14 +3,13 @@
         <h1>Update Game</h1>
         <backbutton></backbutton>
     </div>
-    <div class="Errors">
-        <div class="Error" v-for="(error , key) in errors" :key="key">
-            <p> {{ error[0] }}</p>
-        </div>
-    </div>
+
+    <errors></errors>
+
     <div class="Success_Message" v-show="show_success_message">
         <p>Game Updated Successfuly</p>
     </div>
+
     <div class="Game">
         <div class="Name">
             <input type="text" name="" id="" v-model="game.name" placeholder="Name ...">
@@ -28,13 +27,15 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import backbutton from '@/components/backbutton.vue'
     import { fetch_game,update_game } from '@/utils/apiFunctions'
+    import errors from '@/components/errors.vue';
+
 
     export default{
         components:{
             backbutton,
+            errors
         },
         async created(){
             await fetch_game(this)
@@ -48,21 +49,12 @@
                     image:'',
                     method:'put'
                 },
-                errors:null,
                 show_success_message:false
             }
         },
         methods:{
             modify_game(){
                 update_game(this)
-            },
-            display_errors(errors){
-
-                this.errors = errors
-
-                setTimeout(() => {
-                    this.errors = ''
-                }, 5000)
             },
             success_message(responce){
                 // console.log(responce);

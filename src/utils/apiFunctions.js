@@ -37,7 +37,7 @@ export async function store_game(that){
 
     axios.post('http://127.0.0.1:8000/api/V1/games', that.game, config)
         .then( (responce) => that.success_message(responce))
-        .catch( (AxiosError) => that.display_errors(AxiosError.response.data.errors))
+        .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
 export async function store_server(that){
@@ -48,7 +48,7 @@ export async function store_server(that){
 
     axios.post('http://127.0.0.1:8000/api/V1/servers', that.server, config)
         .then( (responce) => that.success_message(responce))
-        .catch( (AxiosError) => that.display_errors(AxiosError.response.data.errors))
+        .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
 
@@ -59,7 +59,7 @@ export async function update_game(that){
     }
     axios.post('http://127.0.0.1:8000/api/V1/games/' + that.game.id , that.game, config )
         .then( (responce) => that.success_message(responce))
-        .catch( (AxiosError) => that.display_errors(AxiosError.response.data.errors))
+        .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
 export async function update_server(that){
@@ -69,7 +69,7 @@ export async function update_server(that){
     }
     axios.post('http://127.0.0.1:8000/api/V1/servers/' + that.server.id , that.server, config )
         .then( (responce) => that.success_message(responce))
-        .catch( (AxiosError) => that.display_errors(AxiosError.response.data.errors))
+        .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
 }
 
 //===================Destroy==================

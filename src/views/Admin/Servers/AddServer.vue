@@ -3,11 +3,7 @@
         <h1>Add Server</h1>
         <backbutton></backbutton>
     </div>
-    <div class="Errors">
-        <div class="Error" v-for="(error , key) in errors" :key="key">
-            <p> {{ error[0] }}</p>
-        </div>
-    </div>
+    <errors></errors>
     <div class="Success_Message" v-show="show_success_message">
         <p>Server Created Successfuly</p>
     </div>
@@ -40,10 +36,13 @@
 <script>
     import backbutton from '@/components/backbutton.vue'
     import {store_server,fetch_games} from '@/utils/apiFunctions'
+    import errors from '@/components/errors.vue';
+
 
     export default{
         components:{
             backbutton,
+            errors
         },
         created(){
             fetch_games(this)
@@ -59,7 +58,6 @@
                     method:'post'
                 },
                 games:{},
-                errors:null,
                 show_success_message:false
             }
         },
@@ -69,14 +67,6 @@
             },
             onFileSelected(){
                 this.server.image = this.$refs.fileInput.files[0]
-            },
-            display_errors(errors){
-
-                this.errors = errors
-
-                setTimeout(() => {
-                    this.errors = ''
-                }, 5000)
             },
             success_message(responce){
                 console.log(responce)

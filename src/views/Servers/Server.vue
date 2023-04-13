@@ -29,7 +29,7 @@
 <script>
 
     import backbutton from '@/components/backbutton.vue';
-    import room from '@/components/chat.vue';
+    import room from '@/components/room.vue';
     import {fetch_server} from '@/utils/apiFunctions';
 
     export default{

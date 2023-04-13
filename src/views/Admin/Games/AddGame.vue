@@ -4,11 +4,7 @@
         <backbutton></backbutton>
     </div>
    
-    <div class="Errors">
-        <div class="Error" v-for="(error , key) in errors" :key="key">
-            <p> {{ error[0] }}</p>
-        </div>
-    </div>
+    <errors></errors>
 
     <div class="Success_Message" v-show="show_success_message">
         <p>Game Created Successfuly</p>
@@ -32,12 +28,15 @@
 </template>
 
 <script>
+
     import backbutton from '@/components/backbutton.vue';
     import {store_game} from '@/utils/apiFunctions';
+    import errors from '@/components/errors.vue';
 
     export default{
         components:{
             backbutton,
+            errors
         },
         data(){
             return {
@@ -47,7 +46,6 @@
                     image:'',
                     method:'post'
                 },
-                errors:null,
                 show_success_message:false
             }
         },
@@ -57,14 +55,6 @@
             },
             onFileSelected(){
                 this.game.image = this.$refs.fileInput.files[0]
-            },
-            display_errors(errors){
-
-                this.errors = errors
-
-                setTimeout(() => {
-                    this.errors = ''
-                }, 5000)
             },
             success_message(responce){
                 console.log('test' ,responce);
@@ -96,23 +86,6 @@
 
 }
 
-.Errors {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-
-  .Error {
-    width: 100%;
-    padding: 5px; // decrease padding
-    background-color: #dc3545;
-    color: #fff;
-    border-radius: 5px;
-    margin-bottom: 5px; // decrease margin
-    text-align: center;
-    font-size: 14px; // decrease font size
-  }
-}
 .Game {
   display: flex;
   flex-direction: column;

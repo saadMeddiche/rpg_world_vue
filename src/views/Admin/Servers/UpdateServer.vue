@@ -4,11 +4,7 @@
         <h1>Update Server</h1>
         <backbutton></backbutton>
     </div>
-    <div class="Errors">
-        <div class="Error" v-for="(error , key) in errors" :key="key">
-            <p> {{ error[0] }}</p>
-        </div>
-    </div>
+    <errors/>
     <div class="Success_Message" v-show="show_success_message">
         <p>Server Updated Successfuly</p>
     </div>
@@ -37,12 +33,15 @@
 </template>
 
 <script>
-import backbutton from '@/components/backbutton.vue';
-import {update_server,fetch_server,fetch_games} from '@/utils/apiFunctions';
+    import backbutton from '@/components/backbutton.vue';
+    import {update_server,fetch_server,fetch_games} from '@/utils/apiFunctions';
+    import errors from '@/components/errors.vue';
+
 
     export default{
         components:{
             backbutton,
+            errors
         },
         async created(){
 
@@ -62,21 +61,12 @@ import {update_server,fetch_server,fetch_games} from '@/utils/apiFunctions';
                     method:'put'
                 },
                 games:{},
-                errors:null,
                 show_success_message:false
             }
         },
         methods:{
             modify_server(){
                 update_server(this)
-            },
-            display_errors(errors){
-
-                this.errors = errors
-
-                setTimeout(() => {
-                    this.errors = ''
-                }, 5000)
             },
             success_message(){
                 this.show_success_message = true
