@@ -1,10 +1,7 @@
 <template>
     <h1>Show Servers</h1>
     <router-link :to="{name : 'AddServer'}"><button class="Add-Button">Add Server</button></router-link>
-    <div class="Sheach">
-      <input type="text" name="" id="" v-model="looking_for">
-      <button @click="Clear">X</button>
-    </div>
+    <search :object="servers"></search>
     <div class="Servers" v-if="servers.length">
       <div class="Server" v-for="(server, key) in filtredServers" :key="key">
           <div class="Buttons">
@@ -24,8 +21,12 @@
 <script>
   import { fetch_servers,destory } from '@/utils/apiFunctions';
   import { stock } from '@/utils/storageFunctions';
+  import search from '@/components/search.vue';
   
   export default{
+    components:{
+      search,
+    },
     created(){
       fetch_servers(this)
     },
@@ -47,14 +48,11 @@
         stock('server',id)
         this.$router.push({name : 'UpdateServer'})
 
-      },
-      Clear(){
-        this.looking_for = ''
       }
     },
     computed:{
       filtredServers(){
-        if(this.servers) return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+        return this.$store.state.filtred_object
       }
     }
   }

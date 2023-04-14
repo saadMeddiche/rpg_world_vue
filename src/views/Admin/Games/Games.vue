@@ -1,10 +1,7 @@
 <template>
   <h1>Show Games</h1>
   <router-link :to="{name : 'AddGame'}"><button class="Add-Button">Add Game</button></router-link>
-  <div class="Sheach">
-    <input type="text" name="" id="" v-model="looking_for">
-    <button @click="Clear">X</button>
-  </div>
+  <search :object="games"></search>
   <div class="Games" v-if="games.length">
     <div class="Game" v-for="(game, key) in filtredGames" :key="key">
         <div class="Buttons">
@@ -24,8 +21,13 @@
 <script>
 import {destory,fetch_games} from '@/utils/apiFunctions';
 import { stock }from '@/utils/storageFunctions';
+import search from '@/components/search.vue'
+
 
   export default{
+    components:{
+      search
+    },
     created(){
       fetch_games(this)
     },
@@ -47,16 +49,11 @@ import { stock }from '@/utils/storageFunctions';
         stock('game' ,id)
         this.$router.push({name : 'UpdateGame'})
 
-      },
-      Clear(){
-
-        this.looking_for = ''
-        
       }
     },
     computed:{
       filtredGames(){
-        if(this.games) return this.games.filter(game => game.name.toLowerCase().includes(this.looking_for.toLowerCase()))
+        return this.$store.state.filtred_object
       }
     }
   }
@@ -156,31 +153,7 @@ import { stock }from '@/utils/storageFunctions';
   }
 }
 
-/* Style for the search bar */
-.Sheach {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
 
-  input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
-
-  button {
-    margin-left: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: #ccc;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-  }
-}
 
 
 

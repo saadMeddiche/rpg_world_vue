@@ -4,10 +4,7 @@
     <backbutton></backbutton>
   </div>
   
-  <div class="Sheach">
-    <input type="text" name="" id="" v-model="looking_for">
-    <button @click="Clear">X</button>
-  </div>
+  <search :object="servers"></search>
   <div v-if="servers.length">
     <div class="Servers" v-if="filtredServers.length">
 
@@ -48,11 +45,13 @@
   import backbutton from '@/components/backbutton.vue';
   import {fetch_game ,fetch_servers} from '@/utils/apiFunctions';
   import {get_server_status} from '@/utils/statusFunctions';
+  import search from '@/components/search.vue'
 
 
   export default{
     components:{
       backbutton,
+      search
     },
     async created(){
       fetch_game(this)  
@@ -67,10 +66,6 @@
       }
     },
     methods:{
-      Clear(){
-        this.looking_for = ''
-      }
-      ,
       status(status){
         return status ? 'Online' : 'Offline';
       },
@@ -87,7 +82,7 @@
     },
     computed:{
       filtredServers(){
-        return this.servers.filter(server => server.name.toLowerCase().includes(this.looking_for.toLowerCase()) && server.game_id == this.game.id)
+        return this.$store.state.filtred_object
       }
     }
   }

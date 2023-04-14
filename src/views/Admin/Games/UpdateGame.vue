@@ -71,34 +71,7 @@
     align-items: center;
     gap:10px;
 }
-.Success_Message {
 
-background-color: rgba(0, 255, 0, 0.8);
-color: white;
-font-weight: bold;
-padding: 10px;
-border-radius: 5px;
-margin-bottom: 10px;
-
-}
-
-.Errors {
-display: flex;
-flex-direction: column;
-align-items: center;
-margin-bottom: 20px;
-
-.Error {
-  width: 100%;
-  padding: 5px; // decrease padding
-  background-color: #dc3545;
-  color: #fff;
-  border-radius: 5px;
-  margin-bottom: 5px; // decrease margin
-  text-align: center;
-  font-size: 14px; // decrease font size
-}
-}
 .Game {
 display: flex;
 flex-direction: column;
