@@ -5,8 +5,8 @@
   </div>
   
   <search :object="servers"></search>
-  <div v-if="servers.length">
-    <div class="Servers" v-if="filtredServers.length">
+  <div v-if="servers">
+    <div class="Servers" v-if="filtredServers">
 
       <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
         <div class="Image">
@@ -46,6 +46,7 @@
   import {fetch_game ,fetch_servers} from '@/utils/apiFunctions';
   import {get_server_status} from '@/utils/statusFunctions';
   import search from '@/components/search.vue'
+  import { stock,get } from '@/utils/storageFunctions';
 
 
   export default{
@@ -62,7 +63,6 @@
       return {
         servers:{},
         game:null,
-        looking_for:'',
       }
     },
     methods:{
@@ -73,16 +73,16 @@
         return OnlinePlayers != null  && MaxPlayers  ? OnlinePlayers+' / '+MaxPlayers : 'Unkown'
       },
       display_server_content(id){
-        this.stock_server_id(id)
+        stock('server' , id)
         this.$router.push({name : 'Server'})
-      },
-      stock_server_id(id){
-        localStorage.setItem('server',id)
       }
     },
     computed:{
       filtredServers(){
-        return this.$store.state.filtred_object
+        let filtred_servers = this.$store.state.filtred_object 
+
+       if(filtred_servers) return filtred_servers.filter(server => server.game_id == get('game') )
+      
       }
     }
   }
@@ -159,32 +159,6 @@ p {
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 20px;
-}
-
-/* Style for the search bar */
-.Sheach {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-
-  input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
-
-  button {
-    margin-left: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: #ccc;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-  }
 }
 
 /* Style for the Games title */

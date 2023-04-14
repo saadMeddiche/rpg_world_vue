@@ -4,7 +4,7 @@ export default createStore({
   state: {
     errors:null,
     show_success_message:false,
-    filtred_object:null
+    filtred_object:''
   },
   getters: {
   },
