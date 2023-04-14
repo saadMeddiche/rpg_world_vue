@@ -5,38 +5,35 @@
   </div>
   
   <search :object="servers"></search>
-  <div v-if="servers">
-    <div class="Servers" v-if="filtredServers">
-
-      <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
-        <div class="Image">
-          <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
-        </div>
-        <div class="Title">
-          <p>{{server.name}}
-            <span :class="{'online' : server.online , 'offline': !server.online}" v-if="server.address">
-              {{ status(server.online) }}
-            </span>
-          </p>
-        </div>
-        <div class="Description">
-          <p>{{ server.description }}</p>
-        </div>
-        <div class="Status" v-if="server.address">
-          <p>
-            Players : 
-            <span>
-              {{ players(server.OnlinePlayers,server.MaxPlayers) }}
-            </span>
-          </p>
-        </div>
+  <div class="Servers" v-if="filtredServers.length">
+    <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
+      <div class="Image">
+        <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
       </div>
-        
+      <div class="Title">
+        <p>{{server.name}}
+          <span :class="{'online' : server.online , 'offline': !server.online}" v-if="server.address">
+            {{ status(server.online) }}
+          </span>
+        </p>
+      </div>
+      <div class="Description">
+        <p>{{ server.description }}</p>
+      </div>
+      <div class="Status" v-if="server.address">
+        <p>
+          Players : 
+          <span>
+            {{ players(server.OnlinePlayers,server.MaxPlayers) }}
+          </span>
+        </p>
+      </div>
     </div>
-    <div v-else>
-      <h2>There is No Servers For This Game Yet</h2>
-      <h4>Be The First Who add its Own Server</h4> 
-    </div>
+      
+  </div>
+  <div v-else>
+    <h2>There is No Servers For This Game Yet</h2>
+    <h4>Be The First Who add its Own Server</h4> 
   </div>
     
 </template>
@@ -81,7 +78,7 @@
       filtredServers(){
         let filtred_servers = this.$store.state.filtred_object 
 
-       if(filtred_servers) return filtred_servers.filter(server => server.game_id == get('game') )
+        if(filtred_servers) return filtred_servers.filter(server => server.game_id == get('game') )
       
       }
     }

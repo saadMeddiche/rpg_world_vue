@@ -4,7 +4,7 @@ export default createStore({
   state: {
     errors:null,
     show_success_message:false,
-    filtred_object:''
+    filtred_object:['yay']
   },
   getters: {
   },
