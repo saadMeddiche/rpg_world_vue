@@ -1,6 +1,7 @@
 <template>
     <div class="BoxOfChat" ref="chatBox">
-        <p class="showmore" @click="show_more" v-show="display_show_more_button">show more</p>   
+        <p class="showmore" @click="show_more" v-show="display_show_more_button">show more</p>
+        <p v-if="!messages.length">No messages Yet</p>
         <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
             <div class="Sender">
                 <p>{{ message.username }}</p>
@@ -35,12 +36,15 @@
                 loaded_messages:[],
             }
         },
+        props:[
+            'reference'
+        ],
         methods:{
             fetch_messages(){
-                chat_fetch_messages(this , 'messages')
+                chat_fetch_messages(this , this.reference)
             },
             send_message(){
-                chat_send_message(this , 'messages')
+                chat_send_message(this , this.reference)
             },
             show_more(){
                 chat_show_more(this.loaded_messages , this.messages , this)
@@ -49,7 +53,7 @@
         },
         computed:{
             display_show_more_button(){
-                return (this.messages.length != this.loaded_messages.length) ? true : false
+                return (this.messages.length != this.loaded_messages.length && this.messages.length) ? true : false
             }
         }
 

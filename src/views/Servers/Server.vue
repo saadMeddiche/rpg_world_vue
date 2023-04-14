@@ -5,24 +5,10 @@
         <backbutton></backbutton>
     </div>
     <div v-if="chat_page">
-        <room></room>
+        <room reference="messages"></room>
     </div>
     <div v-else>
-        <div class="BoxOfNews">
-            <p class="showmore">show more</p>   
-            <div class="Announce">
-                <div class="Sender">
-                    <p>Admin</p>
-                </div>
-                <div class="Content">
-                    <p>ToDay will be an event at 10:00</p>
-                </div>
-            </div>
-        </div>
-        <div class="FieldOfAnnounce">
-            <input type="text" v-model="message_in_field">
-            <button >send</button>
-        </div>
+        <room reference="announces"></room>
     </div>
     
 </template>
