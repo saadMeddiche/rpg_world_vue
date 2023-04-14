@@ -40,61 +40,59 @@
 </script>
 
 <style lang="scss">
+.Navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+  font-size: 1.5rem;
 
-    .Navbar {
-        display: flex;
-       
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        background-color: #fff;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 
-        @media (max-width: 768px) {
-            flex-direction: column;
-            justify-content: center;
-        }
-        
+.Links {
+  display: flex;
+  align-items: center;
+
+  a {
+    color: #333;
+    margin-right: 2rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+
+    &:hover {
+      text-decoration: underline;
     }
 
-    .Links {
-        display: flex;
-        align-items: center;
-    
-        a {
-            color: #333;
-            margin-right: 1rem;
-            text-decoration: none;
-            
-            &:hover {
-            text-decoration: underline;
-            }
-            
-            &.router-link-active {
-            font-weight: bold;
-            }
-        }
+    &.router-link-active {
+      font-weight: bold;
+    }
+  }
+}
+
+.Authentication {
+  display: flex;
+  align-items: center;
+
+  a {
+    color: #333;
+    margin-right: 2rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+
+    &:hover {
+      text-decoration: underline;
     }
 
-    .Authentication {
-        display: flex;
-        align-items: center;
-
-        a {
-            color: #333;
-            margin-right: 1rem;
-            text-decoration: none;
-            
-            &:hover {
-            text-decoration: underline;
-            }
-            
-            &.router-link-active {
-            font-weight: bold;
-            }
-        }
+    &.router-link-active {
+      font-weight: bold;
     }
-
-
+  }
+}
 </style>
 
