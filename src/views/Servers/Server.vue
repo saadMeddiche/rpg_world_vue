@@ -25,6 +25,7 @@
         },
         created(){
             fetch_server(this)
+            
         },
         data(){
             return{
