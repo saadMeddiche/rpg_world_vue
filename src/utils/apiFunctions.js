@@ -80,3 +80,25 @@ export function destory(id , what){
     return axios.delete('http://127.0.0.1:8000/api/V1/'+what+'/' + id)
 
 }
+
+//===================Counts===================
+export function count(what , that){
+
+    //Determine the path
+    let paths = {
+        'count_games' : 'countOfGames',
+        'count_servers':'countOfServers'
+    }
+    what = paths[what]
+
+    
+    axios.get(`http://127.0.0.1:8000/api/V1/${what}`)
+        .then( (responce) => {
+            if(what == 'countOfGames'){
+                that.count_games = responce.data.count
+            }else{
+                that.count_servers = responce.data.count
+            }
+        })
+        .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
+}

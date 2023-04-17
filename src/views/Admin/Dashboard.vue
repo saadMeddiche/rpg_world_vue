@@ -1,23 +1,22 @@
 <template>
    <h1>Dashboard</h1>
+   <p>{{ count_games }}</p>
+   <p>{{ count_servers }}</p>
    <router-link :to="{name :'home'}">Home</router-link>
 </template>
 
 <script>
-   import axios from 'axios';
+   import {count} from '@/utils/apiFunctions'
+
    export default{
       mounted(){
-
+         count('count_games',this)
+         count('count_servers',this)
       },
       data(){
          return{
-
-         }
-      },
-      methods:{
-         fetch_user_count(){
-            axios.get('')
-
+            count_games:null,
+            count_servers:null
          }
       }
 

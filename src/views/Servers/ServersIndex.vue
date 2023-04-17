@@ -8,7 +8,7 @@
   <div class="Servers" v-if="filtredServers.length">
     <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
       <div class="Image">
-        <img :src="$imagePath + server.image" alt="">
+        <img :src="$imagePath + server.image">
       </div>
       <div class="Title">
         <p>{{server.name}}
