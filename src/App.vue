@@ -3,6 +3,8 @@
   
   <navbar v-show="show_navbar"/>
   <router-view v-if="show_navbar"/>
+
+  <loading></loading>
   
   <div v-if="!show_navbar" class="admin-layout">
     <sidebar />
@@ -16,11 +18,13 @@
 <script>
   import navbar from '@/components/navebar.vue'
   import sidebar from '@/components/Admin/sidebar.vue'
+  import loading from '@/components/loading'
 
   export default{
     components:{
       navbar,
-      sidebar
+      sidebar,
+      loading,
     },
     data(){
       return{

@@ -38,7 +38,10 @@
             successMessage
         },
         async created(){
+            this.$store.commit('display_loading_message')
             await fetch_game(this)
+            this.$store.commit('display_loading_message')
+
             this.game.image = ''
         },
         data(){

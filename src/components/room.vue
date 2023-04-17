@@ -1,7 +1,7 @@
 <template>
     <div class="BoxOfChat" ref="chatBox">
         <p class="showmore" @click="show_more" v-show="display_show_more_button">show more</p>
-        <p v-if="!messages.length">No messages Yet</p>
+        <p v-if="!messages.length">No Messages Yet</p>
         <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
             <div class="Sender">
                 <p>{{ message.username }}</p>
@@ -25,8 +25,11 @@
 
    export default{
         async mounted(){
+            this.$store.commit('display_loading_message')
+
             await fetch_server(this)
-            this.fetch_messages()
+            await this.fetch_messages()
+
         },
         data(){
             return{
@@ -40,8 +43,9 @@
             'reference'
         ],
         methods:{
-            fetch_messages(){
+            async fetch_messages(){
                 chat_fetch_messages(this , this.reference)
+
             },
             send_message(){
                 chat_send_message(this , this.reference)

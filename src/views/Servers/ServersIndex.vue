@@ -58,14 +58,15 @@
       loading,
     },
     async created(){
+      //Display the loading page
       this.$store.commit('display_loading_message')
 
       await fetch_game(this)  
       await fetch_servers(this)
       await get_server_status(this)
 
+      //Hide THe Loading Page
       this.$store.commit('display_loading_message')
-
     },
     data(){
       return {

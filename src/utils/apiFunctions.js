@@ -82,7 +82,7 @@ export function destory(id , what){
 }
 
 //===================Counts===================
-export function count(what , that){
+export async function count(what , that){
 
     //Determine the path
     let paths = {
@@ -93,7 +93,7 @@ export function count(what , that){
     what = paths[what]
 
     
-    axios.get(`http://127.0.0.1:8000/api/V1/${what}`)
+    return axios.get(`http://127.0.0.1:8000/api/V1/${what}`)
         .then( (responce) => {
             if(what == 'countOfGames'){
                 that.count_games = responce.data.count

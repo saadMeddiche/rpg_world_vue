@@ -19,17 +19,20 @@
 </template>
 
 <script>
-import {destory,fetch_games} from '@/utils/apiFunctions';
-import { stock }from '@/utils/storageFunctions';
-import search from '@/components/search.vue'
+  import {destory,fetch_games} from '@/utils/apiFunctions';
+  import { stock }from '@/utils/storageFunctions';
+  import search from '@/components/search.vue';
 
 
   export default{
     components:{
-      search
+      search,
     },
-    created(){
-      fetch_games(this)
+    async created(){
+      this.$store.commit('display_loading_message')
+      await fetch_games(this)
+      this.$store.commit('display_loading_message')
+
     },
     data(){
       return {

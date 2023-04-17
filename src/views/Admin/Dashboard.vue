@@ -14,10 +14,13 @@
       components:{
          loading,
       },
-      mounted(){
+      async mounted(){
+         this.$store.commit('display_loading_message')
          count('count_games',this)
          count('count_servers',this)
-         count('count_users',this)
+         await count('count_users',this)
+         this.$store.commit('display_loading_message')
+
       },
       data(){
          return{

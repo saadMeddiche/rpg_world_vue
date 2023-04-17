@@ -1,4 +1,5 @@
 <template>
+  <loading></loading>
   <h1>Games</h1>
   <search :object="games"></search>
   <div class="Games" v-if="games.length">
@@ -21,13 +22,18 @@
   import {fetch_games} from '@/utils/apiFunctions'
   import { stock } from '@/utils/storageFunctions'
   import search from '@/components/search.vue'
+  import loading from '@/components/loading'
+
   
   export default{
     components:{
       search,
+      loading
     },
-    created(){
-      fetch_games(this)
+    async created(){
+      this.$store.commit('display_loading_message')
+      await fetch_games(this)
+      this.$store.commit('display_loading_message')
     },
     data(){
       return {

@@ -27,8 +27,11 @@
     components:{
       search,
     },
-    created(){
-      fetch_servers(this)
+    async created(){
+      this.$store.commit('display_loading_message')
+      await fetch_servers(this)
+      this.$store.commit('display_loading_message')
+
     },
     data(){
       return {
