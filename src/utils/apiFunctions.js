@@ -87,7 +87,8 @@ export function count(what , that){
     //Determine the path
     let paths = {
         'count_games' : 'countOfGames',
-        'count_servers':'countOfServers'
+        'count_servers':'countOfServers',
+        'count_users' : 'countOfUsers'
     }
     what = paths[what]
 
@@ -96,8 +97,10 @@ export function count(what , that){
         .then( (responce) => {
             if(what == 'countOfGames'){
                 that.count_games = responce.data.count
-            }else{
+            }else if (what == 'countOfServers'){
                 that.count_servers = responce.data.count
+            }else{
+                that.count_users = responce.data.count
             }
         })
         .catch( (AxiosError) => that.$store.commit('add_errors' , AxiosError.response.data.errors))
