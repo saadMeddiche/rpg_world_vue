@@ -1,4 +1,7 @@
 <template>
+
+  <loading></loading>
+
   <div class="Title">
     <h1 v-if="game">{{game.name}} Servers</h1>
     <backbutton></backbutton>
@@ -44,17 +47,25 @@
   import {get_server_status} from '@/utils/statusFunctions';
   import search from '@/components/search.vue'
   import { stock,get } from '@/utils/storageFunctions';
+  import loading from '@/components/loading'
+
 
 
   export default{
     components:{
       backbutton,
-      search
+      search,
+      loading,
     },
     async created(){
-      fetch_game(this)  
+      this.$store.commit('display_loading_message')
+
+      await fetch_game(this)  
       await fetch_servers(this)
-      get_server_status(this)
+      await get_server_status(this)
+
+      this.$store.commit('display_loading_message')
+
     },
     data(){
       return {

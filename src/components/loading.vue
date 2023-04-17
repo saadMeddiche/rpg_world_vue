@@ -1,5 +1,5 @@
 <template>
-    <div class="Loading">
+    <div class="Loading" v-show="show">
         <div class="Text">
             <h3>Loading...</h3>
         </div>
@@ -11,6 +11,26 @@
     </div>
 </template>
   
+<script>
+
+    export default{
+        
+        data(){
+            return {
+                show:false
+            }
+        },
+        watch:{
+            loading_status(){
+            }
+        },
+        computed:{
+            loading_status(){
+                this.show = this.$store.state.show_loading
+            }
+        }
+    }
+</script>
 <!-- css animation - loding  -->
 <!-- https://www.w3schools.com/css/css3_animations.asp -->
 <style lang="scss" scoped>

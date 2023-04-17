@@ -23,7 +23,6 @@
         },
         watch:{
             $route(){
-                console.log('test')
                 this.Logged_In = this.Loggin_status()
             }
         },
