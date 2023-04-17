@@ -9,7 +9,7 @@
             <button class="Update" @click="edit_game(game.id)">Update</button>
         </div>
         <div class="Image">
-            <img :src="'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
+            <img :src="$imagePath+game.image" alt="">
         </div>
         <div class="Name">
             <p>{{ game.name }}</p>

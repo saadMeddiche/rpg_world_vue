@@ -4,7 +4,7 @@
   <div class="Games" v-if="games.length">
     <div class="Game" v-for="game in filtredGames" :key="game" @click="display_servers(game.id)">
       <div class="Image">
-          <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/'+game.image" alt="">
+          <img :src="$imagePath+game.image" alt="">
       </div>
       <div class="Title">
           <p>{{game.name}}</p>

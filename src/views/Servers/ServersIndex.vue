@@ -8,11 +8,11 @@
   <div class="Servers" v-if="filtredServers.length">
     <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
       <div class="Image">
-        <img :src=" 'http://localhost/RPG_World_Laravel/public/uploads/games/' + server.image" alt="">
+        <img :src="$imagePath + server.image" alt="">
       </div>
       <div class="Title">
         <p>{{server.name}}
-          <span :class="{'online' : server.online , 'offline': !server.online}" v-if="server.address">
+          <span :class="{'online' : server.online , 'offline': !server.online}" >
             {{ status(server.online) }}
           </span>
         </p>
@@ -20,7 +20,7 @@
       <div class="Description">
         <p>{{ server.description }}</p>
       </div>
-      <div class="Status" v-if="server.address">
+      <div class="Status" >
         <p>
           Players : 
           <span>

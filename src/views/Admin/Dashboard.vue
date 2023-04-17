@@ -4,7 +4,24 @@
 </template>
 
 <script>
+   import axios from 'axios';
+   export default{
+      mounted(){
 
+      },
+      data(){
+         return{
+
+         }
+      },
+      methods:{
+         fetch_user_count(){
+            axios.get('')
+
+         }
+      }
+
+   }
 </script>
 
 <style>
