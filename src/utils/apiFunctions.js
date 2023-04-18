@@ -47,6 +47,7 @@ export async function store_server(that){
     axios.post('http://127.0.0.1:8000/api/V1/servers', that.server, config_headers())
         .then( (responce) => that.$store.commit('display_success_messag'))
         .catch( (AxiosError) => action_when_error(AxiosError.response.data , that))
+  
 }
 
 
@@ -107,6 +108,6 @@ function action_when_error(data , that){
         that.$store.commit('add_errors' , data.errors)
     }else{
         localStorage.removeItem('token')
-        that.$router.push('/Opsy')
+        that.$router.push({name : 'Opsy'})
     }
 }

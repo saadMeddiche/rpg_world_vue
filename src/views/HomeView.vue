@@ -3,7 +3,6 @@
     <h1 class="home__title">Welcome to Our Gaming Web Site!</h1>
     <div class="home__content">
       <p>We are a community of passionate gamers who love to connect, play and explore new games.</p>
-      <p>Whether you are a casual player or a hardcore gamer, our website has something for everyone.</p>
       <button class="home__cta">Join Our Community</button>
     </div>
     <div class="home__server">

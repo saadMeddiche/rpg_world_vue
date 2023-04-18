@@ -70,6 +70,7 @@ const routes = [
     name: 'Login',
     component: Login,
     meta:{
+      hideWhenLoggedIn:true,
       requiresAuth:false
     }
   }
@@ -78,6 +79,7 @@ const routes = [
     name: 'Register',
     component: Register,
     meta:{
+      hideWhenLoggedIn:true,
       requiresAuth:false
     }
   }
@@ -176,5 +178,9 @@ export default router
 router.beforeEach ((to, from) =>{
   if(to.meta.requiresAuth && !localStorage.getItem('token') ) {
     return {name: 'Login'}
+  }
+
+  if(to.meta.hideWhenLoggedIn){
+    return { name : 'home'}
   }
 })
