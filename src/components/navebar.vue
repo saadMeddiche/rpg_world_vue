@@ -1,17 +1,17 @@
 <template>
-    <div class="Navbar">
-        <div class="Links">
-            <router-link :to="{name : 'home'}">Home</router-link>
-            <router-link :to="{name : 'GamesView'}">Games</router-link>
-        </div>
-
-        <div class="Authentication">
-            <router-link :to="{name : 'Login'}" v-if="!Logged_In">Login</router-link>
-            <router-link :to="{name : 'Register'}" v-if="!Logged_In">Register</router-link>
-            <router-link :to="{name : 'Dashboard'}" v-if="Logged_In">Dashboard</router-link>
-            <a @click="Logout" v-if="Logged_In">Logout</a>
-        </div>
+  <div class="Navbar">
+    <div class="Links">
+      <router-link :to="{name : 'home'}">Home</router-link>
+      <router-link :to="{name : 'GamesView'}">Games</router-link>
     </div>
+
+    <div class="Authentication">
+      <router-link :to="{name : 'Login'}" v-if="!Logged_In">Login</router-link>
+      <router-link :to="{name : 'Register'}" v-if="!Logged_In">Register</router-link>
+      <router-link :to="{name : 'Dashboard'}" v-if="Logged_In">Dashboard</router-link>
+      <a @click="Logout" v-if="Logged_In">Logout</a>
+    </div>
+  </div>
 </template>
 
 <script>

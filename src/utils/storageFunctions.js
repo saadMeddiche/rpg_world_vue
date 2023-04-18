@@ -8,7 +8,7 @@ export function get(value){
     return localStorage.getItem(value)
 }
 
-export function config_Authorization(){
+export function config_headers(){
 
     let token = get('token');
 

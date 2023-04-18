@@ -27,6 +27,9 @@ import Roles from '../views/Admin/Roles/Roles.vue'
 //===========Users
 import Users from '../views/Admin/Users/Users.vue'
 
+//===================Error===============
+import Opsy from '@/views/Opsy.vue';
+
 
 
 const routes = [
@@ -151,8 +154,15 @@ const routes = [
       status:'admin',
       requiresAuth:true
     }
-  },
-  
+  }
+  ,{
+    path: '/Opsy',
+    name: 'Opsy',
+    component: Opsy,
+    meta:{
+      requiresAuth:false
+    }
+  }
 
 ]
 
