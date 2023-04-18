@@ -69,7 +69,11 @@ export async function chat_fetch_messages(that,type){
                 runOneTime = true
             }
 
-
+        }else{
+            if(!runOneTime){
+                that.$store.commit('display_loading_message')
+                runOneTime = true
+            }
         }
     
     })

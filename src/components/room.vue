@@ -45,7 +45,6 @@
         methods:{
             async fetch_messages(){
                 chat_fetch_messages(this , this.reference)
-
             },
             send_message(){
                 chat_send_message(this , this.reference)

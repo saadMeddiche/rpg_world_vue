@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {config_headers} from '@/utils/storageFunctions';
+import {get} from '@/utils/storageFunctions'
 
 //==============Show=================
 export async function  fetch_server(that){
@@ -103,6 +104,14 @@ export async function count(what , that){
             }
         })
         .catch( (AxiosError) => action_when_error(AxiosError.response.data , that))
+}
+
+export async function verify_staff_access(){
+
+    return axios.post('http://127.0.0.1:8000/api/V1/DashboardAccess',{'token' : get('token')},config_headers())
+       .then((responce) => { return responce.data.access} )
+
+
 }
 
 

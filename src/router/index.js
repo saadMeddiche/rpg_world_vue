@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import {verify_staff_access} from '@/utils/apiFunctions'
 //================User======================
 import HomeView from '../views/HomeView.vue'
 //===========Games
@@ -175,7 +175,17 @@ const router = createRouter({
 
 export default router
 
-router.beforeEach ((to, from) =>{
+router.beforeEach (async (to, from) =>{
+
+  if(to.meta.status == 'admin'){
+
+    let access = await verify_staff_access()
+
+    if(!access){
+      return { name : 'Opsy'}
+    }
+  }
+   
 
   if(to.meta.requiresAuth && !localStorage.getItem('token') ) {
     return {name: 'Login'}

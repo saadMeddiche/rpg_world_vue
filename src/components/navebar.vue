@@ -29,6 +29,7 @@
         methods:{
             Logout(){
                 localStorage.removeItem('token')
+                this.Logged_In=false
                 this.$router.push('/')
             }, 
             Loggin_status(){
