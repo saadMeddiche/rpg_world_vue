@@ -46,7 +46,7 @@ const routes = [
     name: 'GamesView',
     component: GamesIndex,
     meta:{
-      requiresAuth:false
+      requiresAuth:true
     }
   },
   {
@@ -176,11 +176,12 @@ const router = createRouter({
 export default router
 
 router.beforeEach ((to, from) =>{
+
   if(to.meta.requiresAuth && !localStorage.getItem('token') ) {
     return {name: 'Login'}
   }
 
-  if(to.meta.hideWhenLoggedIn){
+  if(to.meta.hideWhenLoggedIn && localStorage.getItem('token')){
     return { name : 'home'}
   }
 })

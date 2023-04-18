@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <h1 class="home__title">Welcome to Our Gaming Web Site!</h1>
+    <h1 class="home__title">Welcome to Our RPG World</h1>
+    <h4 class="">Gaming Web Site</h4>
     <div class="home__content">
       <p>We are a community of passionate gamers who love to connect, play and explore new games.</p>
       <button class="home__cta">Join Our Community</button>
@@ -38,7 +39,7 @@ $accent-color: #de424d;
   &__title {
     font-size: 4rem;
     font-weight: bold;
-    margin-bottom: 40px;
+    margin-bottom: 1px;
     text-align: center;
     text-shadow: 2px 2px $accent-color;
     color: $accent-color; /* added accent color */

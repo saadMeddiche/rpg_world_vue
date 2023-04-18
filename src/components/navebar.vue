@@ -83,6 +83,8 @@
     margin-right: 2rem;
     text-decoration: none;
     font-size: 1.2rem;
+    cursor: pointer;
+
 
     &:hover {
       text-decoration: underline;

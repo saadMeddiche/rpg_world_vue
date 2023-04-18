@@ -29,9 +29,12 @@ export async function fetch_servers(that){
 }
 
 export async function fetch_games(that){
-    return axios.get('http://127.0.0.1:8000/api/V1/games')
+    return axios.get('http://127.0.0.1:8000/api/V1/games',config_headers())
         .then((responce) => that.games = responce.data.games)
-        .catch( (AxiosError) => action_when_error(AxiosError.response.data , that))
+        .catch( (AxiosError) => {
+            action_when_error(AxiosError.response.data , that)
+            console.log(AxiosError)
+        })
 }
 
 //=====================Store=================
@@ -107,7 +110,7 @@ function action_when_error(data , that){
     if(data.errors){
         that.$store.commit('add_errors' , data.errors)
     }else{
-        localStorage.removeItem('token')
+        // localStorage.removeItem('token')
         that.$router.push({name : 'Opsy'})
     }
 }
