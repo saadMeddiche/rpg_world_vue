@@ -12,6 +12,7 @@
 <script>
   import axios from 'axios';
   import errors from '@/components/errors.vue';
+  import { stock } from '@/utils/storageFunctions';
 
 
   export default{
@@ -32,15 +33,12 @@
       Login(){
         axios.post("http://127.0.0.1:8000/api/V1/login",this.form)
           .then( responce => {
-            this.stock_token(responce.data.token)
+            stock('token',responce.data.token)
             this.$router.push('/games')
           })
           .catch(AxiosError => {
             this.$store.commit('add_errors' , AxiosError.response.data.errors)
           })
-      },  
-      stock_token(token){
-        localStorage.setItem('token',token)
       }
     }
   }
