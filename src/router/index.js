@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import {verify_staff_access} from '@/utils/apiFunctions'
+import store from '@/store/index'
 //================User======================
 import HomeView from '../views/HomeView.vue'
 //===========Games
@@ -22,6 +23,7 @@ import Servers from '../views/Admin/Servers/Servers.vue'
 import AddServer from '../views/Admin/Servers/AddServer.vue'
 import UpdateServer from '../views/Admin/Servers/UpdateServer.vue'
 import Server from '../views/Servers/Server.vue'
+import AddServerByUser from '../views/Servers/AddServerByUser.vue'
 //===========Roles
 import Roles from '../views/Admin/Roles/Roles.vue'
 //===========Users
@@ -100,7 +102,8 @@ const routes = [
       status:'admin',
       requiresAuth:true
     }
-  },{
+  },
+  {
     path: '/admin/games/add',
     name: 'AddGame',
     component: AddGame,
@@ -108,7 +111,8 @@ const routes = [
       status:'admin',
       requiresAuth:true
     }
-  },{
+  },
+  {
     path: '/admin/games/update',
     name: 'UpdateGame',
     component: UpdateGame,
@@ -130,6 +134,14 @@ const routes = [
     component: AddServer,
     meta:{
       status:'admin',
+      requiresAuth:true
+    }
+  }
+  ,{
+    path: '/server/add',
+    name: 'AddServerByUser',
+    component: AddServerByUser,
+    meta:{
       requiresAuth:true
     }
   },{
@@ -177,21 +189,30 @@ export default router
 
 router.beforeEach (async (to, from) =>{
 
+  store.commit('display_loading_message')
+
   if(to.meta.status == 'admin'){
 
     let access = await verify_staff_access()
 
     if(!access){
+      store.commit('display_loading_message')
       return { name : 'Opsy'}
     }
+
   }
    
 
   if(to.meta.requiresAuth && !localStorage.getItem('token') ) {
+    store.commit('display_loading_message')
     return {name: 'Login'}
   }
 
   if(to.meta.hideWhenLoggedIn && localStorage.getItem('token')){
+    store.commit('display_loading_message')
     return { name : 'home'}
   }
+
+  store.commit('display_loading_message')
+
 })

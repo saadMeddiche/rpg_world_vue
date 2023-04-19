@@ -1,13 +1,11 @@
 import { createStore } from 'vuex'
 
-export default createStore({
+const store = createStore({
   state: {
     errors:null,
     show_success_message:false,
     filtred_object:['yay'],
     show_loading:false
-  },
-  getters: {
   },
   mutations: {
     add_errors(state , errors){
@@ -27,4 +25,6 @@ export default createStore({
   },
   modules: {
   }
-})
+});
+
+export default store;

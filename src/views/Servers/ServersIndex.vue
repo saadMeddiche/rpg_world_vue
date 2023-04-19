@@ -3,12 +3,12 @@
   <loading></loading>
 
   <div class="BigTitle">
-    <div >
+    <div>
       <div>
         <h1 v-if="game">{{game.name}} Servers</h1>
       </div>
       <div>
-        <p>Make Your Own Server !</p>
+        <router-link  :to="{name : 'AddServerByUser'}">Make Your Own Server !</router-link>
       </div>
     </div>
     
@@ -112,7 +112,7 @@
   justify-content: center;
   align-items: center;
   gap:10px;
-  p{
+  a{
     cursor: pointer;
     font-size: 10px;
     font-weight: bold;
