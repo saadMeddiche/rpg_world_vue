@@ -8,22 +8,28 @@
     <div class="Authentication">
       <router-link :to="{name : 'Login'}" v-if="!Logged_In">Login</router-link>
       <router-link :to="{name : 'Register'}" v-if="!Logged_In">Register</router-link>
-      <router-link :to="{name : 'Dashboard'}" v-if="Logged_In">Dashboard</router-link>
+      <router-link :to="{name : 'Dashboard'}" v-if="Logged_In && dahboard_access">Dashboard</router-link>
       <a @click="Logout" v-if="Logged_In">Logout</a>
     </div>
   </div>
 </template>
 
 <script>
+  import {verify_staff_access} from '@/utils/apiFunctions'
     export default{
+        async mounted(){
+          this.dahboard_access= await verify_staff_access()
+        },
         data(){
             return {
-                Logged_In:false
+                Logged_In:false,
+                dahboard_access:false
             }
         },
         watch:{
-            $route(){
-                this.Logged_In = this.Loggin_status()
+            async $route(){
+              this.Logged_In = this.Loggin_status()
+              this.dahboard_access= await verify_staff_access()
             }
         },
         methods:{
@@ -33,7 +39,7 @@
                 this.$router.push('/')
             }, 
             Loggin_status(){
-                return (localStorage.getItem('token') !== null) ? true : false
+                return (localStorage.getItem('token') != null) ? true : false
             }
         }
     }
