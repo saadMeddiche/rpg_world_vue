@@ -11,8 +11,8 @@
     <div class="Servers" v-if="filtredServers.length">
       <div class="Server" v-for="server in filtredServers" :key="server">
         <div class="Buttons">
-            <button class="Delete" >Delete</button>
-            <button class="Update" >Update</button>
+            <a class="Delete" :to="{name : 'UpdateServer_User'}">Delete</a>
+            <router-link class="Update" :to="{name : 'UpdateServer_User'}">Update</router-link>
         </div>
         <div class="Image">
           <img :src="$imagePath + server.image">
@@ -23,7 +23,7 @@
               {{ status(server.online) }}
             </span>
           </p>
-          <button class="Update" @click="this.$router.push({name : 'home'})">Chat</button>
+          <button class="Update" @click="test('chat')">Chat</button>
         </div>
         <div class="Description">
           <p>{{ server.description }}</p>
@@ -83,6 +83,9 @@
       }
     },
     methods:{
+      test(ss){
+        alert(ss)
+      },
       status(status){
         return status ? 'Online' : 'Offline';
       },
@@ -156,6 +159,8 @@
     align-items: center;
 
     .Server {
+      position: relative;
+  
       background-color: #222;
       transition: all 0.3s ease;
 
@@ -169,11 +174,12 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       }
       .Buttons {
-      // position: absolute;
+      position: absolute;
       top: 0;
+      left:0;
       display: flex;
       justify-content: space-between;
-      width: 100%;
+      width: 320px;
       padding: 10px;
       
       .Delete {
@@ -222,6 +228,21 @@
         align-items: center;
         margin-top: 1rem;
         color: white;
+
+        .Update{
+          color: $secondary-color;
+          background-color: white;
+          border: 1px solid $secondary-color;
+          border-radius: 5px;
+          padding: 5px 10px;
+          font-size: 14px;
+          cursor: pointer;
+          
+          &:hover {
+            background-color: $secondary-color;
+            color: white;
+          }
+        }
 
         p {
           font-size: 1.2rem;

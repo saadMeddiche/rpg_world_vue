@@ -121,6 +121,14 @@ const routes = [
       status:'admin',
       requiresAuth:true
     }
+  },
+  {
+    path: '/servers/update',
+    name: 'UpdateServer_User',
+    component: UpdateServer,
+    meta:{
+      requiresAuth:true
+    }
   },{
     path: '/admin/server',
     name: 'Servers',
