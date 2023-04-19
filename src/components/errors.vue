@@ -46,8 +46,8 @@
   margin-bottom: 20px;
 
   .Error {
-    width: 100%;
-    padding: 5px; // decrease padding
+    width: 50%;
+    padding: 2px; // decrease padding
     background-color: #dc3545;
     color: #fff;
     border-radius: 5px;

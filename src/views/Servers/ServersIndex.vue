@@ -3,15 +3,7 @@
   <loading></loading>
 
   <div class="BigTitle">
-    <div>
-      <div>
-        <h1 v-if="game">{{game.name}} Servers</h1>
-      </div>
-      <div>
-        <router-link  :to="{name : 'AddServerByUser'}">Make Your Own Server !</router-link>
-      </div>
-    </div>
-    
+    <h1 v-if="game">{{game.name}} Servers</h1>
     <backbutton></backbutton>
   </div>
   
@@ -107,30 +99,15 @@
 </script>
 
 <style lang="scss" scoped>
+
+  $primary-color: #0077ff;
+  $secondary-color: #ff6600;
+  $tertiary-color: #999999;
 .BigTitle{
   display: flex;
   justify-content: center;
   align-items: center;
   gap:10px;
-  a{
-    cursor: pointer;
-    font-size: 10px;
-    font-weight: bold;
-    margin: 5px;
-
-    animation: ellipsis 1s infinite;
-
-    @keyframes ellipsis {
-    0% {
-      color:white;
-      opacity: 0.2;
-    }
-    100% {
-      color:red;
-      opacity: 1;
-    }
-  }
-  }
 }
 p {
   font-size: 16px;
@@ -151,55 +128,84 @@ p {
 
 }
 
-/* Style for the Games section */
+// Define styles for Servers component
 .Servers {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
 
-/* Style for each Game card */
-.Server {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  padding: 20px;
-  width: 300px;
-}
+    .Server {
+      background-color: #222;
+      transition: all 0.3s ease;
 
-/* Style for the Game image */
-.Image {
-  height: 200px;
-  margin-bottom: 10px;
-  overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+      width: 300px;
 
-  img {
-    display: block;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .Image {
+        height: 150px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .Title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        color: white;
+
+        p {
+          font-size: 1.2rem;
+          font-weight: bold;
+          margin: 0;
+        }
+
+        .online {
+          color: #00ff00;
+        }
+
+        .offline {
+          color: #ff0000;
+        }
+      }
+
+      .Description {
+        margin-top: 1rem;
+        color: white;
+        font-size: 1.1rem;
+        text-align: justify;
+      }
+
+      .Status {
+        margin-top: 1rem;
+        color: $secondary-color;
+        font-size: 1.1rem;
+        font-weight: bold;
+
+        span {
+          color: $primary-color;
+          font-weight: normal;
+        }
+      }
+    }
   }
-}
 
-/* Style for the Game title */
-.Title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* Style for the Game description */
-.Description {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
 
 /* Style for the Games title */
 h1 {
-  font-size: 30px;
-  margin-bottom: 5px;
+  color: black;
+  text-align: center;
+  margin-top: 2rem;
 }
 </style>

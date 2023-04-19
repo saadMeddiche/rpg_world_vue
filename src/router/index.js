@@ -24,6 +24,7 @@ import AddServer from '../views/Admin/Servers/AddServer.vue'
 import UpdateServer from '../views/Admin/Servers/UpdateServer.vue'
 import Server from '../views/Servers/Server.vue'
 import AddServerByUser from '../views/Servers/AddServerByUser.vue'
+import ServersOfuser from '../views/Servers/ServersOfUser.vue'
 //===========Roles
 import Roles from '../views/Admin/Roles/Roles.vue'
 //===========Users
@@ -153,6 +154,13 @@ const routes = [
       requiresAuth:true
     }
   },{
+    path: '/ServersOfuser',
+    name: 'ServersOfuser',
+    component: ServersOfuser,
+    meta:{
+      requiresAuth:true
+    }
+  },{
     path: '/admin/roles',
     name: 'Roles',
     component: Roles,
@@ -202,7 +210,6 @@ router.beforeEach (async (to, from) =>{
 
   }
    
-
   if(to.meta.requiresAuth && !localStorage.getItem('token') ) {
     store.commit('display_loading_message')
     return {name: 'Login'}

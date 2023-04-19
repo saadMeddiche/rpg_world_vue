@@ -1,7 +1,6 @@
 <template>
-    <div class="Sheach">
+    <div class="search">
       <input type="text" name="" id="" v-model="looking_for">
-      <button @click="Clear">X</button>
     </div>
 </template>
 
@@ -46,30 +45,29 @@
     }
 
 </script>
-
 <style lang="scss" scoped>
-.Sheach {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
 
-  input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
+  // Define colors used in the style
+  $primary-color: #0077ff;
+  $secondary-color: #ff6600;
+  $tertiary-color: #999999;
 
-  button {
-    margin-left: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: #ccc;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
+.search {
+    margin: 10px;
+    // padding: 1rem;
+
+    input {
+      width: 80%;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 2px solid $tertiary-color;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+    }
   }
-}
 </style>
