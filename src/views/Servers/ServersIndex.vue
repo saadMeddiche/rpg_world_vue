@@ -2,8 +2,16 @@
 
   <loading></loading>
 
-  <div class="Title">
-    <h1 v-if="game">{{game.name}} Servers</h1>
+  <div class="BigTitle">
+    <div >
+      <div>
+        <h1 v-if="game">{{game.name}} Servers</h1>
+      </div>
+      <div>
+        <p>Make Your Own Server !</p>
+      </div>
+    </div>
+    
     <backbutton></backbutton>
   </div>
   
@@ -99,11 +107,30 @@
 </script>
 
 <style lang="scss" scoped>
-.Title{
+.BigTitle{
   display: flex;
   justify-content: center;
   align-items: center;
   gap:10px;
+  p{
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    margin: 5px;
+
+    animation: ellipsis 1s infinite;
+
+    @keyframes ellipsis {
+    0% {
+      color:white;
+      opacity: 0.2;
+    }
+    100% {
+      color:red;
+      opacity: 1;
+    }
+  }
+  }
 }
 p {
   font-size: 16px;
@@ -173,6 +200,6 @@ p {
 /* Style for the Games title */
 h1 {
   font-size: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 </style>
