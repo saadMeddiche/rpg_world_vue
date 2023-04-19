@@ -104,10 +104,19 @@
   $secondary-color: #ff6600;
   $tertiary-color: #999999;
 .BigTitle{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:10px;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    font-size: 26px;
+    font-weight: bold;
+    text-shadow: 2px 2px $secondary-color;
+    h1 {
+  color: black;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom:1rem;
+}
 }
 p {
   font-size: 16px;
@@ -199,13 +208,8 @@ p {
         }
       }
     }
-  }
-
-
-/* Style for the Games title */
-h1 {
-  color: black;
-  text-align: center;
-  margin-top: 2rem;
 }
+
+
+
 </style>

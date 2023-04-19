@@ -1,6 +1,6 @@
 <template>
     <div class="search">
-      <input type="text" name="" id="" v-model="looking_for">
+      <input type="text" name="" id="" v-model="looking_for" placeholder="Search ...">
     </div>
 </template>
 

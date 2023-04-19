@@ -114,6 +114,11 @@ export async function verify_staff_access(){
 
 }
 
+export async function get_user_information(){
+    return axios.post('http://127.0.0.1:8000/api/V1/UserInformation',{'token' : get('token')},config_headers())
+        .then((responce) => { return responce.data.user} )
+}
+
 
 function action_when_error(data , that){
     if(data.errors){

@@ -9,7 +9,11 @@
     
     <search :object="servers"></search>
     <div class="Servers" v-if="filtredServers.length">
-      <div class="Server" v-for="server in filtredServers" :key="server" @click="display_server_content(server.id)">
+      <div class="Server" v-for="server in filtredServers" :key="server">
+        <div class="Buttons">
+            <button class="Delete" >Delete</button>
+            <button class="Update" >Update</button>
+        </div>
         <div class="Image">
           <img :src="$imagePath + server.image">
         </div>
@@ -19,6 +23,7 @@
               {{ status(server.online) }}
             </span>
           </p>
+          <button class="Update" @click="this.$router.push({name : 'home'})">Chat</button>
         </div>
         <div class="Description">
           <p>{{ server.description }}</p>
@@ -41,59 +46,62 @@
 </template>
   
 <script>
-    import backbutton from '@/components/backbutton.vue';
-    import {fetch_game ,fetch_servers} from '@/utils/apiFunctions';
-    import {get_server_status} from '@/utils/statusFunctions';
-    import search from '@/components/search.vue'
-    import { stock,get } from '@/utils/storageFunctions';
-    import loading from '@/components/loading'
+  import backbutton from '@/components/backbutton.vue';
+  import {fetch_game ,fetch_servers} from '@/utils/apiFunctions';
+  import {get_server_status} from '@/utils/statusFunctions';
+  import search from '@/components/search.vue'
+  import { stock,get } from '@/utils/storageFunctions';
+  import loading from '@/components/loading';
+  import {get_user_information} from '@/utils/apiFunctions';
+
+
+  export default{
   
-  
-  
-    export default{
-      components:{
-        backbutton,
-        search,
-        loading,
-      },
-      async created(){
-        //Display the loading page
-        this.$store.commit('display_loading_message')
-  
-        await fetch_game(this)  
-        await fetch_servers(this)
-        await get_server_status(this)
-  
-        //Hide THe Loading Page
-        this.$store.commit('display_loading_message')
-      },
-      data(){
-        return {
-          servers:{},
-          game:null,
-        }
-      },
-      methods:{
-        status(status){
-          return status ? 'Online' : 'Offline';
+    components:{
+      backbutton,
+      search,
+      loading,
+    },
+    async created(){
+      //Display the loading page
+      this.$store.commit('display_loading_message')
+
+      this.user = await get_user_information()
+      await fetch_servers(this)
+      await get_server_status(this)
+
+      //Hide THe Loading Page
+      this.$store.commit('display_loading_message')
+    },
+    data(){
+      return {
+        servers:{},
+        user:{},
+        game:{
+          name:'MineCraft'
         },
-        players(OnlinePlayers,MaxPlayers){
-          return OnlinePlayers != null  && MaxPlayers  ? OnlinePlayers+' / '+MaxPlayers : 'Unkown'
-        },
-        display_server_content(id){
-          stock('server' , id)
-          this.$router.push({name : 'Server'})
-        }
+      }
+    },
+    methods:{
+      status(status){
+        return status ? 'Online' : 'Offline';
       },
-      computed:{
-        filtredServers(){
-          let filtred_servers = this.$store.state.filtred_object 
-  
-          if(filtred_servers) return filtred_servers.filter(server => server.user_id == '1' )
-        
-        }
+      players(OnlinePlayers,MaxPlayers){
+        return OnlinePlayers != null  && MaxPlayers  ? OnlinePlayers+' / '+MaxPlayers : 'Unkown'
+      },
+      display_server_content(id){
+        stock('server' , id)
+        this.$router.push({name : 'Server'})
+      }
+    },
+    computed:{
+      filtredServers(){
+        let filtred_servers = this.$store.state.filtred_object 
+        if(filtred_servers) return filtred_servers.filter(server => server.user_id == this.user.id)
+      
       }
     }
+  }
   
 </script>
   
@@ -157,9 +165,47 @@
       width: 300px;
 
       &:hover {
-        transform: translateY(-5px);
+        // transform: translateY(-5px);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       }
+      .Buttons {
+      // position: absolute;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
+      
+      .Delete {
+        color: red;
+        background-color: white;
+        border: 1px solid red;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: red;
+          color: white;
+        }
+      }
+      
+      .Update {
+        color: blue;
+        background-color: white;
+        border: 1px solid blue;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: blue;
+          color: white;
+        }
+      }
+    }
 
       .Image {
         height: 150px;
