@@ -1,7 +1,10 @@
 <template>
     <div class="Title">
-        <h1>{{ server.name }}</h1>
-        <button class="switchPageButton" @click="switch_page($event)">News</button>
+        <div class="Tit">
+            <a class="switchPageButton" @click="switch_page($event)">News</a>
+            <h1>{{ server.name }}</h1>
+        </div>
+        
         <backbutton></backbutton>
     </div>
     <div v-if="chat_page">
@@ -45,15 +48,43 @@
 
 <style lang="scss" scoped>
 
-$primary-color: #3f51b5;
-$secondary-color: #e0e0e0;
+  $primary-color: #0077ff;
+  $secondary-color: #ff6600;
+  $tertiary-color: #999999;
 
-.Title{
+.Title {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap:10px;
+    padding: 1rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: $primary-color;
+
+    .Tit{
+        display: flex;
+        align-items: center;
+        gap:10px
+    }
+
+    h1{
+        // font-size: 26px;
+    }
+
+    a {
+      display: inline-block;
+      padding: 0.5rem;
+      background-color: $secondary-color;
+      color: white;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: darken($secondary-color, 10%);
+      }
+    }
 }
+
 .showmore{
     cursor: pointer;
 }

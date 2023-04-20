@@ -1,5 +1,5 @@
 import firebase from '@/firebase.js';
-
+import {get_user_information} from '@/utils/apiFunctions';
 
 export function update_scroll_height(that){
     //source:: https://stackoverflow.com/questions/47634258/what-is-nexttick-and-what-does-it-do-in-vue-js
@@ -13,7 +13,7 @@ export function chat_show_more(loaded_messages ,messages, that) {
     that.loaded_messages = messages.slice(-endIndex);
 }
 
-export function chat_send_message(that,type){
+export async function chat_send_message(that,type){
 
     let messageRef = firebase.database().ref(type + that.server.id)
 
@@ -21,8 +21,10 @@ export function chat_send_message(that,type){
         return;
     }
 
+    let user = await get_user_information()
+
     const message = {
-        username:'Saad Meddiche',
+        username:user.name,
         content:that.message_in_field
     }
 

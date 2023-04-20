@@ -23,7 +23,7 @@
               {{ status(server.online) }}
             </span>
           </p>
-          <button class="Update" @click="test('chat')">Chat</button>
+          <router-link :to="{name :'Server'}" class="Chat">Chat</router-link>
         </div>
         <div class="Description">
           <p>{{ server.description }}</p>
@@ -238,7 +238,8 @@
         margin-top: 1rem;
         color: white;
 
-        .Update{
+        .Chat{
+          text-decoration: none;
           color: $secondary-color;
           background-color: white;
           border: 1px solid $secondary-color;

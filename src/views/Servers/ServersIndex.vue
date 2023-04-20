@@ -112,11 +112,11 @@
     font-weight: bold;
     text-shadow: 2px 2px $secondary-color;
     h1 {
-  color: black;
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom:1rem;
-}
+    color: black;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom:1rem;
+  }
 }
 p {
   font-size: 16px;
