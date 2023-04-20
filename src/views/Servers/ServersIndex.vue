@@ -36,7 +36,7 @@
   </div>
   <div v-else>
     <h2>There is No Servers For This Game Yet</h2>
-    <h4>Be The First Who add its Own Server</h4> 
+    <h4>Be The First Who Does</h4> 
   </div>
     
 </template>
