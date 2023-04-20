@@ -42,7 +42,6 @@
                 this.chat_page = this.chat_page ? false : true
             }
         },
-
     }
 </script>
 
@@ -67,9 +66,6 @@
         gap:10px
     }
 
-    h1{
-        // font-size: 26px;
-    }
 
     a {
       display: inline-block;
@@ -78,15 +74,12 @@
       color: white;
       border-radius: 4px;
       transition: all 0.3s ease;
+      cursor: pointer;
 
       &:hover {
         background-color: darken($secondary-color, 10%);
       }
     }
-}
-
-.showmore{
-    cursor: pointer;
 }
 
 h1 {
