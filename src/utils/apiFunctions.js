@@ -71,7 +71,7 @@ export async function update_server(that){
 }
 
 //===================Destroy==================
-export function destory(id , what){
+export async function destory(id , what ,that){
 
     confirm('Are You Sure')
 

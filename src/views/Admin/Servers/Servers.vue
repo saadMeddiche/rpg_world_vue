@@ -42,7 +42,7 @@
     methods:{
       async delete_server(server_id){
 
-        await destory(server_id , 'servers')
+        await destory(server_id , 'servers',this )
         fetch_servers(this)
 
       },

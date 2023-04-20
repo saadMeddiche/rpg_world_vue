@@ -42,8 +42,8 @@
     },
     methods:{
       async delete_game(game_id){
-
-        await destory(game_id,'games')
+        
+        await destory(game_id,'games',this)
         fetch_games(this)
 
       },

@@ -11,8 +11,8 @@
     <div class="Servers" v-if="filtredServers.length">
       <div class="Server" v-for="server in filtredServers" :key="server">
         <div class="Buttons">
-            <a class="Delete" :to="{name : 'UpdateServer_User'}">Delete</a>
-            <router-link class="Update" :to="{name : 'UpdateServer_User'}">Update</router-link>
+            <a class="Delete" @click="delete_server(server.id)">Delete</a>
+            <a class="Update" @click="edit_server(server.id)">Update</a>
         </div>
         <div class="Image">
           <img :src="$imagePath + server.image">
@@ -47,12 +47,12 @@
   
 <script>
   import backbutton from '@/components/backbutton.vue';
-  import {fetch_game ,fetch_servers} from '@/utils/apiFunctions';
+  import {fetch_servers} from '@/utils/apiFunctions';
   import {get_server_status} from '@/utils/statusFunctions';
   import search from '@/components/search.vue'
-  import { stock,get } from '@/utils/storageFunctions';
+  import { stock } from '@/utils/storageFunctions';
   import loading from '@/components/loading';
-  import {get_user_information} from '@/utils/apiFunctions';
+  import {get_user_information , destory} from '@/utils/apiFunctions';
 
 
   export default{
@@ -95,6 +95,15 @@
       display_server_content(id){
         stock('server' , id)
         this.$router.push({name : 'Server'})
+      },
+      edit_server(id){
+        stock('server',id)
+        this.$router.push({name : 'UpdateServer_User'})
+      },
+      async delete_server(server_id){
+        await destory(server_id , 'servers',this)
+        fetch_servers(this)
+
       }
     },
     computed:{
