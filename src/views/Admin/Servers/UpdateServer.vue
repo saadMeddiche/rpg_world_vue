@@ -80,60 +80,63 @@
 </script>
 
 <style lang="scss" scoped>
+$primary-color: #0077ff;
+$secondary-color: #ff6600;
+$tertiary-color: #999999;
 
 .Title{
     display: flex;
     justify-content: center;
     align-items: center;
     gap:10px;
-}
-
-.SelectServer {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
+    color: $primary-color;
+    font-size: 26px;
+    font-weight: bold;
+    text-shadow: 2px 2px $secondary-color;
 }
 
 .Server {
-display: flex;
-flex-direction: column;
-align-items: center;
-margin: 0 auto;
-max-width: 600px; // adjust as needed
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 600px; // adjust as needed
 
-.Game,
-.Name,
-.Description,
-.Adress,
-.Image,
-.Update {
-  width: 100%;
-  margin-bottom: 20px;
-
-  input,
-  textarea,
-  button {
+  .Game,
+  .Name,
+  .Description,
+  .Adress,
+  .Image,
+  .Update {
     width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
+    margin-bottom: 20px;
+    select,
+    input,
+    textarea,
+    button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid $primary-color;
+      font-size: 16px;
+      box-sizing: border-box;
+      &:hover {
+        border: 2px solid $secondary-color;
+      }
+    }
   }
-}
 
-button {
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-}
+  button {
+    background-color: $primary-color;
+    text-shadow: 2px 2px $secondary-color;
 
-@media (max-width: 768px) {
-  max-width: 100%;
-  margin: 0 20px;
-}
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin: 0 20px;
+  }
 }
 </style>

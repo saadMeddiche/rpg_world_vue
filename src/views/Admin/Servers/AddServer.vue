@@ -8,7 +8,7 @@
     <div class="Server">
         
         <div class="Game">
-            <select type="text" class="SelectGame" v-model="server.game_id">
+            <select type="text" v-model="server.game_id">
                 <option v-for="(game,key) in games" :key="key" :value="game.id">{{ game.name }}</option>
             </select>
         </div>
@@ -76,22 +76,20 @@
 
 <style lang="scss" scoped>
 
+$primary-color: #0077ff;
+$secondary-color: #ff6600;
+$tertiary-color: #999999;
+
 .Title{
     display: flex;
     justify-content: center;
     align-items: center;
     gap:10px;
+    color: $primary-color;
+    font-size: 26px;
+    font-weight: bold;
+    text-shadow: 2px 2px $secondary-color;
 }
-
-.SelectGame {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
 
 .Server {
   display: flex;
@@ -108,21 +106,26 @@
   .Insert {
     width: 100%;
     margin-bottom: 20px;
-
+    select,
     input,
     textarea,
     button {
       width: 100%;
       padding: 10px;
       border-radius: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid $primary-color;
       font-size: 16px;
       box-sizing: border-box;
+      &:hover {
+        border: 2px solid $secondary-color;
+      }
     }
   }
 
   button {
-    background-color: #007bff;
+    background-color: $primary-color;
+    text-shadow: 2px 2px $secondary-color;
+
     color: #fff;
     cursor: pointer;
   }

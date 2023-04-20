@@ -23,7 +23,6 @@ import Servers from '../views/Admin/Servers/Servers.vue'
 import AddServer from '../views/Admin/Servers/AddServer.vue'
 import UpdateServer from '../views/Admin/Servers/UpdateServer.vue'
 import Server from '../views/Servers/Server.vue'
-import AddServerByUser from '../views/Servers/AddServerByUser.vue'
 import ServersOfuser from '../views/Servers/ServersOfUser.vue'
 //===========Roles
 import Roles from '../views/Admin/Roles/Roles.vue'
@@ -149,7 +148,7 @@ const routes = [
   ,{
     path: '/server/add',
     name: 'AddServerByUser',
-    component: AddServerByUser,
+    component: AddServer,
     meta:{
       requiresAuth:true
     }
