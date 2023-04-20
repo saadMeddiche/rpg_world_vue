@@ -8,6 +8,7 @@
     </div>
     
     <search :object="servers"></search>
+    
     <div class="Servers" v-if="filtredServers.length">
       <div class="Server" v-for="server in filtredServers" :key="server">
         <div class="Buttons">

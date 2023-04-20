@@ -78,22 +78,20 @@
   $thirdly-color: #e6e6e6;
   $fourthly-color: #0077ff; 
 .Add-Button{
-  color: $secondary-color;
-  background-color: white;
-  border: 1px solid $secondary-color;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: pointer;
-
-  margin-bottom: 10px;
-
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: $secondary-color;
-    color: white;
-  }
+  color: orange;
+    background-color: white;
+    border: 1px solid orange;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+  
+    margin-bottom: 10px;
+    
+    &:hover {
+      background-color: orange;
+      color: white;
+    }
 }
 
   .BigTitle{
@@ -117,6 +115,7 @@
   justify-content: center;
   align-items: center;
   margin: 20px;
+  
   filter: drop-shadow(2px 1px 10px $fourthly-color);
 
   
