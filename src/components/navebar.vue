@@ -49,7 +49,7 @@
 <style lang="scss" scoped>
 $primary-color: #00ff84;
 $secondary-color: #ff6c00;
-$tertiary-color: #e6e6e6;
+$thirdly-color: #e6e6e6;
 
 .Navbar {
   display: flex;
@@ -70,7 +70,7 @@ $tertiary-color: #e6e6e6;
   align-items: center;
 
   a {
-    color: $tertiary-color;
+    color: $thirdly-color;
     margin-right: 2rem;
     text-decoration: none;
     font-size: 1.2rem;
@@ -96,7 +96,7 @@ $tertiary-color: #e6e6e6;
   align-items: center;
 
   a {
-    color: $tertiary-color;
+    color: $thirdly-color;
     margin-right: 2rem;
     text-decoration: none;
     font-size: 1.2rem;

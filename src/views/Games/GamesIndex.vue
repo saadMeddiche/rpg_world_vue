@@ -59,9 +59,10 @@
 </script>
 
 <style lang="scss" scoped>
-  $primary-color: #0077ff;
-  $secondary-color: #ff6600;
-  $tertiary-color: #999999;
+  $primary-color: #00ff84;
+  $secondary-color: #ff6c00;
+  $thirdly-color: #e6e6e6;
+  $fourthly-color: #0077ff;
 
   .BigTitle{
    display: flex;
@@ -71,7 +72,7 @@
     font-size: 26px;
     font-weight: bold;
     text-shadow: 2px 2px $secondary-color;
-}
+  }
 .Games {
   display: flex;
   flex-wrap: wrap;

@@ -2,7 +2,7 @@
     <div class="admin-sidebar">
         <ul>
             <li v-for="(Menu , key) in Menus" :key="key">
-                <router-link :to="{name : key}" >
+                <router-link :to="{name : key}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" v-html="Menu.icon"></svg>
                     {{Menu.name}}
                 </router-link>
@@ -29,6 +29,12 @@
 </script>
 
 <style lang="scss">
+
+  $primary-color: #00ff84;
+  $secondary-color: #ff6c00;
+  $thirdly-color: #e6e6e6;
+  $fourthly-color: #0077ff;
+
  
   .admin-layout {
   display: grid;
@@ -57,6 +63,7 @@
         }
 
         a {
+          border-radius: 5px;
           color: #fff;
           text-decoration: none;
           display: block;
@@ -64,7 +71,12 @@
 
 
           &:hover {
-            background-color: #f00;
+            background-color: $fourthly-color;
+          }
+
+          &.router-link-active {
+            font-weight: bold;
+            background-color: $fourthly-color;
           }
         }
       }

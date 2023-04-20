@@ -1,7 +1,7 @@
 <template>
     <div class="BoxOfChat" ref="chatBox">
         <p class="showmore" @click="show_more" v-show="display_show_more_button">Show more</p>
-        <p v-if="!messages.length">No {{reference}} Yet</p>
+        <p class="NoneYet" v-if="!messages.length">No {{reference}} Yet</p>
         <div class="Message" v-for="(message,key) in loaded_messages" :key="key">
             <div class="Sender">
                 <p>{{ message.username }}</p>
@@ -105,6 +105,27 @@
     p{
         margin: 0px;
     }
+}
+
+.NoneYet{
+    border-top: 1px solid $fourthly-color;
+    border-bottom: 1px solid $fourthly-color;
+    cursor: pointer;
+    animation: ellipsis 1s infinite;
+
+    @keyframes ellipsis {
+        0% {
+            opacity: 0.2;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    p{
+        margin: 0px;
+    }
+
 }
 .BoxOfChat {
   border: 1px solid $primary-color;
