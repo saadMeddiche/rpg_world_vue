@@ -119,6 +119,13 @@ export async function get_user_information(){
         .then((responce) => { return responce.data.user} )
 }
 
+export async function get_users_information(){
+    return  axios.get('http://127.0.0.1:8000/api/V1/UsersInfomraion', config_headers())
+    .then((responce) => {
+        return responce.data.users
+    })
+}
+
 
 function action_when_error(data , that){
     if(data.errors){
