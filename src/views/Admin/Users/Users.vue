@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="Controle">
-                   <button>Affect</button>
+                   <button @click="add_new_role()">Affect</button>
                    <button @click="switch_mod()">Cancel</button>
                 </div>
 
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
+import {get_users_information ,fetch_roles, assign_role } from '@/utils/apiFunctions'
     export default{
         async mounted(){
             this.users = await get_users_information()
@@ -94,6 +94,14 @@ import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
                 //Stock the id of selected Role
                 //getAttribute :: https://stackoverflow.com/questions/38348258/how-to-get-the-value-from-an-event-target-in-js
                 this.remember_choosed_role(e.target.getAttribute('value') )
+            },
+            add_new_role(){
+
+                if(!this.selected_role_id){
+                    return alert('Please Choose A Role First')
+                }
+                
+                assign_role(this.selected_user.id , this.selected_role_id) 
             },
             remember_choosed_role(role_id){
                 this.selected_role_id = role_id
