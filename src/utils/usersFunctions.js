@@ -40,6 +40,8 @@ export async function assign_new_role_to_user(){
         that.$store.commit('display_success_messag')
     }
 
+    return
+
 }
 
 export async function remove_role_from_user(){
@@ -56,6 +58,8 @@ export async function remove_role_from_user(){
         that.success_message="Role Removed Successfuly"
         that.$store.commit('display_success_messag')
     }
+
+    return
 
 }
 
@@ -77,4 +81,20 @@ export function forgot_id_of_choosed_role(){
 
 export function switch_page(){
     that.mod_switch = !that.mod_switch
+}
+
+export function roles_that_user_do_not_has(){
+    var ids_role_of_user = []
+
+    that.selected_user.roles.forEach(function(role) {
+        ids_role_of_user.push(role.id);
+    });
+
+    return that.roles.filter((role) => 
+        !ids_role_of_user.includes(role.id)
+    ) 
+}
+
+export function results_of_search_bar(){
+    return that.$store.state.filtred_object
 }

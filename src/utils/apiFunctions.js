@@ -150,11 +150,11 @@ export async function get_user_information(){
         .then((responce) => { return responce.data.user} )
 }
 
-export async function get_users_information(that){
+export async function get_users_information(){
     return  axios.post('http://127.0.0.1:8000/api/V1/UsersInfomraion',{'token' : get('token')}, config_headers())
-            .then((responce) => 
-                that.users = responce.data.users
-            )
+            .then((responce) => {
+                return responce.data.users
+            })
 }
 
 //===================No Categorie===================
