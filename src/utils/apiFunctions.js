@@ -126,9 +126,9 @@ export async function assign_role(user_id , role_id){
         role_id
     }
     return axios.post('http://127.0.0.1:8000/api/V1/Roles/assignRole' , data , config_headers())
-        .then((responce) => {
-            return responce.data.roles
-        })
+            .then(() => {return true })
+            .catch((AxiosError) => { return action_when_error(AxiosError.response.data , that)})
+
 }
 
 export async function remove_role(user_id , role_id){
@@ -137,9 +137,9 @@ export async function remove_role(user_id , role_id){
         role_id
     }
     return axios.post('http://127.0.0.1:8000/api/V1/Roles/RemoveRole' , data , config_headers())
-        .then((responce) => { 
-            return responce.data.roles
-        })
+            .then(() => {return true })
+            .catch((AxiosError) => {return action_when_error(AxiosError.response.data , that )})
+
 }
 
 //===================Users===================

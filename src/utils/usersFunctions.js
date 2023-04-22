@@ -24,20 +24,39 @@ export function change_style_of_selected_role(event){
   
 }
 
-export function assign_new_role_to_user(){
+export async function assign_new_role_to_user(){
 
     if(!that.selected_role_id){
         return alert('Please Choose A Role First')
     }
     
-    assign_role(that.selected_user.id , that.selected_role_id) 
+    let missions_complete = await assign_role(that.selected_user.id , that.selected_role_id)
+
+    if(missions_complete){
+        switch_page()
+        display_or_hide_roles_modal()
+
+        that.success_message = "Role Added Successfuly"
+        that.$store.commit('display_success_messag')
+    }
+
 }
 
-export function remove_role_from_user(){
+export async function remove_role_from_user(){
+
     if(!that.selected_role_id){
         return alert('Please Choose A Role First')
     }
-    remove_role(that.selected_user.id , that.selected_role_id)
+
+    let missions_complete = await remove_role(that.selected_user.id , that.selected_role_id)
+
+    if(missions_complete){
+        display_or_hide_roles_modal()
+    
+        that.success_message="Role Removed Successfuly"
+        that.$store.commit('display_success_messag')
+    }
+
 }
 
 export function remember_choosed_user(user){

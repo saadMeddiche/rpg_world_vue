@@ -1,5 +1,6 @@
 <template>
     <successMessage :message="success_message" path="Users"></successMessage>
+    <errors></errors>
 
     <div class="Users">
         <div class="User" v-for="(user,key) in users" :key="key">
@@ -67,12 +68,14 @@
 
 <script>
     import successMessage from '@/components/successMessage.vue'
+    import errors from '@/components/errors.vue';
     import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
     import * as usersFunctions from '@/utils/usersFunctions'
 
     export default{
         components:{
             successMessage,
+            errors,
         },
         async mounted(){
 
@@ -82,6 +85,12 @@
 
         }
         ,
+        watch:{
+            async get_users_information(){
+                this.users = await get_users_information()
+            }
+        },
+
         data(){
             return {
                 users:{},
@@ -116,21 +125,15 @@
                 usersFunctions.remember_choosed_role(e.target.getAttribute('value') )
                 usersFunctions.change_style_of_selected_role(e)
             },
-            when_affect_role_is_clicked(){
+            async when_affect_role_is_clicked(){
                 usersFunctions.assign_new_role_to_user()
-                usersFunctions.switch_page()
-                usersFunctions.display_or_hide_roles_modal()
+                this.users = await get_users_information()
 
-                this.success_message="Role Added Successfuly"
-                this.$store.commit('display_success_messag')
             },
-            when_remove_role_is_clicked(){
-                usersFunctions.remove_role_from_user()
-                usersFunctions.switch_page()
-                usersFunctions.display_or_hide_roles_modal()
-                
-                this.success_message="Role Removed Successfuly"
-                this.$store.commit('display_success_messag')
+            async when_remove_role_is_clicked(){
+                usersFunctions.remove_role_from_user()   
+                this.users = await get_users_information()
+
             }
             
         }
