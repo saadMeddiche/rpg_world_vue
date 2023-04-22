@@ -118,6 +118,7 @@
             }
         },
         methods:{
+            //This Functions Are All Trigerred When A button is Clicked in the template
             when_roles_is_clicked(user){
                 u.remember_choosed_user(user)
                 u.display_or_hide_roles_modal()
