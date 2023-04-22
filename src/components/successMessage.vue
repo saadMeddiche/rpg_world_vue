@@ -27,12 +27,15 @@
 
                 setTimeout(() => {
                     if(this.path){
+                        this.show_success_message = false
                         this.$router.push({name : this.path})
                     }else{
+
+                        this.show_success_message = false
                         this.$router.go(-1)
                     }
 
-                    
+                        
                 }, 2000)
             }
         },

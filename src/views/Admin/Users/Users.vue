@@ -1,4 +1,6 @@
 <template>
+    <successMessage :message="success_message" path="Users"></successMessage>
+
     <div class="Users">
         <div class="User" v-for="(user,key) in users" :key="key">
             <div class="Name">
@@ -56,7 +58,7 @@
             </div>
 
             <!-- Footer -->
-            <div class="footer">
+            <div class="footer" v-if="mod_switch">
                 <button @click="when_ok_is_clicked">Ok</button>
             </div>
         </div>
@@ -64,11 +66,14 @@
 </template>
 
 <script>
-
+    import successMessage from '@/components/successMessage.vue'
     import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
     import * as usersFunctions from '@/utils/usersFunctions'
 
     export default{
+        components:{
+            successMessage,
+        },
         async mounted(){
 
             usersFunctions.set_reference(this)
@@ -84,7 +89,9 @@
                 selected_role_id:null,
                 selected_user:null,
                 mod_switch:true,
-                roles:{}
+                roles:{},
+                success_message:null
+
             }
         },
         methods:{
@@ -111,9 +118,19 @@
             },
             when_affect_role_is_clicked(){
                 usersFunctions.assign_new_role_to_user()
+                usersFunctions.switch_page()
+                usersFunctions.display_or_hide_roles_modal()
+
+                this.success_message="Role Added Successfuly"
+                this.$store.commit('display_success_messag')
             },
             when_remove_role_is_clicked(){
                 usersFunctions.remove_role_from_user()
+                usersFunctions.switch_page()
+                usersFunctions.display_or_hide_roles_modal()
+                
+                this.success_message="Role Removed Successfuly"
+                this.$store.commit('display_success_messag')
             }
             
         }
