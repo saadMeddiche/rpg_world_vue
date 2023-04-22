@@ -44,7 +44,7 @@
 
   .admin-sidebar {
     grid-area: sidebar; 
-    background-color: #292929;
+    background-color: black;
     color: #fff;
     padding: 20px;
     height: 100vh; 
