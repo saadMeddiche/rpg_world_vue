@@ -106,14 +106,43 @@ export async function count(what , that){
         .catch( (AxiosError) => action_when_error(AxiosError.response.data , that))
 }
 
+//===================Roles===================
 export async function verify_staff_access(){
-
     return axios.post('http://127.0.0.1:8000/api/V1/DashboardAccess',{'token' : get('token')},config_headers())
        .then((responce) => { return responce.data.access} )
 
-
 }
 
+export async function fetch_roles(){
+    return axios.get('http://127.0.0.1:8000/api/V1/Roles',config_headers())
+        .then((responce) => {
+            return responce.data.roles
+        })
+}
+
+export async function assign_role(user_id , role_id){
+    let data ={
+        user_id,
+        role_id
+    }
+    return axios.post('http://127.0.0.1:8000/api/V1/Roles/assignRole' , data , config_headers())
+        .then((responce) => {
+            return responce.data.roles
+        })
+}
+
+export async function remove_role(user_id , role_id){
+    let data ={
+        user_id,
+        role_id
+    }
+    return axios.post('http://127.0.0.1:8000/api/V1/Roles/RemoveRole' , data , config_headers())
+        .then((responce) => { 
+            return responce.data.roles
+        })
+}
+
+//===================Users===================
 export async function get_user_information(){
     return axios.post('http://127.0.0.1:8000/api/V1/UserInformation',{'token' : get('token')}, config_headers())
         .then((responce) => { return responce.data.user} )
@@ -126,7 +155,7 @@ export async function get_users_information(){
     })
 }
 
-
+//===================No Categorie===================
 function action_when_error(data , that){
     if(data.errors){
         that.$store.commit('add_errors' , data.errors)

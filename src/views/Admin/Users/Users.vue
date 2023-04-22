@@ -17,19 +17,35 @@
     <div class="modal" v-if="display_modal">
         <div class="content">
             <div class="title">
-                Roles Of {{ modal.title }}
+                Roles Of {{ selected_user.name }}
             </div>
-            <div class="body">
+            <div class="body" v-if="mod_switch">
+
                 <div class="Roles">
-                    <p v-for="(role , key) in modal.content" :key="key" @click="set_active($event)" :value="role.id">
+                    <p v-for="(role , key) in selected_user.roles" :key="key" @click="set_active($event)" :value="role.id">
                     {{ role.name }}
                     </p>
                 </div>
                 <div class="Controle">
-                    <button> Affect Role</button>
+                    <button @click="display_popup_of_other_roles"> Affect Role</button>
                     <button> Remove Role</button>
                 </div>
                 
+            </div>
+
+            <div class="body" v-if="!mod_switch">
+
+                <div class="Roles">
+                    <p v-for="(role , key) in roles" :key="key" @click="set_active($event)" :value="role.id">
+                    {{ role.name }}
+                    </p>
+                </div>
+
+                <div class="Controle">
+                   <button>Affect</button>
+                   <button @click="switch_mod()">Cancel</button>
+                </div>
+
             </div>
             <div class="footer">
                 <button @click="toggle_roles()">Ok</button>
@@ -39,31 +55,29 @@
 </template>
 
 <script>
-import {get_users_information} from '@/utils/apiFunctions'
+import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
     export default{
         async mounted(){
             this.users = await get_users_information()
+            this.roles = await fetch_roles()
         }
         ,
         data(){
             return {
                 users:{},
                 display_modal:false,
-                modal:{
-                    title:'',
-                    content:{},  
-                },
-                selected_role_id:null
+                selected_role_id:null,
+                selected_user:null,
+                mod_switch:true,
+                roles:{}
             }
         },
         methods:{
             toggle_roles(user){
                 if(user){
-                    this.modal.title = user.name
-                    this.modal.content = user.roles
+                    this.remember_choosed_user(user)                 
                 }
-                
-                this.display_modal = this.display_modal ? false : true
+                this.display_modal = !this.display_modal
             },
             set_active(e){
                 //Get all the children of Roles
@@ -83,6 +97,17 @@ import {get_users_information} from '@/utils/apiFunctions'
             },
             remember_choosed_role(role_id){
                 this.selected_role_id = role_id
+            },
+            remember_choosed_user(user){
+                this.selected_user = user
+            },
+            switch_mod(){
+                this.mod_switch = !this.mod_switch
+            }
+        },
+        computed:{
+            display_popup_of_other_roles(){
+                this.switch_mod()
             }
         }
     }
