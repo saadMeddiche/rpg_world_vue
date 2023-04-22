@@ -173,9 +173,13 @@
             background-color: rgb(96, 144, 179);
             border-radius: 5px;
             border: 2px solid $primary-color;
-
-            width: 30%;
+            width: 40%;
+            // width: 30%;
             padding: 10px;
+
+            @media (max-width:550px) {
+                width: 100%;
+            }
         }
     }
 
