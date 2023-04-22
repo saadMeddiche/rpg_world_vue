@@ -24,7 +24,12 @@
 
             <!-- Title -->
             <div class="title">
-                Roles Of {{ selected_user.name }}
+                <span v-if="mod_switch">
+                    Roles Of {{ selected_user.name }}
+                </span>
+                <span v-if="!mod_switch">
+                    Assign Role To {{ selected_user.name }}
+                </span>
             </div>
 
             <!-- Page Number 1 -->
@@ -46,7 +51,7 @@
             <div class="body" v-if="!mod_switch">
 
                 <div class="Roles">
-                    <p v-for="(role , key) in roles" :key="key" @click="when_role_is_choosed($event)" :value="role.id">
+                    <p v-for="(role , key) in filtred_roles" :key="key" @click="when_role_is_choosed($event)" :value="role.id">
                     {{ role.name }}
                     </p>
                 </div>
@@ -127,7 +132,19 @@
                 usersFunctions.remove_role_from_user()   
                 this.users = await get_users_information()
             }
-            
+        },
+        computed:{
+            filtred_roles(){
+                var ids_role_of_user = []
+
+                this.selected_user.roles.forEach(function(role) {
+                    ids_role_of_user.push(role.id);
+                });
+
+                return this.roles.filter((role) => 
+                    !ids_role_of_user.includes(role.id)
+                ) 
+            }
         }
     }
 </script>
