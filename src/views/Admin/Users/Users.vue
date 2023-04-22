@@ -8,58 +8,73 @@
                 <p><span class="Tit">Email:</span> {{ user.email }}</p>
             </div>
             <div class="Roles">
-               <button @click="toggle_roles(user)">Roles</button>
+               <button @click="when_roles_is_clicked(user)">Roles</button>
             </div>
             
         </div>
     </div>
 
     <div class="modal" v-if="display_modal">
+
+        <!-- modal's content -->
         <div class="content">
+
+            <!-- Title -->
             <div class="title">
                 Roles Of {{ selected_user.name }}
             </div>
+
+            <!-- Page Number 1 -->
             <div class="body" v-if="mod_switch">
 
                 <div class="Roles">
-                    <p v-for="(role , key) in selected_user.roles" :key="key" @click="set_active($event)" :value="role.id">
+                    <p v-for="(role , key) in selected_user.roles" :key="key" @click="when_role_is_choosed($event)" :value="role.id">
                     {{ role.name }}
                     </p>
                 </div>
                 <div class="Controle">
-                    <button @click="display_popup_of_other_roles"> Affect Role</button>
-                    <button> Remove Role</button>
+                    <button @click="when_add_role_is_clicked"> Add Role</button>
+                    <button @click="when_remove_role_is_clicked"> Remove Role</button>
                 </div>
                 
             </div>
 
+            <!-- Page Number 2 -->
             <div class="body" v-if="!mod_switch">
 
                 <div class="Roles">
-                    <p v-for="(role , key) in roles" :key="key" @click="set_active($event)" :value="role.id">
+                    <p v-for="(role , key) in roles" :key="key" @click="when_role_is_choosed($event)" :value="role.id">
                     {{ role.name }}
                     </p>
                 </div>
 
                 <div class="Controle">
-                   <button @click="add_new_role()">Affect</button>
-                   <button @click="switch_mod()">Cancel</button>
+                   <button @click="when_affect_role_is_clicked">Affect</button>
+                   <button @click="when_cancel_is_clicked">Cancel</button>
                 </div>
 
             </div>
+
+            <!-- Footer -->
             <div class="footer">
-                <button @click="toggle_roles()">Ok</button>
+                <button @click="when_ok_is_clicked">Ok</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import {get_users_information ,fetch_roles, assign_role } from '@/utils/apiFunctions'
+
+    import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
+    import * as usersFunctions from '@/utils/usersFunctions'
+
     export default{
         async mounted(){
+
+            usersFunctions.set_reference(this)
             this.users = await get_users_information()
             this.roles = await fetch_roles()
+
         }
         ,
         data(){
@@ -73,50 +88,34 @@ import {get_users_information ,fetch_roles, assign_role } from '@/utils/apiFunct
             }
         },
         methods:{
-            toggle_roles(user){
-                if(user){
-                    this.remember_choosed_user(user)                 
-                }
-                this.display_modal = !this.display_modal
+            when_roles_is_clicked(user){
+                usersFunctions.remember_choosed_user(user)
+                usersFunctions.display_or_hide_roles_modal()
             },
-            set_active(e){
-                //Get all the children of Roles
-                let roles_element = document.querySelectorAll('.Roles p')
-
-                //Inactive Them All
-                roles_element.forEach( (role) => {
-                    role.classList.remove('active') 
-                })
-
-                //Active The Selected One
-                e.target.classList.add('active') 
-
-                //Stock the id of selected Role
-                //getAttribute :: https://stackoverflow.com/questions/38348258/how-to-get-the-value-from-an-event-target-in-js
-                this.remember_choosed_role(e.target.getAttribute('value') )
+            when_ok_is_clicked(){
+                usersFunctions.forgot_choosed_user()
+                usersFunctions.forgot_id_of_choosed_role()
+                usersFunctions.display_or_hide_roles_modal()
             },
-            add_new_role(){
-
-                if(!this.selected_role_id){
-                    return alert('Please Choose A Role First')
-                }
-                
-                assign_role(this.selected_user.id , this.selected_role_id) 
+            when_add_role_is_clicked(){
+                usersFunctions.forgot_id_of_choosed_role()
+                usersFunctions.switch_page()
             },
-            remember_choosed_role(role_id){
-                this.selected_role_id = role_id
+            when_cancel_is_clicked(){
+                usersFunctions.forgot_id_of_choosed_role()
+                usersFunctions.switch_page()
             },
-            remember_choosed_user(user){
-                this.selected_user = user
+            when_role_is_choosed(e){
+                usersFunctions.remember_choosed_role(e.target.getAttribute('value') )
+                usersFunctions.change_style_of_selected_role(e)
             },
-            switch_mod(){
-                this.mod_switch = !this.mod_switch
+            when_affect_role_is_clicked(){
+                usersFunctions.assign_new_role_to_user()
+            },
+            when_remove_role_is_clicked(){
+                usersFunctions.remove_role_from_user()
             }
-        },
-        computed:{
-            display_popup_of_other_roles(){
-                this.switch_mod()
-            }
+            
         }
     }
 </script>
