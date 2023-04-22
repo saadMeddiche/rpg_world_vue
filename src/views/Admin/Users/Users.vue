@@ -21,7 +21,7 @@
             </div>
             <div class="body">
                 <div class="Roles">
-                    <p v-for="(role , key) in modal.content" :key="key" @click="set_active($event)">
+                    <p v-for="(role , key) in modal.content" :key="key" @click="set_active($event)" :value="role.id">
                     {{ role.name }}
                     </p>
                 </div>
@@ -52,7 +52,8 @@ import {get_users_information} from '@/utils/apiFunctions'
                 modal:{
                     title:'',
                     content:{},  
-                }
+                },
+                selected_role_id:null
             }
         },
         methods:{
@@ -65,13 +66,23 @@ import {get_users_information} from '@/utils/apiFunctions'
                 this.display_modal = this.display_modal ? false : true
             },
             set_active(e){
+                //Get all the children of Roles
                 let roles_element = document.querySelectorAll('.Roles p')
 
+                //Inactive Them All
                 roles_element.forEach( (role) => {
                     role.classList.remove('active') 
                 })
-                
+
+                //Active The Selected One
                 e.target.classList.add('active') 
+
+                //Stock the id of selected Role
+                //getAttribute :: https://stackoverflow.com/questions/38348258/how-to-get-the-value-from-an-event-target-in-js
+                this.remember_choosed_role(e.target.getAttribute('value') )
+            },
+            remember_choosed_role(role_id){
+                this.selected_role_id = role_id
             }
         }
     }
