@@ -28,6 +28,7 @@
                 this.looking_for = ''
             },
             filtre(){
+                console.log(this.object)
                 if(this.object){
                     let data = this.object.filter(item => item.name.toLowerCase().includes(this.looking_for.toLowerCase()))
                     this.$store.commit('store_filtred_object',data)

@@ -2,8 +2,9 @@
     <successMessage :message="success_message" path="Users"></successMessage>
     <errors></errors>
 
+    <search :object="users"></search>
     <div class="Users">
-        <div class="User" v-for="(user,key) in users" :key="key">
+        <div class="User" v-for="(user,key) in filtred_users" :key="key">
             <div class="Name">
                 <p><span class="Tit">Name:</span> {{ user.name }}</p>
             </div>
@@ -71,22 +72,26 @@
     </div>
 </template>
 
-<script>
+<script>    
+
+    import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
     import successMessage from '@/components/successMessage.vue'
     import errors from '@/components/errors.vue';
-    import {get_users_information ,fetch_roles } from '@/utils/apiFunctions'
+    import search from '@/components/search.vue';
     import * as usersFunctions from '@/utils/usersFunctions'
 
     export default{
+        
         components:{
             successMessage,
             errors,
+            search
         },
-        async mounted(){
+        async created(){
             this.$store.commit('display_loading_message')
 
             usersFunctions.set_reference(this)
-            this.users = await get_users_information()
+            await get_users_information(this)
             this.roles = await fetch_roles(this)
 
             this.$store.commit('display_loading_message')
@@ -94,11 +99,13 @@
         data(){
             return {
                 users:{},
+                roles:{},
+
+                mod_switch:true,
                 display_modal:false,
+
                 selected_role_id:null,
                 selected_user:null,
-                mod_switch:true,
-                roles:{},
                 success_message:null
             }
         },
@@ -145,6 +152,11 @@
                     !ids_role_of_user.includes(role.id)
                 ) 
             }
+            ,
+            filtred_users(){
+                return this.$store.state.filtred_object
+
+            }
         }
     }
 </script>
@@ -174,7 +186,6 @@
             border-radius: 5px;
             border: 2px solid $primary-color;
             width: 40%;
-            // width: 30%;
             padding: 10px;
 
             @media (max-width:550px) {
