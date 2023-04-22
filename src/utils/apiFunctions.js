@@ -113,14 +113,16 @@ export async function verify_staff_access(){
 
 }
 
-export async function fetch_roles(){
+export async function fetch_roles(that){
     return axios.get('http://127.0.0.1:8000/api/V1/Roles',config_headers())
         .then((responce) => {
             return responce.data.roles
         })
+        .catch((AxiosError) => { return action_when_error(AxiosError.response.data , that)})
+
 }
 
-export async function assign_role(user_id , role_id){
+export async function assign_role(user_id , role_id , that){
     let data ={
         user_id,
         role_id
@@ -131,7 +133,7 @@ export async function assign_role(user_id , role_id){
 
 }
 
-export async function remove_role(user_id , role_id){
+export async function remove_role(user_id , role_id ,that){
     let data ={
         user_id,
         role_id
@@ -149,7 +151,7 @@ export async function get_user_information(){
 }
 
 export async function get_users_information(){
-    return  axios.get('http://127.0.0.1:8000/api/V1/UsersInfomraion', config_headers())
+    return  axios.post('http://127.0.0.1:8000/api/V1/UsersInfomraion',{'token' : get('token')}, config_headers())
     .then((responce) => {
         return responce.data.users
     })

@@ -78,19 +78,14 @@
             errors,
         },
         async mounted(){
+            this.$store.commit('display_loading_message')
 
             usersFunctions.set_reference(this)
             this.users = await get_users_information()
-            this.roles = await fetch_roles()
+            this.roles = await fetch_roles(this)
 
-        }
-        ,
-        watch:{
-            async get_users_information(){
-                this.users = await get_users_information()
-            }
+            this.$store.commit('display_loading_message')
         },
-
         data(){
             return {
                 users:{},
@@ -100,7 +95,6 @@
                 mod_switch:true,
                 roles:{},
                 success_message:null
-
             }
         },
         methods:{
@@ -128,12 +122,10 @@
             async when_affect_role_is_clicked(){
                 usersFunctions.assign_new_role_to_user()
                 this.users = await get_users_information()
-
             },
             async when_remove_role_is_clicked(){
                 usersFunctions.remove_role_from_user()   
                 this.users = await get_users_information()
-
             }
             
         }

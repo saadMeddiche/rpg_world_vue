@@ -30,7 +30,7 @@ export async function assign_new_role_to_user(){
         return alert('Please Choose A Role First')
     }
     
-    let missions_complete = await assign_role(that.selected_user.id , that.selected_role_id)
+    let missions_complete = await assign_role(that.selected_user.id , that.selected_role_id ,that)
 
     if(missions_complete){
         switch_page()
@@ -48,7 +48,7 @@ export async function remove_role_from_user(){
         return alert('Please Choose A Role First')
     }
 
-    let missions_complete = await remove_role(that.selected_user.id , that.selected_role_id)
+    let missions_complete = await remove_role(that.selected_user.id , that.selected_role_id ,that)
 
     if(missions_complete){
         display_or_hide_roles_modal()
