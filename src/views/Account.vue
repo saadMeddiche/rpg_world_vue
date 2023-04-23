@@ -2,30 +2,51 @@
     <div class="Account">
         <div class="Info">
             <div class="Holder Name">
-                <input type="text" placeholder="Name..." class="account-input">
+                <input type="text" placeholder="Name..." class="account-input" :disabled="mods.display_infomrations">
             </div>
             <div class="Holder Email">
-                <input type="email" placeholder="Email..." class="account-input">
+                <input type="email" placeholder="Email..." class="account-input" :disabled="mods.display_infomrations">
             </div>
-            <div class="Holder Current-Password">
+            <div class="Holder Current-Password" v-if="mods.update_infomrations">
                 <input type="text" placeholder="Current Password..." class="account-input">
             </div>  
-            <div class="Holder Repeat-Password">
+            <div class="Holder Repeat-Password" v-if="mods.update_infomrations">
                 <input type="text" placeholder="New Password..." class="account-input">
             </div>
-            <div class="Holder New-Password">
+            <div class="Holder New-Password" v-if="mods.update_infomrations">
                 <input type="text" placeholder="Repeat New Password..." class="account-input">
             </div>
             <div class="Holder buttons">
-                <button class="Modify">Modification</button>
-                <button class="Update">Update</button>
-                <button class="Cancel">Cancel</button>
+                <button class="Modify" v-if="mods.display_infomrations" @click="when_modifications_btn_is_clicked">Modification</button>
+                <button class="Update" v-if="mods.update_infomrations" @click="">Update</button>
+                <button class="Cancel" v-if="mods.update_infomrations" @click="when_cancel_btn_is_clicked">Cancel</button>
             </div>
         </div>
     </div>
 </template>
 <script>
+    export default{
+        data(){
+            return {
+                mods:{
+                    display_infomrations:true,
+                    update_infomrations: false,
+                }
+            }
+        },
+        methods:{
+            when_modifications_btn_is_clicked(){
+                this.mods.display_infomrations = !this.mods.display_infomrations
+                this.mods.update_infomrations = !this.mods.update_infomrations
+              
+            },
+            when_cancel_btn_is_clicked(){
+                this.mods.display_infomrations = !this.mods.display_infomrations
+                this.mods.update_infomrations = !this.mods.update_infomrations
 
+            }
+        }
+    }
 </script>
 <style lang="scss" scoped>
     // Set variables for colors and font sizes
