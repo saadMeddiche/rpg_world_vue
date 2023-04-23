@@ -2,10 +2,10 @@
     <div class="Account">
         <div class="Info">
             <div class="Holder Name">
-                <input type="text" placeholder="Name..." class="account-input" :disabled="mods.display_infomrations">
+                <input type="text" placeholder="Name..." class="account-input" :disabled="mods.display_infomrations" v-model="user.name">
             </div>
             <div class="Holder Email">
-                <input type="email" placeholder="Email..." class="account-input" :disabled="mods.display_infomrations">
+                <input type="email" placeholder="Email..." class="account-input" :disabled="mods.display_infomrations" v-model="user.email">
             </div>
             <div class="Holder Current-Password" v-if="mods.update_infomrations">
                 <input type="text" placeholder="Current Password..." class="account-input">
@@ -25,9 +25,16 @@
     </div>
 </template>
 <script>
+    import { get_user_information } from '@/utils/apiFunctions'
     export default{
+        async mounted(){
+
+            this.user = await get_user_information()
+
+        },
         data(){
             return {
+                user:{},
                 mods:{
                     display_infomrations:true,
                     update_infomrations: false,
@@ -82,6 +89,8 @@
         border-radius: 5px;
         border: 2px solid $thirdly-color;
         font-size: $font-size;
+        color:$thirdly-color;
+        font-weight: bold;
         &::placeholder{
             color:$thirdly-color;
             font-weight: bold;

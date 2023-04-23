@@ -1,6 +1,5 @@
 import axios from 'axios';
-import {config_headers} from '@/utils/storageFunctions';
-import {get} from '@/utils/storageFunctions'
+import {config_headers,get} from '@/utils/storageFunctions';
 
 //==============Show=================
 export async function  fetch_server(that){
