@@ -8,23 +8,33 @@
     <div class="Authentication">
       <router-link :to="{name : 'Login'}" v-if="!Logged_In">Login</router-link>
       <router-link :to="{name : 'Register'}" v-if="!Logged_In">Register</router-link>
+      <div class="dropdown" v-if="Logged_In">
+        <a class="dropbtn">{{user.name}}</a>
+        <div class="dropdown-content">
+          <router-link :to="{name : 'ServersOfuser'}">Account</router-link>
+          <a @click="Logout">LogOut</a>
+        </div>
+      </div>
       <router-link :to="{name : 'Dashboard'}" v-if="Logged_In && dahboard_access">Dashboard</router-link>
       <router-link :to="{name : 'ServersOfuser'}" v-if="Logged_In">My Servers</router-link>
-      <a @click="Logout" v-if="Logged_In">Logout</a>
+     
+
     </div>
   </div>
 </template>
 
 <script>
-  import {verify_staff_access} from '@/utils/apiFunctions'
+  import {verify_staff_access ,get_user_information} from '@/utils/apiFunctions'
   export default{
     async mounted(){
       this.dahboard_access= await verify_staff_access()
+      this.user = await get_user_information()
     },
     data(){
       return {
         Logged_In:false,
-        dahboard_access:false
+        dahboard_access:false,
+        user:{}
       }
     },
     watch:{
@@ -50,6 +60,10 @@
 $primary-color: #00ff84;
 $secondary-color: #ff6c00;
 $thirdly-color: #e6e6e6;
+
+
+
+
 
 .Navbar {
   display: flex;
@@ -116,5 +130,35 @@ $thirdly-color: #e6e6e6;
       border-bottom: 2px solid $primary-color;
     }
   }
+}
+
+.dropbtn {
+  color: white;
+  padding: 0;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+
+}
+.dropdown-content a {
+  display: block;
+  padding: 12px 16px;
+  margin-right: 0px !important;
+
+}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 </style>
