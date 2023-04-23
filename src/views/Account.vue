@@ -1,40 +1,56 @@
 <template>
+    <successMessage message="Account Updated Successfuly" path="Account"></successMessage>
+    <errors></errors>
     <div class="Account">
         <div class="Info">
             <div class="Holder Name">
-                <input type="text" placeholder="Name..." class="account-input" :disabled="mods.display_infomrations" v-model="user.name">
+                <input type="text" placeholder="Name..." class="account-input" :disabled="mods.display_infomrations" v-model="info.name">
             </div>
             <div class="Holder Email">
-                <input type="email" placeholder="Email..." class="account-input" :disabled="mods.display_infomrations" v-model="user.email">
+                <input type="email" placeholder="Email..." class="account-input" :disabled="mods.display_infomrations" v-model="info.email">
             </div>
-            <div class="Holder Current-Password" v-if="mods.update_infomrations">
-                <input type="text" placeholder="Current Password..." class="account-input">
+            <div class="Holder Current-Password" v-if="mods.update_infomrations" >
+                <input type="text" placeholder="Current Password..." class="account-input" v-model="info.current_password">
             </div>  
             <div class="Holder Repeat-Password" v-if="mods.update_infomrations">
-                <input type="text" placeholder="New Password..." class="account-input">
+                <input type="text" placeholder="New Password..." class="account-input" v-model="info.new_password">
             </div>
             <div class="Holder New-Password" v-if="mods.update_infomrations">
-                <input type="text" placeholder="Repeat New Password..." class="account-input">
+                <input type="text" placeholder="Repeat New Password..." class="account-input" v-model="info.repeat_password">
             </div>
             <div class="Holder buttons">
                 <button class="Modify" v-if="mods.display_infomrations" @click="when_modifications_btn_is_clicked">Modification</button>
-                <button class="Update" v-if="mods.update_infomrations" @click="">Update</button>
+                <button class="Update" v-if="mods.update_infomrations" @click="when_update_btn_is_clicked">Update</button>
                 <button class="Cancel" v-if="mods.update_infomrations" @click="when_cancel_btn_is_clicked">Cancel</button>
             </div>
         </div>
     </div>
 </template>
 <script>
-    import { get_user_information } from '@/utils/apiFunctions'
+
+    import { get_user_information,update_user_informations } from '@/utils/apiFunctions'
+    import successMessage from '@/components/successMessage.vue'
+    import errors from '@/components/errors.vue'
+    import * as account from '@/utils/accountFunctions'
+
     export default{
+        components:{
+            successMessage,
+            errors
+        },
         async mounted(){
 
-            this.user = await get_user_information()
+            account.set_reference(this)
 
+            this.info = await get_user_information()
         },
         data(){
             return {
-                user:{},
+                info:{
+                    current_password:'',
+                    new_password:'',
+                    repeat_password:''
+                },
                 mods:{
                     display_infomrations:true,
                     update_infomrations: false,
@@ -43,14 +59,16 @@
         },
         methods:{
             when_modifications_btn_is_clicked(){
-                this.mods.display_infomrations = !this.mods.display_infomrations
-                this.mods.update_infomrations = !this.mods.update_infomrations
-              
+                account.switch_mod()
             },
             when_cancel_btn_is_clicked(){
-                this.mods.display_infomrations = !this.mods.display_infomrations
-                this.mods.update_infomrations = !this.mods.update_infomrations
+                account.clear_inputs()
+                account.switch_mod()
 
+            }
+            ,
+            when_update_btn_is_clicked(){
+                account.update_information()
             }
         }
     }

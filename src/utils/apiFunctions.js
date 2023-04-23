@@ -156,6 +156,16 @@ export async function get_users_information(){
             })
 }
 
+//======================Account====================
+export async function update_user_informations(info ,that){
+
+   info['token'] = get('token')
+
+    return axios.post('http://127.0.0.1:8000/api/V1/Account/Update', info , config_headers())
+        .then((responce) => {return true} )
+        .catch((AxiosError) => {return action_when_error(AxiosError.response.data , that )})
+    }
+
 //===================No Categorie===================
 function action_when_error(data , that){
     if(data.errors){
