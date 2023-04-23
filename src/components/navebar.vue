@@ -11,7 +11,7 @@
       <div class="dropdown" v-if="Logged_In">
         <a class="dropbtn">{{user.name}}</a>
         <div class="dropdown-content">
-          <router-link :to="{name : 'ServersOfuser'}">Account</router-link>
+          <router-link :to="{name : 'Account'}">Account</router-link>
           <a @click="Logout">LogOut</a>
         </div>
       </div>
@@ -27,8 +27,10 @@
   import {verify_staff_access ,get_user_information} from '@/utils/apiFunctions'
   export default{
     async mounted(){
+      this.$store.commit('display_loading_message')
       this.dahboard_access= await verify_staff_access()
       this.user = await get_user_information()
+      this.$store.commit('display_loading_message')
     },
     data(){
       return {

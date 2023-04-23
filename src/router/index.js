@@ -29,6 +29,9 @@ import Roles from '../views/Admin/Roles/Roles.vue'
 //===========Users
 import Users from '../views/Admin/Users/Users.vue'
 
+//================Account======================
+import Account from '@/views/Account.vue'
+
 //===================Error===============
 import Opsy from '@/views/Opsy.vue';
 
@@ -181,6 +184,13 @@ const routes = [
     component: Users,
     meta:{
       status:'admin',
+      requiresAuth:true
+    }
+  },{
+    path: '/account',
+    name: 'Account',
+    component: Account,
+    meta:{
       requiresAuth:true
     }
   }
