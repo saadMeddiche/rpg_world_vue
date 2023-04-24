@@ -25,11 +25,15 @@
 
 <script>
   import {verify_staff_access ,get_user_information} from '@/utils/apiFunctions'
+  import { get } from '@/utils/storageFunctions'
   export default{
     async mounted(){
       this.$store.commit('display_loading_message')
-      this.dahboard_access= await verify_staff_access()
-      this.user = await get_user_information()
+      if(get('token')){
+        this.dahboard_access= await verify_staff_access()
+        this.user = await get_user_information()
+      }
+     
       this.$store.commit('display_loading_message')
     },
     data(){
@@ -42,7 +46,10 @@
     watch:{
       async $route(){
         this.Logged_In = this.Loggin_status()
-        this.dahboard_access= await verify_staff_access()
+        if(get('token')){
+          this.dahboard_access= await verify_staff_access()
+          this.user = await get_user_information()
+        }
       }
     },
     methods:{

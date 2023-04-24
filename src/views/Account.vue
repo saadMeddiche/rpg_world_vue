@@ -39,10 +39,10 @@
             errors
         },
         async mounted(){
-
+            this.$store.commit('display_loading_message')
             account.set_reference(this)
-
             this.info = await get_user_information()
+            this.$store.commit('display_loading_message')
         },
         data(){
             return {

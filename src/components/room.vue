@@ -14,7 +14,9 @@
 
     <div class="FieldOfMessage" v-if="show_field">
         <input type="text" v-model="message_in_field" placeholder="Message...">
-        <button @click="send_message">send</button>
+        <button @click="send_message">
+            {{ check_if_muted }}
+        </button>
     </div>
 </template>
 
@@ -24,7 +26,7 @@
 
 
    export default{
-        async mounted(){
+        async created(){
             this.$store.commit('display_loading_message')
 
             this.user =  await get_user_information()
@@ -52,13 +54,14 @@
                 chat_fetch_messages(this , this.reference)
             },
             send_message(){
-                chat_send_message(this , this.reference)
+                if(!this.user.roles.includes("Muted")){
+                    chat_send_message(this , this.reference)
+                }
             },
             show_more(){
                 chat_show_more(this.loaded_messages , this.messages , this)
             },
             check_owner_ship(){
-
                 if(this.reference == 'announces'){
                     if(this.user.id ==  this.server.user_id){
                         this.show_field = true
@@ -66,13 +69,15 @@
                 }else{
                     this.show_field = true
                 }
-                
             }
 
         },
         computed:{
             display_show_more_button(){
                 return (this.messages.length != this.loaded_messages.length && this.messages.length) ? true : false
+            },
+            check_if_muted(){
+                return (this.user.roles.includes("Muted")) ? '😶' : 'send'
             }
         }
 
