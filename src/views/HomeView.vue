@@ -4,13 +4,13 @@
     <h4 class="">Gaming Web Site</h4>
     <div class="home__content">
       <p>We are a community of passionate gamers who love to connect, play and explore new games.</p>
-      <button class="home__btn">Join Our Community</button>
+      <router-link :to="{name : 'Register'}" class="home__btn">Join Our Community</router-link >
     </div>
     <div class="home__server">
       <h2 class="home__server-title">Publish Your Own Server</h2>
       <p>At our website, you can easily publish your own server and get the exposure you need to build a thriving gaming community.</p>
       <p>We offer a range of features to help you promote your server such as server descriptions, and player reviews.</p>
-      <button class="home__server-btn">Publish Your Server</button>
+      <router-link :to="{ name : 'ServersOfuser'}" class="home__server-btn">Publish Your Server</router-link>
     </div>
   </div>
 </template>
@@ -24,8 +24,10 @@ export default {
 <style lang="scss" scoped>
   $primary-color: #1c2024;
   $secondary-color: #f4f4f4;
-  $accent-color: #de424d;
-
+  $thirly-color: #de424d;
+  a{
+    text-decoration: none;
+  }
   .home {
     background-color: $primary-color;
     color: $secondary-color;
@@ -36,13 +38,26 @@ export default {
     padding: 40px;
     min-height: 100vh;
 
+    &__btn{
+      background-color: $secondary-color;
+      color: black ;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+          background-color: darken( $secondary-color, 10%);
+        }
+    }
+
+
     &__title {
       font-size: 4rem;
       font-weight: bold;
       margin-bottom: 1px;
       text-align: center;
-      text-shadow: 2px 2px $accent-color;
-      color: $accent-color;
+      text-shadow: 2px 2px $thirly-color;
+      color: $thirly-color;
     }
 
     &__content {
@@ -54,11 +69,12 @@ export default {
         font-size: 1.5rem;
         line-height: 1.5;
         margin-bottom: 20px;
-        text-shadow: 1px 1px $accent-color;
+        text-shadow: 1px 1px $thirly-color;
       }
 
       &__btn {
-        background-color: $accent-color;
+        text-decoration: none;
+        background-color: $thirly-color;
         color: $secondary-color;
         font-size: 1.5rem;
         border: none;
@@ -68,7 +84,7 @@ export default {
         transition: background-color 0.2s;
 
         &:hover {
-          background-color: darken($accent-color, 10%);
+          background-color: darken($thirly-color, 10%);
         }
       }
     }
@@ -88,8 +104,8 @@ export default {
         font-weight: bold;
         margin-bottom: 20px;
         text-align: center;
-        text-shadow: 1px 1px $accent-color;
-        color: $accent-color; 
+        text-shadow: 1px 1px $thirly-color;
+        color: $thirly-color; 
       }
 
       p {
@@ -101,7 +117,7 @@ export default {
       }
 
       &-btn {
-        background-color: $accent-color;
+        background-color: $thirly-color;
         color: $secondary-color;
         font-size: 1.5rem;
         border: none;
@@ -111,7 +127,7 @@ export default {
         transition: background-color 0.2s;
 
         &:hover {
-          background-color: darken($accent-color, 10%);
+          background-color: darken($thirly-color, 10%);
         }
       }
     }
