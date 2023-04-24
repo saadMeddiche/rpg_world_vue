@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import {destory,fetch_games} from '@/utils/apiFunctions';
+  import {destory,fetch_games ,get_user_information} from '@/utils/apiFunctions';
   import { stock }from '@/utils/storageFunctions';
   import search from '@/components/search.vue';
 
@@ -40,6 +40,7 @@
     },
     async created(){
       this.$store.commit('display_loading_message')
+      this.access()
       await fetch_games(this)
       this.$store.commit('display_loading_message')
 
@@ -62,6 +63,12 @@
         stock('game' ,id)
         this.$router.push({name : 'UpdateGame'})
 
+      },
+      async access(){
+        let user = await get_user_information()
+        if((!user.roles.includes("Lead_Admin") && !user.roles.includes("Senior_Admin"))){
+          this.$router.push({name :'Opsy'})
+        }
       }
     },
     computed:{

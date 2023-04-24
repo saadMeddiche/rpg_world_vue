@@ -53,7 +53,8 @@
             async fetch_messages(){
                 chat_fetch_messages(this , this.reference)
             },
-            send_message(){
+            async send_message(){
+
                 if(!this.user.roles.includes("Muted")){
                     chat_send_message(this , this.reference)
                 }

@@ -34,6 +34,9 @@ export async function chat_send_message(that,type){
 
     update_scroll_height(that)
 
+    that.user =  await get_user_information()
+
+
 }
 
 export async function chat_fetch_messages(that,type){

@@ -26,10 +26,8 @@
             backbutton,
             room
         },
-        async created(){
-            this.$store.commit('display_loading_message')
-            await fetch_server(this)
-            this.$store.commit('display_loading_message')
+        created(){
+            fetch_server(this)
 
         },
         data(){
